@@ -87,13 +87,10 @@ public class View extends Application implements ViewInterface {
         screenSize.getWidth();*/
         
         
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-            	c.stopSim();
-                Platform.exit();
-                System.exit(0);
-            }
+        //this method closes the program
+        primaryStage.setOnCloseRequest(e -> {
+        	this.c.exit();
+        	System.exit(0);
         });
         
         
