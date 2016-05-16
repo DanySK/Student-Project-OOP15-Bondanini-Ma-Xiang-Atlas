@@ -10,7 +10,7 @@ public class Model implements ModelInterface{
     
     private List<Body> bodies = new ArrayList<>();
     private static double AU = 149597870.700*1000;
-    private static double t = 60*60*24;
+    private static double T = 60*60*24;//86400
     private long steps = 0;
     
     public Model(){
@@ -18,14 +18,14 @@ public class Model implements ModelInterface{
         //SUN
         double sunpx = -7.139143380212696E-03 * AU;
         double sunpy = -2.792019770161695E-03 * AU;
-        double sunvx = 5.374260940168565E-06 * AU / t;
-        double sunvy = -7.410965396701423E-06 * AU / t;
+        double sunvx = 5.374260940168565E-06 * AU / T;
+        double sunvy = -7.410965396701423E-06 * AU / T;
         //EARTH
         double px = -1.756637922977121E-01 * AU;
         double py = 9.659912850526894E-01 * AU;
 
-        double vx = (-1.722857156974861E-02 * AU) / t;
-        double vy = (-3.015071224668472E-03 * AU) / t;
+        double vx = (-1.722857156974861E-02 * AU) / T;
+        double vy = (-3.015071224668472E-03 * AU) / T;
         final double earthmass = 5.972e24;
         //epoch 2000-01-01
         this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass));

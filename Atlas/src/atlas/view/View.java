@@ -9,6 +9,7 @@ import atlas.controller.ControllerInterface;
 import atlas.model.Body;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class View extends Application implements ViewInterface {
 
@@ -85,7 +87,14 @@ public class View extends Application implements ViewInterface {
         screenSize.getWidth();*/
         
         
-        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+            	c.stopSim();
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         
         
         //set Stage boundaries to visible bounds of the main screen 
