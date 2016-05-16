@@ -28,16 +28,16 @@ public class Model implements ModelInterface{
         double vy = (-3.015071224668472E-03 * AU) / t;
         final double earthmass = 5.972e24;
         //epoch 2000-01-01
-//        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass));
-//        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
-//        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
+        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass));
+        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
+        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
         
         ////////////////////////////////////////////
         
-        SolarSystemConfig sol = new SolarSystemConfig();
-        this.bodies.addAll(Arrays.asList(sol.getSun(), sol.getMercury(), sol.getVenus(), 
-                sol.getEarth(), sol.getMars()
-        ));
+//        SolarSystemConfig sol = new SolarSystemConfig();
+//        this.bodies.addAll(Arrays.asList(sol.getSun(), sol.getMercury(), sol.getVenus(), 
+//                sol.getEarth(), sol.getMars()
+//        ));
         
 //        px = -1.777871530146587E-01 * AU;
 //        py = 9.643743958957228E-01 * AU;

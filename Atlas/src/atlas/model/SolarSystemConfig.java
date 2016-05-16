@@ -17,10 +17,6 @@ public class SolarSystemConfig {
     private static double t = 60 * 60 * 24;
 
     public SolarSystemConfig() {
-
-        double sunvx = 5.374260940168565E-06 * AU / t;
-        double sunvy = -7.410965396701423E-06 * AU / t;
-        this.list.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass));
     }
 
     public Body getSun() {
