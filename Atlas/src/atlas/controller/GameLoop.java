@@ -10,9 +10,8 @@ import atlas.view.*;
 
 public class GameLoop extends Thread {
 
-    /*
-     * Per ora fps fissi
-     */
+    
+    
     private final static int FPS = 50;
     private final static int SKIP_TICKS = 1000 / FPS;
     private final static int MAX_FRAMESKIP = 10;
@@ -41,16 +40,15 @@ public class GameLoop extends Thread {
                     this.loop++;
                 }
 
-                // sleep for 1 ms if too fast (and furious) or if status =
-                // stopped
-                while (System.currentTimeMillis() - lastFrame < 20 || status.equals(StatusSim.STOPPED)) {
+                // sleep for 1 ms if too fast
+                while (System.currentTimeMillis() - lastFrame < SKIP_TICKS) {
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    // if(status.equals(Stat))
+                    // quando sono in pausa passo al model lo Status
                 }
                 // timeSLF = time since last frame
                 long timeSLF = System.currentTimeMillis() - lastFrame;
@@ -77,13 +75,17 @@ public class GameLoop extends Thread {
             this.setStatus(StatusSim.STOPPED);
         }
     }
+    
+    public void setExit() {
+        this.setStatus(StatusSim.EXIT);
+    }
 
-    public void resumeSim() {
+   /* public void resumeSim() {
         if (!this.status.equals(StatusSim.RUNNING)) {
             this.setStatus(StatusSim.RUNNING);
         }
 
-    }
+    }*/
 
     public StatusSim getStatus() {
         return this.status;
