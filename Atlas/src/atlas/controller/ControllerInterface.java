@@ -11,7 +11,9 @@ public interface ControllerInterface {
     
     public void stopSim();
     
-    public void resumeSim();
+    public void exit();
+    
+    //public void resumeSim();
     
     public List<Body> getBodiesPositionToRender();
     

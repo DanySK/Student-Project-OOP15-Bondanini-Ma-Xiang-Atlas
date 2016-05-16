@@ -27,12 +27,16 @@ public class Controller implements ControllerInterface {
         gLoop.setStopped();
 
     }
+    
+    public void exit() {
+        gLoop.setExit();
+    }
 
-    @Override
+    /*@Override
     public void resumeSim() {
         // TODO Auto-generated method stub
 
-    }
+    }*/
 
     @Override
     public List<Body> getBodiesPositionToRender() {
