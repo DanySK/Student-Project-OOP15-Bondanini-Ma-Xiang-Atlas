@@ -26,18 +26,17 @@ public class Model implements ModelInterface{
 
         double vx = (-1.722857156974861E-02 * AU) / T;
         double vy = (-3.015071224668472E-03 * AU) / T;
-        final double earthmass = 5.972e24;
         //epoch 2000-01-01
-        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass));
-        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
-        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
+//        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS));
+//        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, BodyType.EARTH_MASS*100000));
+//        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, BodyType.EARTH_MASS*100000));
         
         ////////////////////////////////////////////
         
-//        SolarSystemConfig sol = new SolarSystemConfig();
-//        this.bodies.addAll(Arrays.asList(sol.getSun(), sol.getMercury(), sol.getVenus(), 
-//                sol.getEarth(), sol.getMars()
-//        ));
+        SolarSystemConfig sol = new SolarSystemConfig();
+        this.bodies.addAll(Arrays.asList(sol.getSun(), sol.getMercury(), sol.getVenus(), 
+                sol.getEarth(), sol.getMars()
+        ));
         
 //        px = -1.777871530146587E-01 * AU;
 //        py = 9.643743958957228E-01 * AU;
@@ -48,12 +47,12 @@ public class Model implements ModelInterface{
 //        this.bodies.addAll(sol.getAll());
     }
     
-    private static double circlev(double rx, double ry) {
-        double solarmass = 1.98892e30;
-        double r2 = Math.sqrt(rx * rx + ry * ry);
-        double numerator = (6.67e-11) /** 1e6 */ * solarmass;
-        return Math.sqrt(numerator / r2);
-    }
+//    private static double circlev(double rx, double ry) {
+//        double solarmass = 1.98892e30;
+//        double r2 = Math.sqrt(rx * rx + ry * ry);
+//        double numerator = (6.67e-11) /** 1e6 */ * solarmass;
+//        return Math.sqrt(numerator / r2);
+//    }
 
     @Override
     public List<Body> getBodiesToRender() {
@@ -76,15 +75,6 @@ public class Model implements ModelInterface{
 //                }
                     b.updatePos((double) 1); 
             }
-//            for(int i = 0; i < this.bodies.size(); i ++) {
-//                this.bodies.get(i).resetForce();
-//                for(int j=0; j < this.bodies.size(); j++) {
-//                    if(i != j) {
-//                        this.bodies.get(i).addForce(this.bodies.get(j));
-//                    }
-//                }
-//                this.bodies.get(i).updatePos((double)1);
-//            }
             
             this.steps++;
         }

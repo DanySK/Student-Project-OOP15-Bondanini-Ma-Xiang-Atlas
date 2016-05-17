@@ -8,6 +8,12 @@ public interface Body {
     
     /**
      * 
+     * @return which type is the body
+     */
+    public BodyType getType();
+    
+    /**
+     * 
      * @return the body's name
      */
     public String getName();

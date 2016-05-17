@@ -4,14 +4,15 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class BodyImpl implements Body{
-    public static final double G = 6.673e-11; // gravitational constant
-    public static final double solarmass = 1.98892e30;
     
+    private BodyType type;
     private String name;
     private double posx, posy;
     private double velx, vely;
     private double fx, fy;
     private double mass;
+    
+    public BodyImpl(){}
     
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
         this.name = name;
@@ -21,7 +22,17 @@ public class BodyImpl implements Body{
         this.vely = vely;
         this.mass = mass;
     }
-
+    
+    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely, double mass) {
+        this(name, posx, posy, velx, vely, mass);
+        this.type = type;
+    }
+    
+    @Override
+    public BodyType getType(){
+        return this.type;
+    }
+    
     @Override
     public String getName() {
         return this.name;
@@ -38,7 +49,7 @@ public class BodyImpl implements Body{
         double dx = b.getPosX() - this.posx;
         double dy = b.getPosY()- this.posy;
         double dist = Math.sqrt(dx * dx + dy * dy);
-        double F = (G * this.getMass()* b.getMass()) / (dist * dist + EPS * EPS);
+        double F = (BodyType.G * this.getMass()* b.getMass()) / (dist * dist + EPS * EPS);
         this.fx += F * dx / dist;
         this.fy += F * dy / dist;
     }

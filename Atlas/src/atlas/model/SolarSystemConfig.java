@@ -22,7 +22,7 @@ public class SolarSystemConfig {
     public Body getSun() {
         double sunvx = 5.374260940168565E-06 * AU / t;
         double sunvy = -7.410965396701423E-06 * AU / t;
-        return new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyImpl.solarmass);
+        return new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS);
     }
 
     public Body getMercury() {
@@ -31,9 +31,8 @@ public class SolarSystemConfig {
 
         double vx = (2.117424563261189E-02 * AU) / t;
         double vy = (-7.105386404267509E-03 * AU) / t;
-        final double mass = 3.302e23;
 
-        return new BodyImpl("mercury", px, py, vx, vy, mass);
+        return new BodyImpl("mercury", px, py, vx, vy, BodyType.MERCURY_MASS);
     }
 
     public Body getVenus() {
@@ -42,9 +41,8 @@ public class SolarSystemConfig {
 
         double vx = (5.189070188671264E-04 * AU) / t;
         double vy = (-2.031355258779472E-02 * AU) / t;
-        final double mass = 48.685e23;
 
-        return new BodyImpl("venus", px, py, vx, vy, mass);
+        return new BodyImpl("venus", px, py, vx, vy, BodyType.VENUS_MASS);
     }
 
     public Body getEarth() {
@@ -54,9 +52,8 @@ public class SolarSystemConfig {
 
         double vx = (-1.722857156974861E-02 * AU) / t;
         double vy = (-3.015071224668472E-03 * AU) / t;
-        final double earthmass = 5.972e24;
 
-        return new BodyImpl("earth", px, py, vx, vy, earthmass);
+        return new BodyImpl("earth", px, py, vx, vy, BodyType.EARTH_MASS);
     }
 
     public Body getMars() {
@@ -65,9 +62,8 @@ public class SolarSystemConfig {
 
         double vx = (7.533013850513374E-04 * AU) / t;
         double vy = (1.517888771209419E-02 * AU) / t;
-        final double mass = 6.4185e23;
 
-        return new BodyImpl("mars", px, py, vx, vy, mass);
+        return new BodyImpl("mars", px, py, vx, vy, BodyType.MARS_MASS);
     }
 
     public Body getJupiter() {
@@ -76,9 +72,8 @@ public class SolarSystemConfig {
 
         double vx = (-4.558376589062087E-03 * AU) / t;
         double vy = (6.439863212743527E-03 * AU) / t;
-        final double mass = 1898.16e24;
 
-        return new BodyImpl("jupiter", px, py, vx, vy, mass);
+        return new BodyImpl("jupiter", px, py, vx, vy, BodyType.JUPITER_MASS);
     }
     
     public Body getSaturn() {
@@ -87,9 +82,8 @@ public class SolarSystemConfig {
 
         double vx = (-4.285166239724135E-03* AU) / t;
         double vy = (3.884579926013634E-03  * AU) / t;
-        final double mass = 5.68319e26;
 
-        return new BodyImpl("saturn", px, py, vx, vy, mass);
+        return new BodyImpl("saturn", px, py, vx, vy, BodyType.SATURN_MASS);
     }
     
     public Body getUrnus() {
@@ -98,9 +92,8 @@ public class SolarSystemConfig {
 
         double vx = (2.683840344076723E-03* AU) / t;
         double vy = (2.665016541217006E-03  * AU) / t;
-        final double mass = 86.8103e24;
 
-        return new BodyImpl("uranus", px, py, vx, vy, mass);
+        return new BodyImpl("uranus", px, py, vx, vy, BodyType.URANUS_MASS);
     }
     
     public Body getNeptune() {
@@ -109,9 +102,8 @@ public class SolarSystemConfig {
 
         double vx = (2.584589572083790E-03* AU) / t;
         double vy = (1.768943546348834E-03  * AU) / t;
-        final double mass = 102.41e24;
 
-        return new BodyImpl("neptune", px, py, vx, vy, mass);
+        return new BodyImpl("neptune", px, py, vx, vy, BodyType.NEPTUNE_MASS);
     }
     
     public List<Body> getAll(){
