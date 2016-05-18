@@ -38,8 +38,8 @@ public class View extends Application implements ViewInterface {
         c = new Controller(this);
         Button play = new Button("Play");
         Button pause = new Button("Pause");
-        Image imageOk = new Image("/Atlas1/res/button_images/ok.png", 20, 20, false, false);
-        Image cross = new Image("/Atlas1/res/button_images/not.png", 20, 20, false, false);
+        Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
+        Image cross = new Image("/button_images/not.png", 20, 20, false, false);
 
         // Azzero le mappe
 
@@ -66,7 +66,7 @@ public class View extends Application implements ViewInterface {
 
         // Setto lo sfondo
 
-        rootPane.setStyle("-fx-background-image: url('/Atlas1/res/planet_images/star.png'); "
+        rootPane.setStyle("-fx-background-image: url('/planet_images/star.png'); "
                 + "-fx-background-position: center center; " + "-fx-background-repeat: stretch;");
 
         // Setto i pannelli
@@ -77,7 +77,7 @@ public class View extends Application implements ViewInterface {
         // Setto la scena e le assegno uno stile da un file css
 
         Scene scene = new Scene(rootPane);
-        scene.getStylesheets().add(getClass().getResource("/Atlas1/res/css/testcss.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/testcss.css").toExternalForm());
 
         
        /* Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -149,7 +149,7 @@ public class View extends Application implements ViewInterface {
 
             else {
                 planet_map.put(a.getName(),
-                        new ImageView(new Image("/Atlas1/res/planet_images/" + a.getName() + ".png")));
+                        new ImageView(new Image("/planet_images/" + a.getName() + ".png")));
                 planet_map.get(a.getName()).setFitHeight(50);
                 planet_map.get(a.getName()).setFitWidth(50);
                 planet_map.get(a.getName()).setPreserveRatio(true);
