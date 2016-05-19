@@ -1,6 +1,8 @@
 package atlas.model;
 
 import java.util.*;
+import static atlas.model.BodyType.AU;
+import static atlas.model.BodyType.DAY_SECONDS;
 
 /**
  * Brute force N-body implementation
@@ -9,8 +11,6 @@ import java.util.*;
 public class Model implements ModelInterface{
     
     private List<Body> bodies = new ArrayList<>();
-    private static double AU = 149597870.700*1000;
-    private static double T = 60*60*24;//86400
     private long steps = 0;
     
     public Model(){
@@ -18,14 +18,14 @@ public class Model implements ModelInterface{
         //SUN
         double sunpx = -7.139143380212696E-03 * AU;
         double sunpy = -2.792019770161695E-03 * AU;
-        double sunvx = 5.374260940168565E-06 * AU / T;
-        double sunvy = -7.410965396701423E-06 * AU / T;
+        double sunvx = 5.374260940168565E-06 * AU / DAY_SECONDS;
+        double sunvy = -7.410965396701423E-06 * AU / DAY_SECONDS;
         //EARTH
         double px = -1.756637922977121E-01 * AU;
         double py = 9.659912850526894E-01 * AU;
 
-        double vx = (-1.722857156974861E-02 * AU) / T;
-        double vy = (-3.015071224668472E-03 * AU) / T;
+        double vx = (-1.722857156974861E-02 * AU) / DAY_SECONDS;
+        double vy = (-3.015071224668472E-03 * AU) / DAY_SECONDS;
         //epoch 2000-01-01
 //        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS));
 //        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, BodyType.EARTH_MASS*100000));
@@ -37,6 +37,7 @@ public class Model implements ModelInterface{
         this.bodies.addAll(Arrays.asList(sol.getSun(), sol.getMercury(), sol.getVenus(), 
                 sol.getEarth(), sol.getMars()
         ));
+        
         
 //        px = -1.777871530146587E-01 * AU;
 //        py = 9.643743958957228E-01 * AU;

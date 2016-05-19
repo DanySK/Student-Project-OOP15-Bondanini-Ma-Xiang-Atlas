@@ -73,6 +73,12 @@ public interface Body {
      */
     public double getVelY();
     
+    /**
+     * Sets the total velocity of the body, maintaining the same direction. 
+     * @param vt total velocity
+     */
+    public void setTotalVelocity(double vt);
+    
     
     
 }

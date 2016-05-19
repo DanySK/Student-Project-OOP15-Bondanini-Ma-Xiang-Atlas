@@ -24,6 +24,17 @@ public enum BodyType {
      * G constant from CODATA 2010
      */
     public static final double G = 6.67384e-11; // gravitational constant
+    
+    /**
+     * Astronomical unit in meters
+     */
+    public static final double AU = 149597870.700 * 1000;
+    
+    /**
+     * Seconds in a day
+     */
+    public static final int DAY_SECONDS = 60*60*24;
+    
     /**
      * Data from NASA Jet Propulsion Laboratory (link = http://ssd.jpl.nasa.gov)
      */
