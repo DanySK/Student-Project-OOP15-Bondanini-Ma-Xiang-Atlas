@@ -35,7 +35,8 @@ public class View extends Application implements ViewInterface {
 
     public void start(Stage primaryStage) {
 
-        c = new Controller(this);
+        c =  Controller.getIstanceOf();
+        c.setView(this);
         Button play = new Button("Play");
         Button pause = new Button("Pause");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);

@@ -16,7 +16,8 @@ public class ApplicationLauncher {
         System.out.println("fuck her right in the pussy!");
         
         ViewInterface v = new ViewTest();
-        ControllerInterface c = new Controller(v);
+        ControllerInterface c = Controller.getIstanceOf();
+        c.setView(v);
         c.startSim();
     }
 
