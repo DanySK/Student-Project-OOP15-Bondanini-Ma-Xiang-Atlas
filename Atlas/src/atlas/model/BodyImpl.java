@@ -2,7 +2,6 @@ package atlas.model;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Optional;
 
 public class BodyImpl implements Body {
 
@@ -12,12 +11,13 @@ public class BodyImpl implements Body {
     private double velx, vely;
     private double fx, fy;
     private double mass;
-    private Properties properties = new Properties();
+    private Properties properties;
 
+    // to be eliminated
     public BodyImpl() {
     }
-    
-    /*Deprecated*/
+
+    /* Deprecated */
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
         this.name = name;
         this.posx = posx;
@@ -25,11 +25,19 @@ public class BodyImpl implements Body {
         this.velx = velx;
         this.vely = vely;
         this.mass = mass;
+        properties = new Properties();
     }
 
-    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely, double mass) {
-        this(name, posx, posy, velx, vely, mass);
+    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely, double mass,
+            Properties properties) {
         this.type = type;
+        this.name = name;
+        this.posx = posx;
+        this.posy = posy;
+        this.velx = velx;
+        this.vely = vely;
+        this.mass = mass;
+        this.properties = properties;
     }
 
     @Override
@@ -53,7 +61,7 @@ public class BodyImpl implements Body {
         double dx = b.getPosX() - this.posx;
         double dy = b.getPosY() - this.posy;
         double dist = Math.sqrt(dx * dx + dy * dy);
-        double F = (BodyType.G * this.getMass() * b.getMass()) / (dist * dist + EPS * EPS);
+        double F = (BodyType.G * this.getMass() * b.getMass()) / (dist * dist + EPS);
         this.fx += F * dx / dist;
         this.fy += F * dy / dist;
     }
@@ -70,6 +78,13 @@ public class BodyImpl implements Body {
         this.vely += dt * fy / mass;
         this.posx += dt * velx;
         this.posy += dt * vely;
+        // updates the
+        double currentAngle = this.properties.getRotationAngle();
+        long rotationPeriod = this.properties.getRotationPeriod();
+        if (rotationPeriod != 0) {
+            currentAngle += dt / (double) rotationPeriod;
+            this.properties.setRotationAngle(currentAngle >= 360 ? currentAngle - 360 : currentAngle);
+        }
     }
 
     @Override
@@ -98,10 +113,17 @@ public class BodyImpl implements Body {
     public double getVelY() {
         return this.vely;
     }
-    
+
+    // Algoritmo da sistemare... angolo non va bene
     @Override
-    public void setTotalVelocity(double vt){
-        
+    public void setTotalVelocity(double vt) {
+        if (vt < 0) {
+            throw new IllegalStateException();
+        }
+        double velocity = Math.sqrt(velx * velx + vely * vely);
+        double angle = Math.acos(this.velx / velocity);
+        this.velx = vt * Math.cos(angle);
+        this.vely = vt * Math.sin(angle);
     }
 
     @Override
@@ -123,46 +145,13 @@ public class BodyImpl implements Body {
         return this.properties;
     }
 
-    public static class Properties {
-        private double radius;
-        private long rotationPeriod;
-
-        /* Optional properties */
-        private Optional<Body> parent = Optional.empty();
-        private Optional<Double> temperature = Optional.empty();
-        
-        public double getRadius() {
-            return radius;
-        }
-        public void setRadius(double radius) {
-            this.radius = radius;
-        }
-        public long getRotationPeriod() {
-            return rotationPeriod;
-        }
-        public void setRotationPeriod(long rotationPeriod) {
-            this.rotationPeriod = rotationPeriod;
-        }
-        public Optional<Body> getParent() {
-            return parent;
-        }
-        public void setParent(Body parent) {
-            this.parent = Optional.ofNullable(parent);
-        }
-        public Optional<Double> getTemperature() {
-            return temperature;
-        }
-        public void setTemperature(double temperature) {
-            this.temperature = Optional.ofNullable(temperature);
-        }
-    }
-
     public static class Builder {
         private BodyType type;
         private String name;
         private double posx, posy;
         private double velx, vely;
         private double mass;
+        private Properties properties = new Properties();
 
         public Builder type(BodyType type) {
             this.type = type;
@@ -198,21 +187,27 @@ public class BodyImpl implements Body {
             this.mass = mass;
             return this;
         }
-        
+
+        public Builder properties(BodyImpl.Properties properties) {
+            this.properties = properties;
+            return this;
+        }
+
         public BodyImpl build() {
             if (this.type == null || this.mass == 0) {
                 throw new IllegalStateException();
             }
-            BodyImpl b = new BodyImpl(this.type, this.name, this.posx, this.posy, this.velx, this.vely, this.mass);
+            BodyImpl b = new BodyImpl(this.type, this.name, this.posx, this.posy, this.velx, this.vely, this.mass,
+                    this.properties);
             return b;
         }
     }
 
-    public static void main(String s[]) {
+    static void main(String s[]) {
         BodyImpl b = new BodyImpl.Builder().mass(1.0).posX(1).posY(1).type(BodyType.STAR).build();
 
         System.out.println("mass = " + b.getMass() + " adding properties....");
-//        BodyImpl a = new BodyImpl();
+        // BodyImpl a = new BodyImpl();
         System.out.println(
                 "temp = " + b.getProperties().getTemperature() + " parent body = " + b.getProperties().getParent());
 

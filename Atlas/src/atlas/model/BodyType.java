@@ -1,5 +1,9 @@
 package atlas.model;
 
+/**
+ * All Possible body types and physical values.
+ *
+ */
 public enum BodyType {
 	BLACKHOLE("Blackhole"),
 	STAR("Star"),

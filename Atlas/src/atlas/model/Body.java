@@ -1,5 +1,7 @@
 package atlas.model;
 
+import java.util.Optional;
+
 /**
  * A generic celestial body interface.
  *
@@ -79,6 +81,65 @@ public interface Body {
      */
     public void setTotalVelocity(double vt);
     
+    /**
+     * 
+     * @return the body's properties.
+     */
+    public Properties getProperties();
+    
+    /**
+     * Nested class used to store a celestial body's secondary properties.
+     *
+     */
+    public static class Properties {
+        private double radius;
+        private long rotationPeriod;
+        private double rotationAngle;
+
+        /* Optional properties */
+        private Optional<Body> parent = Optional.empty();
+        private Optional<Double> temperature = Optional.empty();
+
+        public double getRadius() {
+            return radius;
+        }
+
+        public void setRadius(double radius) {
+            this.radius = radius;
+        }
+
+        public long getRotationPeriod() {
+            return rotationPeriod;
+        }
+
+        public void setRotationPeriod(long rotationPeriod) {
+            this.rotationPeriod = rotationPeriod;
+        }
+
+        public double getRotationAngle() {
+            return rotationAngle;
+        }
+        
+        public void setRotationAngle(double rotationAngle) {
+            this.rotationAngle = rotationAngle;
+        }
+
+        public Optional<Body> getParent() {
+            return parent;
+        }
+
+        public void setParent(Body parent) {
+            this.parent = Optional.ofNullable(parent);
+        }
+
+        public Optional<Double> getTemperature() {
+            return temperature;
+        }
+
+        public void setTemperature(double temperature) {
+            this.temperature = Optional.ofNullable(temperature);
+        }
+    }
     
     
 }
