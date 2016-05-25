@@ -1,6 +1,9 @@
 package atlas.model;
 
+import java.util.Collection;
 import java.util.Optional;
+
+import atlas.utils.Pair;
 
 /**
  * A generic celestial body interface.
@@ -88,6 +91,12 @@ public interface Body {
     public Properties getProperties();
     
     /**
+     * This method returns the current trail produced by the movement of the body.
+     * @return the collection of the trail points
+     */
+    public Collection<Pair<Double,Double>> getTrail();
+    
+    /**
      * Nested class used to store a celestial body's secondary properties.
      *
      */
@@ -122,6 +131,13 @@ public interface Body {
         
         public void setRotationAngle(double rotationAngle) {
             this.rotationAngle = rotationAngle;
+        }
+        
+        public void updateRotation(double dt){
+            if (this.rotationPeriod != 0) {
+                double currentAngle = this.rotationAngle + dt/this.rotationPeriod * 360;
+                this.rotationAngle = currentAngle >= 360 ? currentAngle - 360 : currentAngle;
+            }
         }
 
         public Optional<Body> getParent() {

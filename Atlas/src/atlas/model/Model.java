@@ -65,7 +65,6 @@ public class Model implements ModelInterface{
             
         for(int f = 0; f < 60 * 60 * hours; f++){
             for (Body b : this.bodies) {
-//                if(!b.getName().equals("sun")){
                     b.resetForce();
                     // 2 loops --> N^2 complexity
                     for (Body c : this.bodies) {
@@ -73,7 +72,6 @@ public class Model implements ModelInterface{
                             b.addForce(c);
                         }
                     }
-//                }
                     b.updatePos((double) 1); 
             }
             

@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -34,8 +37,8 @@ public class PanelTest extends JPanel{
 //            unitY = (double)this.center.getY() / this.bodies.get(1).getPosY();
         
         if(this.virgin == true){
-            unitX = (double)this.center.getX() / this.bodies.stream().max(
-                    (x,y) -> Math.abs((int)x.getPosX()) - Math.abs((int)y.getPosX())).get().getPosX();
+//            unitX = (double)this.center.getX() / this.bodies.stream().max(
+//                    (x,y) -> Math.abs((int)x.getPosX()) - Math.abs((int)y.getPosX())).get().getPosX();
             unitY = (double)this.center.getY() / this.bodies.stream().max(
                     (x,y) -> Math.abs((int)x.getPosY()) - Math.abs((int)y.getPosY())).get().getPosY();
             unitX /= 2;
@@ -57,6 +60,17 @@ public class PanelTest extends JPanel{
                 g.drawRect(x, y, 5, 5);
             }else {
                 g.drawRect(x, y, 5, 5);         
+                List<Pair<Double,Double>> ls = new ArrayList<>(b.getTrail());
+                for(Pair<Double,Double> p : ls){
+                    int x1 = this.center.getX() + (int)((double)p.getX() * unitY -50);
+                    int y1 = this.center.getY() - (int)((double)p.getY() * unitY -50);
+                    
+                    g.drawRect(x1, y1, 1, 1);
+                }
+//                int sciax[] = {1,24,54,76,100}; 
+//                int sciay[] = {1,24,54,76,100};
+//                g.drawPolyline(sciax, sciay, size);
+                
             }
             
         });

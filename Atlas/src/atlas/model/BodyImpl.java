@@ -2,24 +2,25 @@ package atlas.model;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Optional;
+
+import atlas.utils.Pair;
 
 public class BodyImpl implements Body {
 
     private BodyType type;
-    private String name;
+    private Optional<String> name;
     private double posx, posy;
     private double velx, vely;
     private double fx, fy;
     private double mass;
+    private Trail trail = new Trail();
     private Properties properties;
 
-    // to be eliminated
-    public BodyImpl() {
-    }
-
-    /* Deprecated */
+    @Deprecated
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
-        this.name = name;
+        this.name = Optional.ofNullable(name);
         this.posx = posx;
         this.posy = posy;
         this.velx = velx;
@@ -28,8 +29,8 @@ public class BodyImpl implements Body {
         properties = new Properties();
     }
 
-    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely, double mass,
-            Properties properties) {
+    public BodyImpl(BodyType type, Optional<String> name, double posx, double posy, double velx, double vely,
+            double mass, Properties properties) {
         this.type = type;
         this.name = name;
         this.posx = posx;
@@ -47,7 +48,7 @@ public class BodyImpl implements Body {
 
     @Override
     public String getName() {
-        return this.name;
+        return this.name.orElse("Unknown");
     }
 
     @Override
@@ -78,13 +79,9 @@ public class BodyImpl implements Body {
         this.vely += dt * fy / mass;
         this.posx += dt * velx;
         this.posy += dt * vely;
-        // updates the
-        double currentAngle = this.properties.getRotationAngle();
-        long rotationPeriod = this.properties.getRotationPeriod();
-        if (rotationPeriod != 0) {
-            currentAngle += dt / (double) rotationPeriod;
-            this.properties.setRotationAngle(currentAngle >= 360 ? currentAngle - 360 : currentAngle);
-        }
+        // updates the rotation angle
+        this.properties.updateRotation(dt);
+        this.trail.addPoint(this.posx, this.posy);
     }
 
     @Override
@@ -131,7 +128,7 @@ public class BodyImpl implements Body {
         NumberFormat formatter = new DecimalFormat("0.### ### ### ### ###E0");
         double AU = 149597870.700 * 1000;
 
-        return "[Name: " + this.name + ", posX/AU = " + formatter.format(this.posx / AU) + ", posY/AU = "
+        return "[Name: " + this.getName() + ", posX/AU = " + formatter.format(this.posx / AU) + ", posY/AU = "
                 + formatter.format(this.posy / AU) + "]" + "\n"
                 /*
                  * + "| forceX =" + formatter.format(this.fx) + " forceY =" +
@@ -145,9 +142,18 @@ public class BodyImpl implements Body {
         return this.properties;
     }
 
+    @Override
+    public Collection<Pair<Double, Double>> getTrail() {
+        return this.trail.getPoints();
+    }
+
+    /**
+     * This inner class is used to implement the Builder design pattern.
+     *
+     */
     public static class Builder {
         private BodyType type;
-        private String name;
+        private Optional<String> name = Optional.empty();
         private double posx, posy;
         private double velx, vely;
         private double mass;
@@ -159,7 +165,7 @@ public class BodyImpl implements Body {
         }
 
         public Builder name(String name) {
-            this.name = name;
+            this.name = Optional.ofNullable(name);
             return this;
         }
 
@@ -203,11 +209,14 @@ public class BodyImpl implements Body {
         }
     }
 
-    static void main(String s[]) {
+    public static void main(String s[]) {
         BodyImpl b = new BodyImpl.Builder().mass(1.0).posX(1).posY(1).type(BodyType.STAR).build();
 
         System.out.println("mass = " + b.getMass() + " adding properties....");
         // BodyImpl a = new BodyImpl();
+        b.getProperties().setParent(b);
+        b.getProperties().setRadius(100);
+        b.getProperties().setTemperature(1000.00);
         System.out.println(
                 "temp = " + b.getProperties().getTemperature() + " parent body = " + b.getProperties().getParent());
 

@@ -1,33 +1,20 @@
 package atlas.model;
 
 import java.util.List;
+import java.time.Clock;
+import java.util.Date;
 
 public class TestModel {
     
-    static long UPTIMES = 1 * 24 * 366; //hours
+    static long UPTIMES = 1 * 24 * 366*60*60; //hours
     static int mod = 1;
 
     public static void main(String[] args) {
-        
-        ModelInterface m = new Model();
-        String lastQuad = "Quad == da";
-        
-        for(long i=0; i < UPTIMES; i++){
-            
-                List<Body> l = m.getBodiesToRender();
-                for(Body b : l) {
-                    //around initial position
-                    if(b.getPosX() >= -2.629E10 && b.getPosX() >= -2.628E10){
-                        if(b.getPosY() >= 1.445E11 && b.getPosY() <= 1.4459E11){
-                            System.out.println(i+")"+b + "\n");
-                        }
-                    }
-                    //print last one
-                    if( i == UPTIMES - 1) {
-                        System.out.println(i+")"+b + "\n");
-                    }
-                }
-            m.updateSim(1);
+        Date simDate = new Date(0);   
+        long t =0;
+        for(int i = 0; i < UPTIMES; i++){
+            t += i;
+            System.out.println(new Date(t*1000));            
         }
 
     }
