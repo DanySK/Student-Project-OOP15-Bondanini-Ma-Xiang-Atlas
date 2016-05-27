@@ -8,7 +8,7 @@ public class Trail {
     
 	private static int TRAILSIZE = 60*60*6;
 	/*Determines the storing frequency*/
-	private static int STORE_PER_UPDATE = 100;
+	private static int STORE_PER_UPDATE = 500;
 	
 	private Deque<Pair<Double, Double>> points;
 	private int length;

@@ -29,7 +29,7 @@ public class PanelTest extends JPanel{
         this.center = new Pair<>((int)this.dim.getWidth()/2, (int)this.dim.getHeight()/2);
     }
     
-    public void paintComponent(Graphics g) {
+    public synchronized  void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.WHITE);
         
@@ -60,8 +60,7 @@ public class PanelTest extends JPanel{
                 g.drawRect(x, y, 5, 5);
             }else {
                 g.drawRect(x, y, 5, 5);         
-                List<Pair<Double,Double>> ls = new ArrayList<>(b.getTrail());
-                for(Pair<Double,Double> p : ls){
+                for(Pair<Double,Double> p : b.getTrail()){
                     int x1 = this.center.getX() + (int)((double)p.getX() * unitY -50);
                     int y1 = this.center.getY() - (int)((double)p.getY() * unitY -50);
                     

@@ -6,18 +6,24 @@ import java.util.Date;
 
 public class TestModel {
     
-    static long UPTIMES = 1 * 24 * 366*60*60; //hours
+    static long UPTIMES = 360 /* 24 * 366*60*60*/; //hours
     static int mod = 1;
 
     public static void main(String[] args) {
         Date simDate = new Date(0);   
         long t =0;
+        long time = System.nanoTime();
         for(int i = 0; i < UPTIMES; i++){
             t += i;
-            System.out.println(new Date(t*1000));            
+            new Date(t);
+//            System.out.println(new Date(t));            
         }
+        time = System.nanoTime() - time;
+        System.out.println("Created "+UPTIMES + " in (ns) " + time);
+        
 
     }
+    
     
     private static String checkQuad(Body a) {
         //first or second quad

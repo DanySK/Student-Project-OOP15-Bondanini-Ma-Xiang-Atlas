@@ -111,16 +111,21 @@ public class BodyImpl implements Body {
         return this.vely;
     }
 
-    // Algoritmo da sistemare... angolo non va bene
+    // Algoritmo da sistemare... angolo non va bene ?? I think it's good, waiting for tests
     @Override
     public void setTotalVelocity(double vt) {
         if (vt < 0) {
             throw new IllegalStateException();
         }
         double velocity = Math.sqrt(velx * velx + vely * vely);
-        double angle = Math.acos(this.velx / velocity);
-        this.velx = vt * Math.cos(angle);
-        this.vely = vt * Math.sin(angle);
+        //using angle
+//        double angle = Math.acos(this.velx / velocity);
+//        this.velx = vt * Math.cos(angle);
+//        this.vely = vt * Math.sin(angle);
+        //using logic
+        double change = vt / velocity;
+        this.velx = change * this.velx;
+        this.vely = change * this.vely;
     }
 
     @Override
