@@ -11,11 +11,11 @@ import static atlas.model.BodyType.*;
  * @author maxx
  *
  */
-public class SolarSystemConfig {
+public class SimConfig {
     
     List<Body> list = new ArrayList<>();
 
-    public SolarSystemConfig() {
+    public SimConfig() {
     }
 
     public Body getSun() {

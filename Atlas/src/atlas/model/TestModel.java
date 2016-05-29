@@ -21,6 +21,14 @@ public class TestModel {
         time = System.nanoTime() - time;
         System.out.println("Created "+UPTIMES + " in (ns) " + time);
         
+        
+        Body b = new BodyImpl.Builder().mass(5e11)
+                                       .type(BodyType.STAR)
+                                       .build();
+        System.out.println(b.getProperties());
+        b.getProperties().setParent(b);
+        b.getProperties().setTemperature(100);
+        System.out.println(b.getProperties());
 
     }
     

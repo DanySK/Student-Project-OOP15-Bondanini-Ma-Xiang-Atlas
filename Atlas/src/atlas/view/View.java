@@ -150,7 +150,7 @@ public class View extends Application implements ViewInterface {
 
             else {
                 planet_map.put(a.getName(),
-                        new ImageView(new Image("/planet_images/" + a.getName() + ".png")));
+                        new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
                 planet_map.get(a.getName()).setFitHeight(50);
                 planet_map.get(a.getName()).setFitWidth(50);
                 planet_map.get(a.getName()).setPreserveRatio(true);

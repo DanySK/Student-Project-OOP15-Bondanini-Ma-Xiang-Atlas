@@ -142,8 +142,10 @@ public class BodyImpl implements Body {
                 + "|| velX =" + formatter.format(this.velx / AU * 86400) + " velY ="
                 + formatter.format(this.vely / AU * 86400);
     }
-
+    
+    @Override
     public Properties getProperties() {
+        /*Returns a defensive copy of the body's properties?? I dont think so*/
         return this.properties;
     }
 

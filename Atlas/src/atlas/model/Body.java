@@ -122,8 +122,30 @@ public interface Body {
 		/* Optional properties */
 		private Optional<Body> parent = Optional.empty();
 		private Optional<Double> temperature = Optional.empty();
+		
+		public static double celsiusToKelvin(double c){
+		    return c+273.15;
+		}
+		
+		public static double KelvinToCelsius(double c){
+            return c-273.15;
+        }
+		
+		public Properties(){}
 
-		public double getRadius() {
+		public Properties(double radius, long rotationPeriod, double rotationAngle, Body parent,
+                Double temperature) {
+            super();
+            this.radius = radius;
+            this.rotationPeriod = rotationPeriod;
+            this.rotationAngle = rotationAngle;
+            this.parent = Optional.ofNullable(parent);
+            this.temperature = Optional.ofNullable(temperature);
+        }
+
+
+
+        public double getRadius() {
 			return radius;
 		}
 
@@ -182,6 +204,12 @@ public interface Body {
 		public void setTemperature(double temperature) {
 			this.temperature = Optional.ofNullable(temperature);
 		}
+
+        @Override
+        public String toString() {
+            return "Properties [radius=" + radius + ", rotation period=" + rotationPeriod + ", rotation angle="
+                    + rotationAngle + ", parent=" + (parent.isPresent() ? parent.get().getName() : "none")  + ", temperature=" + temperature + "]";
+        }
 	}
 
 }

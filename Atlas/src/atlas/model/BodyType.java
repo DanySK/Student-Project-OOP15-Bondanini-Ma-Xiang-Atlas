@@ -52,4 +52,5 @@ public enum BodyType {
     public static final double URANUS_MASS = 86.8103e24; 
     public static final double NEPTUNE_MASS = 102.410e24;
     public static final double PLUTO_MASS = 0.01309e24;
+    
 }
