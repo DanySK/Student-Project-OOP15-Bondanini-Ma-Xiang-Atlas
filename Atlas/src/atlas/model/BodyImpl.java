@@ -2,6 +2,7 @@ package atlas.model;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -82,6 +83,12 @@ public class BodyImpl implements Body {
         // updates the rotation angle
         this.properties.updateRotation(dt);
         this.trail.addPoint(this.posx, this.posy);
+        // updates orbital period with the 3rd keplar law... don't update every time
+        if (this.properties.getParent().isPresent()) {
+            Body parent = this.properties.getParent().get();
+            this.properties.setOrbitalPeriod(
+                    (2 * Math.PI) / Math.sqrt((BodyType.G * parent.getMass())) * Math.pow(distanceTo(parent), 1.5));
+        }
     }
 
     @Override
@@ -111,18 +118,19 @@ public class BodyImpl implements Body {
         return this.vely;
     }
 
-    // Algoritmo da sistemare... angolo non va bene ?? I think it's good, waiting for tests
+    // Algoritmo da sistemare... angolo non va bene ?? I think it's good,
+    // waiting for tests
     @Override
     public void setTotalVelocity(double vt) {
         if (vt < 0) {
             throw new IllegalStateException();
         }
         double velocity = Math.sqrt(velx * velx + vely * vely);
-        //using angle
-//        double angle = Math.acos(this.velx / velocity);
-//        this.velx = vt * Math.cos(angle);
-//        this.vely = vt * Math.sin(angle);
-        //using logic
+        // using angle
+        // double angle = Math.acos(this.velx / velocity);
+        // this.velx = vt * Math.cos(angle);
+        // this.vely = vt * Math.sin(angle);
+        // using logic
         double change = vt / velocity;
         this.velx = change * this.velx;
         this.vely = change * this.vely;
@@ -142,16 +150,18 @@ public class BodyImpl implements Body {
                 + "|| velX =" + formatter.format(this.velx / AU * 86400) + " velY ="
                 + formatter.format(this.vely / AU * 86400);
     }
-    
+
     @Override
     public Properties getProperties() {
-        /*Returns a defensive copy of the body's properties?? I dont think so*/
+        /*
+         * Returns a defensive copy of the body's properties?? I dont think so
+         */
         return this.properties;
     }
 
     @Override
     public Collection<Pair<Double, Double>> getTrail() {
-        return this.trail.getPoints();
+        return new ArrayDeque<>(this.trail.getPoints());// defensive copy
     }
 
     /**

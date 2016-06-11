@@ -3,6 +3,7 @@ package atlas.application;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,8 +60,9 @@ public class PanelTest extends JPanel{
             if(b.getName().equals(new String("sun"))) {
                 g.drawRect(x, y, 5, 5);
             }else {
-                g.drawRect(x, y, 5, 5);         
-                for(Pair<Double,Double> p : b.getTrail()){
+                g.drawRect(x, y, 5, 5);
+                Collection<Pair<Double,Double>> c = new ArrayDeque<>(b.getTrail());
+                for(Pair<Double,Double> p : c){
                     int x1 = this.center.getX() + (int)((double)p.getX() * unitY -50);
                     int y1 = this.center.getY() - (int)((double)p.getY() * unitY -50);
                     

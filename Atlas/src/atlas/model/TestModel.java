@@ -1,12 +1,17 @@
 package atlas.model;
 
 import java.util.List;
+
+import atlas.utils.Pair;
+
 import java.time.Clock;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 public class TestModel {
     
-    static long UPTIMES = 360 /* 24 * 366*60*60*/; //hours
+    static long UPTIMES = 360000 /* 24 * 366*60*60*/; //hours
     static int mod = 1;
 
     public static void main(String[] args) {
@@ -29,6 +34,31 @@ public class TestModel {
         b.getProperties().setParent(b);
         b.getProperties().setTemperature(100);
         System.out.println(b.getProperties());
+        
+        
+        //test trail
+//        try {
+//            Model m = new Model();
+//            for(int i = 0; i < UPTIMES; i++){
+//                m.updateSim(1);
+//                for( Body a : m.getBodiesToRender()){
+////                    System.out.println(a.getTrail());
+//                    Collection<Pair<Double,Double>> c = a.getTrail();
+//                    for(Pair<Double,Double> p : c){
+//                        double x = p.getX();
+//                        double y = p.getY();
+//                    }
+//                }
+//                System.out.println(i);
+//            }
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        }
+        Body parent = EpochJ2000.SUN.getBody();
+        Body son = EpochJ2000.EARTH.getBody();
+        double op = (2*Math.PI)/Math.sqrt((BodyType.G*parent.getMass()) ) * Math.pow(son.distanceTo(parent), 1.5);
+        op = op/(86400);
+        System.out.println(op);
 
     }
     
