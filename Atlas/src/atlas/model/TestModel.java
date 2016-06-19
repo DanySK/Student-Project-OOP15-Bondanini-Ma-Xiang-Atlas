@@ -2,10 +2,13 @@ package atlas.model;
 
 import java.util.List;
 
-import atlas.utils.Pair;
+import atlas.utils.*;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,7 +16,8 @@ public class TestModel {
     
     static long UPTIMES = 360000 /* 24 * 366*60*60*/; //hours
     static int mod = 1;
-
+    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    
     public static void main(String[] args) {
         Date simDate = new Date(0);   
         long t =0;
@@ -56,10 +60,28 @@ public class TestModel {
 //        }
         Body parent = EpochJ2000.SUN.getBody();
         Body son = EpochJ2000.EARTH.getBody();
-        double op = (2*Math.PI)/Math.sqrt((BodyType.G*parent.getMass()) ) * Math.pow(son.distanceTo(parent), 1.5);
+        Body earth = new BodyImpl.Builder()
+                                    .type(BodyType.PLANET)
+                                    .mass(BodyType.EARTH_MASS)
+                                    .posX(BodyType.AU)
+                                    .velX(0)
+                                    .velY(0)
+                                    .build();
+        double op = (2*Math.PI)/Math.sqrt((BodyType.G*parent.getMass()) ) * Math.pow(earth.distanceTo(parent), 1.5);
         op = op/(86400);
-        System.out.println(op);
+        System.out.println(op + " Distance from sun is " + son.distanceTo(parent));
+        
+        
+        //testing custom clock
+        SimClock c1 = new SimClock();
+        SimClock c2 = new SimClock(EpochJ2000.TIME_MILLS);
+        System.out.println("c1 = " + c1 + "\tc2 = " + c2 );
+        
+        c1.update(1000L*86400L*8000L);
+        c2.update(1000L*86400L*8000L);
 
+        System.out.println("c1 = " + c1 + "\tc2 = " + c2 );
+        
     }
     
     
