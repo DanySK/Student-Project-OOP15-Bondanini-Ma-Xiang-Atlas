@@ -1,62 +1,36 @@
 package atlas.controller;
 
 import java.util.List;
-import atlas.model.Body;
-import atlas.view.ViewInterface;
-
 /**
- * Implementation of ControllerInterface
- * 
+ * Interface for Controller
  * @author andrea
- *
  */
-public class Controller implements ControllerInterface {
 
-    private GameLoop gLoop;
-    private static Controller ctrl = null;
-    
-    
+import atlas.model.Body;
+import atlas.view.View;
 
+public interface Controller {
+  
     /**
-     * Creation of new Controller
-     * 
-     * @param v
-     *            ViewInterface Object
+     * This method start the simulation
      */
-    private Controller() {
-        gLoop = new GameLoop();      
-    }
+    public void startSim();
     
-    public static Controller getIstanceOf() {
-        return (Controller.ctrl == null ? new Controller() : Controller.ctrl);
-    }
-
-    @Override
-    public void startSim() {
-        // TODO Auto-generated method stub
-        gLoop.setRunning();
-        gLoop.start();
-    }
-
-    @Override
-    public void stopSim() {
-        // TODO Auto-generated method stub
-        gLoop.setStopped();
-    }
-
-    @Override
-    public void exit() {
-        gLoop.setExit();
-    }
-
-    @Override
-    public List<Body> getBodiesPositionToRender() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    /**
+     * This method stop the simulation
+     */
+    public void stopSim();
     
-    public void setView (ViewInterface v) {
-        this.gLoop.setView(v);
-    }
+    /**
+     * This method close the simulation
+     */
+    public void exit();
+    
+    /**
+     * @return 
+     */
+    public List<Body> getBodiesPositionToRender();
+    
+    public void setView(View v);
 
 }

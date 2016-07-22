@@ -6,10 +6,10 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import atlas.model.Body;
-import atlas.view.ViewInterface;
+import atlas.view.View;
 import javafx.scene.control.Button;
 
-public class ViewTest extends JFrame implements ViewInterface{
+public class ViewTest extends JFrame implements View{
 
     private PanelTest panel;
     

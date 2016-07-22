@@ -16,8 +16,8 @@ public class GameLoop extends Thread {
     private volatile int loop;
     private long next_game_tick;
     private StatusSim status;
-    private ModelInterface model = new Model();
-    private ViewInterface view;
+    private Model model = new ModelImpl();
+    private View view;
     
     /**
      * Creates new GameLoop and sets the status of Simulation to Stop
@@ -101,7 +101,7 @@ public class GameLoop extends Thread {
         return this.status;
     }
     
-    public void setView(ViewInterface v) {
+    public void setView(View v) {
         this.view = v;
     }
 
