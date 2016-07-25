@@ -11,7 +11,7 @@ import static atlas.model.BodyType.DAY_SECONDS;
 public class ModelImpl implements Model{
     
     private List<Body> bodies = new ArrayList<>();
-    private long steps = 0;
+    private SimClock clock = new SimClock();
     
     public ModelImpl(){
         
@@ -21,12 +21,12 @@ public class ModelImpl implements Model{
         ));
     }
     
-//    private static double circlev(double rx, double ry) {
-//        double solarmass = 1.98892e30;
-//        double r2 = Math.sqrt(rx * rx + ry * ry);
-//        double numerator = (6.67e-11) /** 1e6 */ * solarmass;
-//        return Math.sqrt(numerator / r2);
-//    }
+    // private static double circlev(double rx, double ry) {
+    // double solarmass = 1.98892e30;
+    // double r2 = Math.sqrt(rx * rx + ry * ry);
+    // double numerator = (6.67e-11) /** 1e6 */ * solarmass;
+    // return Math.sqrt(numerator / r2);
+    // }
 
     @Override
     public List<Body> getBodiesToRender() {
@@ -34,22 +34,28 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void updateSim(int hours) {
-            
-        for(int f = 0; f < 60 * 60 * hours; f++){
-            for (Body b : this.bodies) {
-                    b.resetForce();
-                    // 2 loops --> N^2 complexity
-                    for (Body c : this.bodies) {
-                        if (!b.equals(c)) {
-                            b.addForce(c);
-                        }
-                    }
-                    b.updatePos((double) 1); 
+    public void updateSim(double sec) {
+        for (Body b : this.bodies) {
+            b.resetForce();
+            // 2 loops --> N^2 complexity
+            for (Body c : this.bodies) {
+                if (!b.equals(c)) {
+                    b.addForce(c);
+                }
             }
-            
-            this.steps++;
+            b.updatePos(sec);
         }
+
+    }
+
+    @Override
+    public void addBody(Body b) {
+       this.bodies.add(b);        
+    }
+
+    @Override
+    public String getTime() {
+        return this.clock.toString();                
     }
 
 }

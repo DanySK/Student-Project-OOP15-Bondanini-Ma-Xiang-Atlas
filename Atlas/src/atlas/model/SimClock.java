@@ -6,11 +6,13 @@ import java.util.Optional;
 
 import atlas.utils.Counter;
 
-public class SimClock {
+public class SimClock implements java.io.Serializable {
+
+    private static final long serialVersionUID = -1532724227194921810L;
 
     private Counter time;
     private Optional<Long> epochOffset = Optional.empty();
-    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     /**
      * Default clock don't have a date, just a time counter.

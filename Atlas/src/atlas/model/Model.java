@@ -15,5 +15,17 @@ public interface Model {
      * Used to advance in the simulation by a delta time.
      * @param hours hours to progress in the simulation
      */
-    public void updateSim(int hours);
+    public void updateSim(double sec);
+    
+    /**
+     * Adds a body to the solar system.
+     * @param b the body to be added
+     */
+    public void addBody(Body b);
+    
+    /**
+     * Time of the simulation, either a date (i.e. 01/01/2001) or simply a time counter (i.e. 3.25 years).
+     * @return time of the simulation 
+     */
+    public String getTime();
 }

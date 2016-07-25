@@ -8,8 +8,10 @@ import java.util.Optional;
 
 import atlas.utils.Pair;
 
-public class BodyImpl implements Body {
+public class BodyImpl implements Body, java.io.Serializable {
 
+    private static final long serialVersionUID = 3305253121341825047L;
+    
     private BodyType type;
     private Optional<String> name;
     private double posx, posy;
@@ -18,7 +20,8 @@ public class BodyImpl implements Body {
     private double mass;
     private Trail trail = new Trail();
     private Properties properties;
-
+    
+    
     @Deprecated
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
         this.name = Optional.ofNullable(name);

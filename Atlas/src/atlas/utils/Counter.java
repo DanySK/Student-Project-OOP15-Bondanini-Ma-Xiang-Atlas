@@ -4,7 +4,9 @@ package atlas.utils;
  * This clock starts from any given non-negative time and advances by an offset only when told to do so.
  *
  */
-public class Counter {
+public class Counter implements java.io.Serializable {    
+    
+    private static final long serialVersionUID = 3577397934458447332L;
     
     private long counter;
     
