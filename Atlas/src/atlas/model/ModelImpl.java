@@ -17,12 +17,14 @@ import java.util.*;
  *
  */
 public class ModelImpl implements Model {
-
+    
+    private Algorithm alg;
     private List<Body> bodies = new ArrayList<>();
     private SimClock clock = new SimClock();
 
     public ModelImpl() {
 
+        this.alg = new AlgorithmBruteForce();
         SimConfig sol = new SimConfig();
         this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(),
                 EpochJ2000.EARTH.getBody(), sol.getMars()));
@@ -42,17 +44,12 @@ public class ModelImpl implements Model {
 
     @Override
     public void updateSim(double sec) {
-        for (Body b : this.bodies) {
-            b.resetForce();
-            // 2 loops --> N^2 complexity
-            for (Body c : this.bodies) {
-                if (!b.equals(c)) {
-                    b.addForce(c);
-                }
-            }
-            b.updatePos(sec);
-        }
+        this.alg.exceuteUpdate(bodies, sec*60); 
+    }
 
+    @Override
+    public void setAlgorithm(Algorithm algorithm) {
+        this.alg = algorithm;
     }
 
     @Override

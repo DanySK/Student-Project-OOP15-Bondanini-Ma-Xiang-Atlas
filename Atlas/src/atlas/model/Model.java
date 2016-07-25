@@ -31,7 +31,7 @@ public interface Model {
     public String getTime();
     
     /**
-     * 
+     * Saves the current state of the simulation into a file.
      * @param path the path of the file
      * @throws IOException any IOException
      * @throws IllegalArgumentException if the file doesn't exits
@@ -39,10 +39,16 @@ public interface Model {
     public void saveConfig(String path) throws IOException, IllegalArgumentException;
     
     /**
-     * 
+     * Loads a configuration from a file.
      * @param path
      * @throws IOException any IOException
      * @throws IllegalArgumentException if file doesn't exits or cannot be deserialized
      */
     public void loadConfig(String path) throws IOException, IllegalArgumentException;
+    
+    /**
+     * Allows to change the n-body simulation algorithm.
+     * @param algorithm the new algorithm
+     */
+    public void setAlgorithm(Algorithm algorithm);
 }
