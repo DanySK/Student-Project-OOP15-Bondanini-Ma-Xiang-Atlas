@@ -24,7 +24,8 @@ public class ControllerImpl implements Controller {
      *            ViewInterface Object
      */
     private ControllerImpl() {
-        gLoop = new GameLoop();      
+        gLoop = new GameLoop();    
+        gLoop.start();
     }
     
     public static ControllerImpl getIstanceOf() {
@@ -33,14 +34,12 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void startSim() {
-        // TODO Auto-generated method stub
         gLoop.setRunning();
-        gLoop.start();
+        
     }
 
     @Override
     public void stopSim() {
-        // TODO Auto-generated method stub
         gLoop.setStopped();
     }
 
@@ -51,7 +50,6 @@ public class ControllerImpl implements Controller {
 
     @Override
     public List<Body> getBodiesPositionToRender() {
-        // TODO Auto-generated method stub
         return null;
     }
     

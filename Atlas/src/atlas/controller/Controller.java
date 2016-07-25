@@ -26,11 +26,8 @@ public interface Controller {
      */
     public void exit();
     
-    /**
-     * @return 
-     */
     public List<Body> getBodiesPositionToRender();
-    
+ 
     public void setView(View v);
 
 }
