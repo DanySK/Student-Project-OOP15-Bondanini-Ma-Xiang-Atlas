@@ -1,5 +1,6 @@
 package atlas.model;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface Model {
@@ -13,7 +14,7 @@ public interface Model {
     
     /**
      * Used to advance in the simulation by a delta time.
-     * @param hours hours to progress in the simulation
+     * @param sec seconds to progress in the simulation
      */
     public void updateSim(double sec);
     
@@ -28,4 +29,20 @@ public interface Model {
      * @return time of the simulation 
      */
     public String getTime();
+    
+    /**
+     * 
+     * @param path the path of the file
+     * @throws IOException any IOException
+     * @throws IllegalArgumentException if the file doesn't exits
+     */
+    public void saveConfig(String path) throws IOException, IllegalArgumentException;
+    
+    /**
+     * 
+     * @param path
+     * @throws IOException any IOException
+     * @throws IllegalArgumentException if file doesn't exits or cannot be deserialized
+     */
+    public void loadConfig(String path) throws IOException, IllegalArgumentException;
 }

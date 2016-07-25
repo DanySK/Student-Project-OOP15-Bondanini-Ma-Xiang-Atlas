@@ -1,26 +1,33 @@
 package atlas.model;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.*;
-import static atlas.model.BodyType.AU;
-import static atlas.model.BodyType.DAY_SECONDS;
 
 /**
  * Brute force N-body implementation
  *
  */
-public class ModelImpl implements Model{
-    
+public class ModelImpl implements Model {
+
     private List<Body> bodies = new ArrayList<>();
     private SimClock clock = new SimClock();
-    
-    public ModelImpl(){
-        
+
+    public ModelImpl() {
+
         SimConfig sol = new SimConfig();
-        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(), 
-                EpochJ2000.EARTH.getBody(), sol.getMars()
-        ));
+        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(),
+                EpochJ2000.EARTH.getBody(), sol.getMars()));
     }
-    
+
     // private static double circlev(double rx, double ry) {
     // double solarmass = 1.98892e30;
     // double r2 = Math.sqrt(rx * rx + ry * ry);
@@ -50,12 +57,54 @@ public class ModelImpl implements Model{
 
     @Override
     public void addBody(Body b) {
-       this.bodies.add(b);        
+        this.bodies.add(b);
     }
 
     @Override
     public String getTime() {
-        return this.clock.toString();                
+        return this.clock.toString();
+    }
+
+    @Override
+    public void saveConfig(String path) throws IOException, IllegalArgumentException {
+        File f = new File(path);
+        if (!this.checkFileExists(f)) {
+            throw new IllegalArgumentException();
+        }
+
+        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
+                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+            ostream.writeObject(this.clock);
+            ostream.writeObject(this.bodies);
+        }
+
+    }
+
+    /* True : exists, false otherwise */
+    private boolean checkFileExists(File f) {
+        return f.exists() && !f.isDirectory();
+    }
+
+    @Override
+    public void loadConfig(String path) throws IOException, IllegalArgumentException {
+        File f = new File(path);
+        if (!this.checkFileExists(f)) {
+            throw new IllegalArgumentException();
+        }
+
+        try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
+                ObjectInputStream ostream = new ObjectInputStream(bstream);) {
+            this.clock = (SimClock)ostream.readObject();
+            while(true) {
+                try {
+                    this.bodies.add((Body)ostream.readObject());
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Content of the file is not suitable.");
+        }
     }
 
 }
