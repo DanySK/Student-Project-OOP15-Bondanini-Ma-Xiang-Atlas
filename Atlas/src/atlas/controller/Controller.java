@@ -1,5 +1,6 @@
 package atlas.controller;
 
+import java.io.IOException;
 import java.util.List;
 /**
  * Interface for Controller
@@ -7,6 +8,7 @@ import java.util.List;
  */
 
 import atlas.model.Body;
+import atlas.utils.EventType;
 import atlas.view.View;
 
 public interface Controller {
@@ -26,8 +28,18 @@ public interface Controller {
      */
     public void exit();
     
+    /**
+     * This method captures events from View
+     * @param event
+     */
+    public void update(final EventType event, final String path) throws IllegalArgumentException, IOException;
+    
     public List<Body> getBodiesPositionToRender();
- 
+    
+    /**
+     * This method sets the view
+     * @param event
+     */
     public void setView(View v);
 
 }
