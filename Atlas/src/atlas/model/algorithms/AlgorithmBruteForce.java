@@ -1,6 +1,8 @@
-package atlas.model;
+package atlas.model.algorithms;
 
 import java.util.List;
+
+import atlas.model.Body;
 
 /**
  * This algorithm computes, for each body, the net force from all other bodies.
@@ -12,16 +14,17 @@ import java.util.List;
 public class AlgorithmBruteForce implements Algorithm {
 
     @Override
-    public void exceuteUpdate(List<Body> bodies, double sec) {
+    public List<Body> exceuteUpdate(List<Body> bodies, double sec) {
+    	// 2 loops --> N^2 complexity
         for (Body b : bodies) {
             b.resetForce();
-            // 2 loops --> N^2 complexity
             for (Body c : bodies) {
                 if (!b.equals(c)) {
                     b.addForce(c);
                 }
             }
             b.updatePos(sec);
-        }        
+        }
+        return bodies;
     }
 }

@@ -12,6 +12,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.*;
 
+import atlas.model.algorithms.Algorithm;
+import atlas.model.algorithms.AlgorithmBruteForce;
+
 /**
  * Brute force N-body implementation
  *
@@ -44,7 +47,10 @@ public class ModelImpl implements Model {
 
     @Override
     public void updateSim(double sec) {
-        this.alg.exceuteUpdate(bodies, sec*60); 
+    	//update bodies position
+        this.bodies = this.alg.exceuteUpdate(bodies, sec);
+        //update clock/date
+        this.clock.update((long)sec);
     }
 
     @Override
