@@ -22,12 +22,16 @@ public interface Body {
      * @return the body's name
      */
     public String getName();
+    
+    public void setName(String name);
 
     /**
      * 
      * @return the body's mass in kilograms
      */
     public double getMass();
+    
+    public void setMass(double mass);
 
     /**
      * Adds the force relative to an another body using Newton's law of gravity.
@@ -66,6 +70,8 @@ public interface Body {
      * @return the x coordinates in meters
      */
     public double getPosX();
+    
+    public void setPosX(double x);
 
     /**
      * Returns the y coordinates from the origin.
@@ -73,6 +79,8 @@ public interface Body {
      * @return the y coordinates in meters
      */
     public double getPosY();
+    
+    public void setPosY(double y);
 
     /**
      * Returns the velocity in the x-axis
@@ -80,7 +88,7 @@ public interface Body {
      * @return the horizontal velocity x
      */
     public double getVelX();
-
+    
     /**
      * Returns the velocity in the y-axis
      * 

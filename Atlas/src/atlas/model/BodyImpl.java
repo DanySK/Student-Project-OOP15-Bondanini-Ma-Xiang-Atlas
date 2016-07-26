@@ -54,13 +54,23 @@ public class BodyImpl implements Body, java.io.Serializable {
     public String getName() {
         return this.name.orElse("Unknown");
     }
-
+    
     @Override
+	public void setName(String name) {
+		this.name = Optional.ofNullable(name);		
+	}
+
+	@Override
     public double getMass() {
         return this.mass;
     }
 
     @Override
+	public void setMass(double mass) {
+		this.mass = mass;
+	}
+
+	@Override
     public void addForce(Body b) {
         double EPS = 1; // softening parameter (just to avoid infinities)
         double dx = b.getPosX() - this.posx;
@@ -105,13 +115,23 @@ public class BodyImpl implements Body, java.io.Serializable {
     public double getPosX() {
         return this.posx;
     }
-
+    
     @Override
+	public void setPosX(double x) {
+		this.posx = x;
+	}
+
+	@Override
     public double getPosY() {
         return this.posy;
     }
 
     @Override
+	public void setPosY(double y) {
+		this.posy = y;		
+	}
+
+	@Override
     public double getVelX() {
         return this.velx;
     }
