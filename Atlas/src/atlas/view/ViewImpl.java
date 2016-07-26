@@ -130,7 +130,6 @@ public class ViewImpl extends Application implements View {
 
 		play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
 		pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
-		hearth.relocate(primaryStage.getWidth()- 1000, primaryStage.getHeight() - 100);
 
 		// Aggiunta bottoni al pannello
 
