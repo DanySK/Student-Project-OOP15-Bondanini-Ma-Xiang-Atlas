@@ -3,6 +3,8 @@ package atlas.model;
 import java.io.IOException;
 import java.util.List;
 
+import atlas.model.algorithms.Algorithm;
+
 public interface Model {
     
     /**
