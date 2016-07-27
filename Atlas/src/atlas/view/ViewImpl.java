@@ -21,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -50,10 +51,14 @@ public class ViewImpl extends Application implements View {
         c.setView(this);
         Button play = new Button("Play");
         Button pause = new Button("Pause");
-        Button zoomUp = new Button("+ Zoom");
+        Label zoomLabel = new Label("Zoom");
+        Button zoomUp = new Button("+");
+        Button zoomDown = new Button("-");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
         Image cross = new Image("/button_images/not.png", 20, 20, false, false);
 
+        zoomLabel.relocate(x, posy);
+        
         // Azzero le mappe
 
         planet_map.clear();
@@ -148,12 +153,28 @@ public class ViewImpl extends Application implements View {
 
         play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
         pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
+        
+        
+        zoomLabel.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 220);
+        zoomUp.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 180);
+        zoomDown.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 140);
+        
+        zoomUp.setOnAction(e -> {
+            this.unit = c.zoomUp();
+        });
+        
+
+        zoomDown.setOnAction(e -> {
+            this.unit = c.zoomDown();
+        });
 
         // Aggiunta bottoni al pannello
 
         root1.getChildren().add(play);
         root1.getChildren().add(pause);
+        root1.getChildren().add(zoomLabel);
         root1.getChildren().add(zoomUp);
+        root1.getChildren().add(zoomDown);
 
         c.startSim();
 
