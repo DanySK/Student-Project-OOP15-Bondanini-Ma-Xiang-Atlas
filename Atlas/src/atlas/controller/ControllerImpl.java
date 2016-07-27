@@ -2,7 +2,10 @@ package atlas.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 import atlas.model.*;
+import atlas.model.Body.Properties;
 import atlas.view.View;
 import atlas.utils.*;
 
@@ -18,6 +21,9 @@ public class ControllerImpl implements Controller {
     private static ControllerImpl ctrl = null;
     private View view;
     private Model model;
+
+    private boolean adding = false; // If not work try to set True
+    private Body nextBody = null;
 
     /**
      * Creation of new Controller
@@ -50,19 +56,22 @@ public class ControllerImpl implements Controller {
         gLoop.setExit();
     }
 
-    @Override
-    public List<Body> getBodiesPositionToRender() {
-        return null;
-    }
-
     public void setView(View v) {
         this.view = v;
         this.gLoop.setView(v);
     }
 
     @Override
-    public void update(final EventType event, final String path) throws IllegalArgumentException, IOException {
+    public void update(final EventType event, String path, Optional<Double> posX, Optional<Double> posY)
+            throws IllegalArgumentException, IOException {
         switch (event) {
+        case ADDING_BODY:
+            System.out.println("PosX: " + posX + " PosY:" + posY);
+            this.nextBody.setPosX(posX.get());
+            this.nextBody.setPosY(posY.get());
+            this.model.addBody(nextBody);
+            this.adding = false;
+            this.nextBody = null;
 
         case SAVE:
             this.model.saveConfig(path);
@@ -72,6 +81,33 @@ public class ControllerImpl implements Controller {
 
         default:
         }
+    }
+
+    @Override
+    public void setAdding() {
+        this.adding = true;
+    }
+
+    @Override
+    public void setNotAdding() {
+        this.adding = false;
+    }
+
+    @Override
+    public boolean isAdding() {
+        return this.adding;
+    }
+
+    @Override
+    public void setNextBody(Body body) {
+        this.nextBody = body;
+    }
+
+    @Override
+    public void reset() {
+        this.nextBody = null;
+        this.adding = false;
+
     }
 
 }
