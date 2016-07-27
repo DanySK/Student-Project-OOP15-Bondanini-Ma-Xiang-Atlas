@@ -80,5 +80,11 @@ public interface Controller {
      * @param event
      */
     public void reset();
+    
+    public double getUnit();
+    
+    public double zoomUp();
+    
+    public double zoomDown();
 
 }
