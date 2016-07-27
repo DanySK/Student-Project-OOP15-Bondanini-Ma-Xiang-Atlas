@@ -42,14 +42,15 @@ public class ViewImpl extends Application implements View {
     Controller c;
     double posy = 1;
     boolean bool = true;
+    double unit = 0.0;
 
     public void start(Stage primaryStage) {
 
         c = ControllerImpl.getIstanceOf();
         c.setView(this);
-        Button earth = new Button("Earth");
         Button play = new Button("Play");
         Button pause = new Button("Pause");
+        Button zoomUp = new Button("+ Zoom");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
         Image cross = new Image("/button_images/not.png", 20, 20, false, false);
 
@@ -62,7 +63,8 @@ public class ViewImpl extends Application implements View {
 
         button_map.put(play.getText(), play);
         button_map.put(pause.getText(), pause);
-        button_map.put(earth.getText(), earth);
+        button_map.put(zoomUp.getText(), zoomUp);
+        
 
         // Setto i pulsanti
 
@@ -76,12 +78,21 @@ public class ViewImpl extends Application implements View {
         pause.setOnAction(e -> {
             c.stopSim();
         });
-        
-        //In futuro scrivere un action-listener, dato che tanti pulsanti avranno la stessa funzione e ci sarebbe ripetizione di codice
-        earth.setOnAction(e -> {
+
+        // In futuro scrivere un action-listener, dato che tanti pulsanti
+        // avranno la stessa funzione e ci sarebbe ripetizione di codice
+        /* earth.setOnAction(e -> {
             c.setAdding();
             c.setNextBody(EpochJ2000.EARTH.getBody());
-        });
+        });*/
+
+        /*zoomUp.setOnAction(e -> {
+        this.unit = c.zoomUp();
+        });*/
+
+        /*zoomDown.setOnAction(e -> {
+            this.unit = c.zoomDown();
+        });*/
 
         // Setto lo sfondo
 
@@ -142,28 +153,26 @@ public class ViewImpl extends Application implements View {
 
         root1.getChildren().add(play);
         root1.getChildren().add(pause);
-        root1.getChildren().add(earth);
+        root1.getChildren().add(zoomUp);
 
         c.startSim();
 
     }
 
     public void render(List<Body> b) {
-
-        for (Body a : b) {
-            if (Math.abs(a.getPosY()) > posy && bool) {
-                bool = false;
-                posy = a.getPosY();
-            }
+        if (bool) {
+            this.unit = c.getUnit();
+            this.bool = false;
+            System.out.println("unitView " + unit);
         }
-
-        double unit = y / (posy * 3);
 
         for (Body a : b) {
             if (planet_map.containsKey(a.getName())) {
                 planet_map.get(a.getName()).relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)));
-                // System.out.println(x + (a.getPosX() * unit));
-                // System.out.println(y - (a.getPosY() * unit));
+                System.out.println(x + (a.getPosX() * unit) + "PosX schermo");
+                System.out.println(y - (a.getPosY() * unit) + "PosY schermo");
+                System.out.println(x + (a.getPosX()) + "PosX real");
+                System.out.println(y - (a.getPosY()) + "PosY real");
             }
 
             else {
@@ -197,20 +206,15 @@ public class ViewImpl extends Application implements View {
         return button_map.get("Pause");
     }
 
-    /* Not Work -> Capire come funziona con javaFX
-    public void mouseClicked(MouseEvent e) {
-        if (c.isAdding()) {
-            try {
-                c.update(EventType.ADDING_BODY, null, Optional.of(MouseInfo.getPointerInfo().getLocation().getX()),
-                        Optional.of(MouseInfo.getPointerInfo().getLocation().getX()));
-                
-                } catch (IllegalArgumentException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }*/
+    /*
+     * Not Work -> Capire come funziona con javaFX public void
+     * mouseClicked(MouseEvent e) { if (c.isAdding()) { try {
+     * c.update(EventType.ADDING_BODY, null,
+     * Optional.of(MouseInfo.getPointerInfo().getLocation().getX()),
+     * Optional.of(MouseInfo.getPointerInfo().getLocation().getX()));
+     * 
+     * } catch (IllegalArgumentException e1) { e1.printStackTrace(); } catch
+     * (IOException e1) { e1.printStackTrace(); } }
+     */
 
-    }
-
-
+}

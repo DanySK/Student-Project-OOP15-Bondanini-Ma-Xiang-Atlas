@@ -24,6 +24,9 @@ public class ControllerImpl implements Controller {
 
     private boolean adding = false; // If not work try to set True
     private Body nextBody = null;
+    double posy = 1;
+    double unit = -1.4000000000000000E-9;
+    boolean bool = true;
 
     /**
      * Creation of new Controller
@@ -66,7 +69,7 @@ public class ControllerImpl implements Controller {
             throws IllegalArgumentException, IOException {
         switch (event) {
         case ADDING_BODY:
-            System.out.println("PosX: " + posX + " PosY:" + posY);
+
             this.nextBody.setPosX(posX.get());
             this.nextBody.setPosY(posY.get());
             this.model.addBody(nextBody);
@@ -107,7 +110,26 @@ public class ControllerImpl implements Controller {
     public void reset() {
         this.nextBody = null;
         this.adding = false;
-
     }
+
+    @Override
+    public double getUnit() {
+        return this.unit;
+    }
+
+    @Override
+    public double zoomUp() {
+        this.unit -= 0.4000000000000000E-9;
+        return this.unit;
+        
+    }
+
+    @Override
+    public double zoomDown() {
+        this.unit += 0.4000000000000000E-9;
+        return this.unit;      
+    }
+
+   
 
 }
