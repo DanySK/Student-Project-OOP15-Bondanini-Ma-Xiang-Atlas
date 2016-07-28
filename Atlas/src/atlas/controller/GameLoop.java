@@ -11,8 +11,8 @@ import atlas.view.*;
  */
 
 public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 anni
-    private static long speed = 1L;
-    private static int precision = 86400;
+    private float speed;
+    private long precision;
     private final static int FPS = 50;
     private final static int SKIP_TICKS = 1000 / FPS;
     private final static int MAX_FRAMESKIP = 10;
@@ -21,6 +21,11 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
     private StatusSim status;
     private Model model = new ModelImpl();
     private View view;
+    private UI ui;
+    private static final long MIN_UNIT = 60;
+    private static final long HOUR_UNIT = 3600;
+    private static final long DAY_UNIT = 86400;
+    private static final long YEAR_UNIT = 31536000;
 
     /**
      * Creates new GameLoop and sets the status of Simulation to Stop
@@ -30,6 +35,11 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
      */
     public GameLoop() {
         this.status = StatusSim.RUNNING;
+        // Partenza Standard di 10 gg/sec
+        this.ui = UI.Day_Sec;
+        this.speed = 10;
+        this.setSpeed(ui, speed);
+
     }
 
     /**
@@ -67,10 +77,10 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 // rendering();
                 this.view.render(model.getBodiesToRender());
                 long FPS = 1000 / timeSLF;
-             //   System.out.println("timeSLF = " + timeSLF + " --> FPS  = " + FPS);
+                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
             }
-            
-            //render when is stopped shish
+
+            // render when is stopped shish
             this.view.render(model.getBodiesToRender());
             try {
                 Thread.sleep(1);
@@ -128,8 +138,37 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         this.view = v;
     }
 
-    public void increaseSpeed() {
+    public void setSpeed(UI ui, float speed) throws IllegalArgumentException {
+        if (speed <= 1000 || speed > 0) {
+            this.speed = speed;
+            switch (ui) {
+            case Min_Sec:
+                this.precision = MIN_UNIT;
+                break;
 
+            case Hour_Sec:
+                this.precision = HOUR_UNIT;
+                break;
+
+            case Day_Sec:
+                this.precision = DAY_UNIT;
+                break;
+
+            case Year_Sec:
+                this.precision = YEAR_UNIT;
+                break;
+                
+            default:
+                break;
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+    }
+
+    private enum UI {
+        Min_Sec, Hour_Sec, Day_Sec, Year_Sec
     }
 
 }

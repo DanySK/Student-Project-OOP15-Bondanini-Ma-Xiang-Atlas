@@ -1,13 +1,8 @@
 package atlas.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-
 import atlas.model.Body;
-import atlas.model.BodyType;
-import atlas.model.EpochJ2000;
-import atlas.model.Body.Properties;
 import atlas.utils.EventType;
 import atlas.view.View;
 
