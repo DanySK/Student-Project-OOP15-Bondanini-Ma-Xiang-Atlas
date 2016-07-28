@@ -81,10 +81,39 @@ public interface Controller {
      */
     public void reset();
     
+    /**
+     * This method returns initial zoom
+     * @param event
+     */
     public double getUnit();
     
+    /**
+     * This method increases zoom
+     * @param event
+     */
     public double zoomUp();
     
+    /**
+     * This method decreases zoom
+     * @param event
+     */
     public double zoomDown();
+    
+    /**
+     * Saves the current state of the simulation into a file.
+     * @param path the path of the file
+     * @throws IOException any IOException
+     * @throws IllegalArgumentException if the file doesn't exits
+     */
+    public void saveConfig(String path) throws IOException, IllegalArgumentException;
+    
+
+    /**
+     * Loads a configuration from a file.
+     * @param path
+     * @throws IOException any IOException
+     * @throws IllegalArgumentException if file doesn't exits or cannot be deserialized
+     */
+    public void loadConfig(String path) throws IOException, IllegalArgumentException;
 
 }

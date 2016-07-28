@@ -11,7 +11,7 @@ import atlas.view.*;
  */
 
 public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 anni
-    private static long speed = 10L;
+    private static long speed = 1L;
     private static int precision = 86400;
     private final static int FPS = 50;
     private final static int SKIP_TICKS = 1000 / FPS;
