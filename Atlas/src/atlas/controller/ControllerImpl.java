@@ -10,11 +10,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.Optional;
-
 import atlas.model.*;
-import atlas.model.Body.Properties;
 import atlas.view.View;
 import atlas.utils.*;
 
@@ -34,7 +31,7 @@ public class ControllerImpl implements Controller {
     private boolean adding = false; // If not work try to set True
     private Body nextBody = null;
     double posy = 1;
-    double unit = -1.4000000000000000E-9;
+    double unit = 1.4000000000000000E-9;
     boolean bool = true;
 
     /**
@@ -84,14 +81,18 @@ public class ControllerImpl implements Controller {
             this.model.addBody(nextBody);
             this.adding = false;
             this.nextBody = null;
+            break;
 
         case SAVE:
             this.saveConfig(path);
+            break;
 
         case LOAD:
             this.loadConfig(path);
+            break;
 
         default:
+            break;
         }
     }
 
@@ -128,14 +129,14 @@ public class ControllerImpl implements Controller {
 
     @Override
     public double zoomUp() {
-        this.unit -= 0.4000000000000000E-9;
+        this.unit = unit * 1.05;
         return this.unit;
 
     }
 
     @Override
     public double zoomDown() {
-        this.unit += 0.4000000000000000E-9;
+        this.unit = unit * 0.95;
         return this.unit;
     }
 
@@ -150,10 +151,9 @@ public class ControllerImpl implements Controller {
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(this.model.getClock());
             ostream.writeObject(this.unit);
-            //Speed
+            // Speed
             ostream.writeObject(this.model.getBodiesToRender());
         }
-
     }
 
     @Override
