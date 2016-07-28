@@ -20,7 +20,7 @@ import atlas.model.algorithms.AlgorithmBruteForce;
  *
  */
 public class ModelImpl implements Model {
-    
+
     private Algorithm alg;
     private List<Body> bodies = new ArrayList<>();
     private SimClock clock = new SimClock();
@@ -47,10 +47,10 @@ public class ModelImpl implements Model {
 
     @Override
     public void updateSim(double sec) {
-    	//update bodies position
+        // update bodies position
         this.bodies = this.alg.exceuteUpdate(bodies, sec);
-        //update clock/date
-        this.clock.update((long)sec);
+        // update clock/date
+        this.clock.update((long) sec);
     }
 
     @Override
@@ -69,45 +69,14 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void saveConfig(String path) throws IOException, IllegalArgumentException {
-        File f = new File(path);
-        if (!this.checkFileExists(f)) {
-            throw new IllegalArgumentException();
-        }
-
-        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
-                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
-            ostream.writeObject(this.clock);
-            ostream.writeObject(this.bodies);
-        }
-
-    }
-
-    /* True : exists, false otherwise */
-    private boolean checkFileExists(File f) {
-        return f.exists() && !f.isDirectory();
+    public SimClock getClock() {
+        return null;
     }
 
     @Override
-    public void loadConfig(String path) throws IOException, IllegalArgumentException {
-        File f = new File(path);
-        if (!this.checkFileExists(f)) {
-            throw new IllegalArgumentException();
-        }
+    public void setClock(SimClock clock) {
+        this.clock = clock;
 
-        try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
-                ObjectInputStream ostream = new ObjectInputStream(bstream);) {
-            this.clock = (SimClock)ostream.readObject();
-            while(true) {
-                try {
-                    this.bodies.add((Body)ostream.readObject());
-                } catch (Exception e) {
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Content of the file is not suitable.");
-        }
     }
 
 }

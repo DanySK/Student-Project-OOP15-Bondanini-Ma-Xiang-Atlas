@@ -1,6 +1,15 @@
 package atlas.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,17 +79,17 @@ public class ControllerImpl implements Controller {
         switch (event) {
         case ADDING_BODY:
 
-            this.nextBody.setPosX(posX.get());
-            this.nextBody.setPosY(posY.get());
+            this.nextBody.setPosX(posX.get() * unit);
+            this.nextBody.setPosY(posY.get() * unit);
             this.model.addBody(nextBody);
             this.adding = false;
             this.nextBody = null;
 
         case SAVE:
-            this.model.saveConfig(path);
+            this.saveConfig(path);
 
         case LOAD:
-            this.model.loadConfig(path);
+            this.loadConfig(path);
 
         default:
         }
@@ -121,15 +130,58 @@ public class ControllerImpl implements Controller {
     public double zoomUp() {
         this.unit -= 0.4000000000000000E-9;
         return this.unit;
-        
+
     }
 
     @Override
     public double zoomDown() {
         this.unit += 0.4000000000000000E-9;
-        return this.unit;      
+        return this.unit;
     }
 
-   
+    @Override
+    public void saveConfig(String path) throws IOException, IllegalArgumentException {
+        File f = new File(path);
+        if (!this.checkFileExists(f)) {
+            throw new IllegalArgumentException();
+        }
+
+        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
+                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+            ostream.writeObject(this.model.getClock());
+            ostream.writeObject(this.unit);
+            //Speed
+            ostream.writeObject(this.model.getBodiesToRender());
+        }
+
+    }
+
+    @Override
+    public void loadConfig(String path) throws IOException, IllegalArgumentException {
+        File f = new File(path);
+        if (!this.checkFileExists(f)) {
+            throw new IllegalArgumentException();
+        }
+
+        try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
+                ObjectInputStream ostream = new ObjectInputStream(bstream);) {
+            this.model.setClock((SimClock) ostream.readObject());
+            this.unit = (Double) ostream.readObject();
+            while (true) {
+                try {
+                    this.model.addBody(((Body) ostream.readObject()));
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Content of the file is not suitable.");
+        }
+    }
+
+    /* True : exists, false otherwise */
+    private boolean checkFileExists(File f) {
+        return f.exists() && !f.isDirectory();
+    }
 
 }

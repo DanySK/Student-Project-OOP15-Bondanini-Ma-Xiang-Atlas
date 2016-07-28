@@ -91,13 +91,13 @@ public class ViewImpl extends Application implements View {
             c.setNextBody(EpochJ2000.EARTH.getBody());
         });*/
 
-        /*zoomUp.setOnAction(e -> {
+        zoomUp.setOnAction(e -> {
         this.unit = c.zoomUp();
-        });*/
+        });
 
-        /*zoomDown.setOnAction(e -> {
+        zoomDown.setOnAction(e -> {
             this.unit = c.zoomDown();
-        });*/
+        });
 
         // Setto lo sfondo
 
@@ -181,6 +181,7 @@ public class ViewImpl extends Application implements View {
     }
 
     public void render(List<Body> b) {
+        //Prende lo Zoom inizale solo la prima volta..
         if (bool) {
             this.unit = c.getUnit();
             this.bool = false;
