@@ -35,7 +35,7 @@ public interface Controller {
      * 
      * @param event
      */
-    public void update(SimEvent event) throws IllegalArgumentException, IOException;
+    public void update(SimEvent event);
 
     /*public void setNewBody(BodyType type, Optional<String> name, int posX, int posY, double velX, double velY,
             double mass, Properties properties);*/

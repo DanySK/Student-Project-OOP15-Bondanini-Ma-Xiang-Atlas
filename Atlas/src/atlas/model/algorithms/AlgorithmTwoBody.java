@@ -1,5 +1,6 @@
 package atlas.model.algorithms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import atlas.model.Body;
@@ -12,7 +13,7 @@ public class AlgorithmTwoBody implements Algorithm, java.io.Serializable {
 	private static final long serialVersionUID = -7785821713075379790L;
 
 	@Override
-	public List<Body> exceuteUpdate(List<Body> bodies, double sec) {
+	public ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec) {
 		for (Body b : bodies) {
 			b.resetForce();
 			Body p = b.getProperties().getParent().orElseGet(null);

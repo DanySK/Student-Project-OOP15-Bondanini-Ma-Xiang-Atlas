@@ -11,7 +11,7 @@ public class SimClock implements java.io.Serializable {
     private static final long serialVersionUID = -1532724227194921810L;
 
     private Counter time;
-    private Optional<Long> epochOffset = Optional.empty();
+    private Long epochOffset = null;
     private static SimpleDateFormat FORMATTER = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     /**
@@ -29,7 +29,7 @@ public class SimClock implements java.io.Serializable {
      */
     public SimClock(long offset) {
         this();
-        this.epochOffset = Optional.ofNullable(offset);
+        this.epochOffset = offset;
     }
 
     /**
@@ -58,11 +58,15 @@ public class SimClock implements java.io.Serializable {
         this.time = new Counter();
     }
     
+    protected Optional<Long> getEpoch() {
+    	return Optional.ofNullable(this.epochOffset);
+    }
+    
     /**
      * Removes the offset form the UTC epoch.
      */
     public void removeEpoch() {
-        this.epochOffset = Optional.empty();
+        this.epochOffset = null;
     }
     
     /**
@@ -70,12 +74,12 @@ public class SimClock implements java.io.Serializable {
      * @param offset
      */
     public void setEpoch(long offset) {
-        this.epochOffset = Optional.ofNullable(offset);
+        this.epochOffset = offset;
     }
     
     public String toString() {
-        if (this.epochOffset.isPresent()) {
-            return FORMATTER.format(new Date(this.time.get() + this.epochOffset.get()));
+        if (this.getEpoch().isPresent()) {
+            return FORMATTER.format(new Date(this.time.get() + this.getEpoch().get()));
         } else {
             // Feature da implementare : unita' di misura tempo variabile...
             return new StringBuilder().append((int) (this.time.get() / (1000 * 86400))).append(" days").toString();

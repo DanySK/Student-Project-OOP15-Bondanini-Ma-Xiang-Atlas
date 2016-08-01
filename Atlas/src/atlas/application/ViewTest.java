@@ -2,10 +2,12 @@ package atlas.application;
 
 import java.awt.Dimension;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 
 import atlas.model.Body;
+import atlas.view.SimEvent;
 import atlas.view.View;
 import javafx.scene.control.Button;
 
@@ -33,16 +35,17 @@ public class ViewTest extends JFrame implements View{
         this.panel.repaint();        
     }
 
-    @Override
-    public Button getPlayButton() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public void notifyObservers(SimEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public Button getPauseButton() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public Optional<Body> getSelectedBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+    
 }
