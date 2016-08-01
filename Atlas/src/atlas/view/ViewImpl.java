@@ -3,6 +3,8 @@ package atlas.view;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import atlas.model.BodyType;
 import atlas.model.EpochJ2000;
 import atlas.utils.EventType;
 import atlas.utils.MyMouse;
+import atlas.utils.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -39,6 +42,7 @@ public class ViewImpl extends Application implements View {
 
     Map<String, ImageView> planet_map = new HashMap<>();
     Map<String, Button> button_map = new HashMap<>();
+    List<Label> label_list = new ArrayList<>();
     double x, y;
     BorderPane rootPane = new BorderPane();
     Pane root1 = new Pane();
@@ -46,6 +50,17 @@ public class ViewImpl extends Application implements View {
     double posy = 1;
     boolean bool = true;
     double unit = 0.0;
+    private Optional<Body> selectedBody; 
+    
+    @Override
+    public void notifyObservers(SimEvent event) {
+            ControllerImpl.getIstanceOf().update(event);
+    }
+
+    @Override
+    public Optional<Body> getSelectedBody() {
+            return this.selectedBody;
+    }
 
     public void start(Stage primaryStage) {
 
@@ -163,6 +178,7 @@ public class ViewImpl extends Application implements View {
         primaryStage.centerOnScreen();
         primaryStage.setFullScreen(true);
         primaryStage.show();
+        primaryStage.setResizable(false);
 
         // Posto x e y come origine degli assi
 
@@ -226,8 +242,19 @@ public class ViewImpl extends Application implements View {
         }
 
         for (Body a : b) {
+            double h = unit*a.getProperties().getRadius();
+            System.out.println("this is h" +  h);
             if (planet_map.containsKey(a.getName())) {
                 planet_map.get(a.getName()).relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)));
+                for (Label i : label_list){
+                    if (i.getText().equals(a.getName())){
+                        i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10);
+                    }
+                }
+                Collection<Pair<Double,Double>> q = a.getTrail();
+                for (Pair p : q){
+                   
+                }
                 System.out.println(x + (a.getPosX() * unit) + "PosX schermo");
                 System.out.println(y - (a.getPosY() * unit) + "PosY schermo");
                 System.out.println(x + (a.getPosX()) + "PosX real");
@@ -235,16 +262,20 @@ public class ViewImpl extends Application implements View {
             }
 
             else {
+                label_list.add(new Label(a.getName()));
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                planet_map.get(a.getName()).setFitHeight(50);
-                planet_map.get(a.getName()).setFitWidth(50);
+                planet_map.get(a.getName()).setFitHeight(h);
+                planet_map.get(a.getName()).setFitWidth(h);
                 planet_map.get(a.getName()).setPreserveRatio(true);
                 planet_map.get(a.getName()).relocate(x, y);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         root1.getChildren().add(planet_map.get(a.getName()));
+                        for(int i=0; i<label_list.size(); i++){
+                            root1.getChildren().add(label_list.get(i));
+                        }
                     }
                 });
 
@@ -257,13 +288,6 @@ public class ViewImpl extends Application implements View {
         launch(args);
     }
 
-    public Button getPlayButton() {
-        return button_map.get("Play");
-    }
-
-    public Button getPauseButton() {
-        return button_map.get("Pause");
-    }
 
     /*
      * Not Work -> Capire come funziona con javaFX public void
