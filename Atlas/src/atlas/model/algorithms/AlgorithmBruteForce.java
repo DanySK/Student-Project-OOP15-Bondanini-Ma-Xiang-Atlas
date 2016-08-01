@@ -11,9 +11,11 @@ import atlas.model.Body;
  * Cons: impossible to use when there are a lot of elements.
  * 
  */
-public class AlgorithmBruteForce implements Algorithm {
+public class AlgorithmBruteForce implements Algorithm, java.io.Serializable {
 
-    @Override
+	private static final long serialVersionUID = -766146245161256993L;
+
+	@Override
     public List<Body> exceuteUpdate(List<Body> bodies, double sec) {
     	// 2 loops --> N^2 complexity
         for (Body b : bodies) {

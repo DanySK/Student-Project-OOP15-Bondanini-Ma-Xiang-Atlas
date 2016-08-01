@@ -19,9 +19,10 @@ import atlas.model.algorithms.AlgorithmBruteForce;
  * Brute force N-body implementation
  *
  */
-public class ModelImpl implements Model {
+public class ModelImpl implements Model, java.io.Serializable {
 
-    private Algorithm alg;
+	private static final long serialVersionUID = 1670664173059452174L;
+	private Algorithm alg;
     private List<Body> bodies = new ArrayList<>();
     private SimClock clock = new SimClock();
 
