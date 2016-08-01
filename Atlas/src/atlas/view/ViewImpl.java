@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
 import atlas.model.Body;
@@ -29,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 import java.awt.MouseInfo;
 import java.awt.event.MouseAdapter;
 import java.awt.MouseInfo;
@@ -44,7 +46,6 @@ public class ViewImpl extends Application implements View {
     double posy = 1;
     boolean bool = true;
     double unit = 0.0;
-    double cont = 1.0;
 
     public void start(Stage primaryStage) {
 
@@ -59,6 +60,8 @@ public class ViewImpl extends Application implements View {
         Button load = new Button("Carica");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
         Image cross = new Image("/button_images/not.png", 20, 20, false, false);
+        
+        String path = System.getProperty("user.home")+System.getProperty("file.separator")+"ciao.bin";
         
         
 
@@ -89,6 +92,24 @@ public class ViewImpl extends Application implements View {
 
         pause.setOnAction(e -> {
             c.stopSim();
+        });
+        
+        save.setOnAction(e -> {
+            try {
+                c.saveConfig(path);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+        
+        load.setOnAction(e -> {
+            try {
+                c.loadConfig(path);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
 
         // In futuro scrivere un action-listener, dato che tanti pulsanti
@@ -163,13 +184,23 @@ public class ViewImpl extends Application implements View {
         
         zoomUp.setOnAction(e -> {
             this.unit = c.zoomUp();
-            cont+=1;
+            planet_map.entrySet().stream().forEach(a -> {
+                ImageView im = a.getValue();
+                im.setFitHeight(im.getFitHeight()*1.2);
+                im.setFitWidth(im.getFitWidth()*1.2);
+                planet_map.replace(a.getKey(), im);
+            });
         });
         
 
         zoomDown.setOnAction(e -> {
             this.unit = c.zoomDown();
-            cont-=0.2;
+            planet_map.entrySet().stream().forEach(a -> {
+                ImageView im = a.getValue();
+                im.setFitHeight(im.getFitHeight()*0.8);
+                im.setFitWidth(im.getFitWidth()*0.8);
+                planet_map.replace(a.getKey(), im);
+            });
         });
 
         // Aggiunta bottoni al pannello
