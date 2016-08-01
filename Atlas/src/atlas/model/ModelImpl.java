@@ -71,7 +71,7 @@ public class ModelImpl implements Model, java.io.Serializable {
 
     @Override
     public SimClock getClock() {
-        return null;
+        return this.clock;
     }
 
     @Override
