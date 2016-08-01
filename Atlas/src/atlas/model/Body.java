@@ -122,16 +122,18 @@ public interface Body {
      * Nested class used to store a celestial body's secondary properties.
      *
      */
-    public static class Properties {
-        private double radius;
+    public static class Properties implements java.io.Serializable {
+        
+		private static final long serialVersionUID = -689182940096161486L;
+		private double radius;
         // Rotazione sul proprio asse
         private long rotationPeriod;
         private double rotationAngle;
 
         /* Optional properties */
-        private Optional<Double> orbitalPeriod = Optional.empty();
-        private Optional<Body> parent = Optional.empty();
-        private Optional<Double> temperature = Optional.empty();
+        private Double orbitalPeriod = null;
+        private Body parent = null;
+        private Double temperature = null;
 
         public static double celsiusToKelvin(double c) {
             return c + 273.15;
@@ -149,8 +151,8 @@ public interface Body {
             this.radius = radius;
             this.rotationPeriod = rotationPeriod;
             this.rotationAngle = rotationAngle;
-            this.parent = Optional.ofNullable(parent);
-            this.temperature = Optional.ofNullable(temperature);
+            this.parent = parent;
+            this.temperature = temperature;
         }
 
         public double getRadius() {
@@ -198,32 +200,32 @@ public interface Body {
         }
         
         public Optional<Double> getOrbitalPeriod(){
-            return this.orbitalPeriod;
+            return Optional.ofNullable(this.orbitalPeriod);
         }
         
         public void setOrbitalPeriod(Double time){
-            this.orbitalPeriod = Optional.ofNullable(time);
+            this.orbitalPeriod = time;
         }
         public Optional<Body> getParent() {
-            return parent;
+            return Optional.ofNullable(parent);
         }
 
         public void setParent(Body parent) {
-            this.parent = Optional.ofNullable(parent);
+            this.parent = parent;
         }
 
         public Optional<Double> getTemperature() {
-            return temperature;
+            return Optional.ofNullable(temperature);
         }
 
         public void setTemperature(double temperature) {
-            this.temperature = Optional.ofNullable(temperature);
+            this.temperature = temperature;
         }
 
         @Override
         public String toString() {
             return "Properties [radius=" + radius + ", rotation period=" + rotationPeriod + ", rotation angle="
-                    + rotationAngle + ", parent=" + (parent.isPresent() ? parent.get().getName() : "none")
+                    + rotationAngle + ", parent=" + (this.getParent().isPresent() ? this.getParent().get().getName() : "none")
                     + ", temperature=" + temperature + "]";
         }
     }

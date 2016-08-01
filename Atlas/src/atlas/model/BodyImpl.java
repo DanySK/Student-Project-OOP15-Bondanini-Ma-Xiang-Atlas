@@ -13,18 +13,18 @@ public class BodyImpl implements Body, java.io.Serializable {
     private static final long serialVersionUID = 3305253121341825047L;
     
     private BodyType type;
-    private Optional<String> name;
+    private String name = null;
     private double posx, posy;
     private double velx, vely;
     private double fx, fy;
     private double mass;
-    private Trail trail = new Trail();
+    private transient Trail trail = new Trail();
     private Properties properties;
     
     
     @Deprecated
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
-        this.name = Optional.ofNullable(name);
+        this.name = name;
         this.posx = posx;
         this.posy = posy;
         this.velx = velx;
@@ -33,7 +33,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         properties = new Properties();
     }
 
-    public BodyImpl(BodyType type, Optional<String> name, double posx, double posy, double velx, double vely,
+    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely,
             double mass, Properties properties) {
         this.type = type;
         this.name = name;
@@ -52,12 +52,12 @@ public class BodyImpl implements Body, java.io.Serializable {
 
     @Override
     public String getName() {
-        return this.name.orElse("Unknown");
+        return this.name == null ? "Unknown" : name;
     }
     
     @Override
 	public void setName(String name) {
-		this.name = Optional.ofNullable(name);		
+		this.name = name;		
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class BodyImpl implements Body, java.io.Serializable {
      */
     public static class Builder {
         private BodyType type;
-        private Optional<String> name = Optional.empty();
+        private String name = null;
         private double posx, posy;
         private double velx, vely;
         private double mass;
@@ -205,7 +205,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         }
 
         public Builder name(String name) {
-            this.name = Optional.ofNullable(name);
+            this.name = name;
             return this;
         }
 

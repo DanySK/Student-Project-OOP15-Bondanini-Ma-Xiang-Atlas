@@ -1,6 +1,7 @@
 package atlas.view;
 
 import java.util.List;
+import java.util.Optional;
 
 import javafx.scene.control.Button;
 import atlas.model.Body;
@@ -9,10 +10,8 @@ public interface View {
     
     public void render(List<Body> b);
     
-    public Button getPlayButton();
+    public void notifyObservers(SimEvent event);
     
-    public Button getPauseButton();
-    
-//    public void notifyObservers();
+    public Optional<Body> getSelectedBody();
 
 }

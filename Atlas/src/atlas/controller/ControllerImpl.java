@@ -79,8 +79,7 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void update(SimEvent event)
-            throws IllegalArgumentException, IOException {
+    public void update(SimEvent event) {
         switch (event) {
         /*case ADDING_BODY:
             this.nextBody.setPosX(posX.get() * unit);
@@ -212,6 +211,11 @@ public class ControllerImpl implements Controller {
         }
         
         
+    }
+    
+    public static void main(String s[]) {
+    	Controller c = ControllerImpl.getIstanceOf();
+    	
     }
 
     /* True : exists, false otherwise */
