@@ -184,23 +184,23 @@ public class ViewImpl extends Application implements View {
         
         zoomUp.setOnAction(e -> {
             this.unit = c.zoomUp();
-            planet_map.entrySet().stream().forEach(a -> {
+           /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*1.2);
                 im.setFitWidth(im.getFitWidth()*1.2);
                 planet_map.replace(a.getKey(), im);
-            });
+            });*/
         });
         
 
         zoomDown.setOnAction(e -> {
             this.unit = c.zoomDown();
-            planet_map.entrySet().stream().forEach(a -> {
+           /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*0.8);
                 im.setFitWidth(im.getFitWidth()*0.8);
                 planet_map.replace(a.getKey(), im);
-            });
+            });*/
         });
 
         // Aggiunta bottoni al pannello
@@ -237,8 +237,8 @@ public class ViewImpl extends Application implements View {
             else {
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                planet_map.get(a.getName()).setFitHeight(50*cont);
-                planet_map.get(a.getName()).setFitWidth(50*cont);
+                planet_map.get(a.getName()).setFitHeight(50);
+                planet_map.get(a.getName()).setFitWidth(50);
                 planet_map.get(a.getName()).setPreserveRatio(true);
                 planet_map.get(a.getName()).relocate(x, y);
                 Platform.runLater(new Runnable() {

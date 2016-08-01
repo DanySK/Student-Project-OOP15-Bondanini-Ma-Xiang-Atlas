@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 import atlas.model.Body;
 import atlas.utils.EventType;
+import atlas.view.SimEvent;
 import atlas.view.View;
 
 /**
@@ -34,8 +35,7 @@ public interface Controller {
      * 
      * @param event
      */
-    public void update(final EventType event, String path, Optional<Double> posX,
-            Optional<Double> posY) throws IllegalArgumentException, IOException;
+    public void update(SimEvent event) throws IllegalArgumentException, IOException;
 
     /*public void setNewBody(BodyType type, Optional<String> name, int posX, int posY, double velX, double velY,
             double mass, Properties properties);*/
@@ -93,6 +93,13 @@ public interface Controller {
      * @param event
      */
     public double zoomDown();
+    
+    /**
+     * Set the UI and Speed of simulation
+     * @param path the path of the file
+     * @throws IllegalArgumentException if speed value is wrong
+     */
+    public void setSpeed(UI ui, int speed) throws IllegalArgumentException;
     
     /**
      * Saves the current state of the simulation into a file.
