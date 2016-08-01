@@ -68,6 +68,7 @@ public class ViewImpl extends Application implements View {
         c.setView(this);
         Button play = new Button("Play");
         Button pause = new Button("Pause");
+        Button close = new Button("Exit");
         Label zoomLabel = new Label("Zoom");
         Button zoomUp = new Button("+");
         Button zoomDown = new Button("-");
@@ -91,6 +92,7 @@ public class ViewImpl extends Application implements View {
 
         button_map.put(play.getText(), play);
         button_map.put(pause.getText(), pause);
+        button_map.put(close.getText(), close);
         button_map.put(zoomUp.getText(), zoomUp);
         button_map.put(save.getText(), save);
         button_map.put(load.getText(), load);
@@ -107,6 +109,10 @@ public class ViewImpl extends Application implements View {
 
         pause.setOnAction(e -> {
             c.stopSim();
+        });
+        
+        close.setOnAction(e -> {
+            System.exit(0);
         });
         
         save.setOnAction(e -> {
@@ -176,6 +182,7 @@ public class ViewImpl extends Application implements View {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Atlas");
         primaryStage.centerOnScreen();
+        
         primaryStage.setFullScreen(true);
         primaryStage.show();
         primaryStage.setResizable(false);
@@ -189,6 +196,7 @@ public class ViewImpl extends Application implements View {
 
         play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
         pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
+        close.relocate(0,0);
         
         save.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 300);
         load.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 340);
@@ -228,6 +236,7 @@ public class ViewImpl extends Application implements View {
         root1.getChildren().add(zoomDown);
         root1.getChildren().add(load);
         root1.getChildren().add(save);
+        root1.getChildren().add(close);
 
         c.startSim();
 
