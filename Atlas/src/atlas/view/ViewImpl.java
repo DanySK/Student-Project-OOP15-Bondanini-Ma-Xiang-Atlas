@@ -44,6 +44,7 @@ public class ViewImpl extends Application implements View {
     double posy = 1;
     boolean bool = true;
     double unit = 0.0;
+    double cont = 1.0;
 
     public void start(Stage primaryStage) {
 
@@ -54,8 +55,12 @@ public class ViewImpl extends Application implements View {
         Label zoomLabel = new Label("Zoom");
         Button zoomUp = new Button("+");
         Button zoomDown = new Button("-");
+        Button save = new Button("Salva");
+        Button load = new Button("Carica");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
         Image cross = new Image("/button_images/not.png", 20, 20, false, false);
+        
+        
 
         zoomLabel.relocate(x, posy);
         
@@ -69,6 +74,8 @@ public class ViewImpl extends Application implements View {
         button_map.put(play.getText(), play);
         button_map.put(pause.getText(), pause);
         button_map.put(zoomUp.getText(), zoomUp);
+        button_map.put(save.getText(), save);
+        button_map.put(load.getText(), load);
         
 
         // Setto i pulsanti
@@ -90,14 +97,6 @@ public class ViewImpl extends Application implements View {
             c.setAdding();
             c.setNextBody(EpochJ2000.EARTH.getBody());
         });*/
-
-        zoomUp.setOnAction(e -> {
-        this.unit = c.zoomUp();
-        });
-
-        zoomDown.setOnAction(e -> {
-            this.unit = c.zoomDown();
-        });
 
         // Setto lo sfondo
 
@@ -154,6 +153,9 @@ public class ViewImpl extends Application implements View {
         play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
         pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
         
+        save.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 300);
+        load.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 340);
+        
         
         zoomLabel.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 220);
         zoomUp.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 180);
@@ -161,11 +163,13 @@ public class ViewImpl extends Application implements View {
         
         zoomUp.setOnAction(e -> {
             this.unit = c.zoomUp();
+            cont+=1;
         });
         
 
         zoomDown.setOnAction(e -> {
             this.unit = c.zoomDown();
+            cont-=0.2;
         });
 
         // Aggiunta bottoni al pannello
@@ -175,6 +179,8 @@ public class ViewImpl extends Application implements View {
         root1.getChildren().add(zoomLabel);
         root1.getChildren().add(zoomUp);
         root1.getChildren().add(zoomDown);
+        root1.getChildren().add(load);
+        root1.getChildren().add(save);
 
         c.startSim();
 
@@ -200,8 +206,8 @@ public class ViewImpl extends Application implements View {
             else {
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                planet_map.get(a.getName()).setFitHeight(50);
-                planet_map.get(a.getName()).setFitWidth(50);
+                planet_map.get(a.getName()).setFitHeight(50*cont);
+                planet_map.get(a.getName()).setFitWidth(50*cont);
                 planet_map.get(a.getName()).setPreserveRatio(true);
                 planet_map.get(a.getName()).relocate(x, y);
                 Platform.runLater(new Runnable() {
