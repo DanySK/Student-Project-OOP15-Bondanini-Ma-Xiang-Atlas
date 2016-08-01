@@ -3,13 +3,13 @@ package atlas.model.algorithms;
 import java.util.List;
 
 import atlas.model.Body;
-import atlas.model.BodyImpl;
-
 /**
  * Alan add detail!
  *
  */
-public class AlgorithmTwoBody implements Algorithm {
+public class AlgorithmTwoBody implements Algorithm, java.io.Serializable {
+
+	private static final long serialVersionUID = -7785821713075379790L;
 
 	@Override
 	public List<Body> exceuteUpdate(List<Body> bodies, double sec) {

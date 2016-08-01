@@ -12,5 +12,7 @@ public interface View {
     public Button getPlayButton();
     
     public Button getPauseButton();
+    
+//    public void notifyObservers();
 
 }
