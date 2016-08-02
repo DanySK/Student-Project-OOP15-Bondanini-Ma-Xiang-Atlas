@@ -24,212 +24,209 @@ import atlas.utils.*;
  */
 public class ControllerImpl implements Controller {
 
-    private GameLoop gLoop;
-    private static ControllerImpl ctrl = null;
-    private View view;
-    private volatile Model model; //check volatile
+	private GameLoop gLoop;
+	private static ControllerImpl ctrl = null;
+	private View view;
+	private volatile Model model; // check volatile
 
-    private static final String path = System.getProperty("user.dir") + "/res/Save/";
-    double posy = 1;
-    double scale = 1.4000000000000000E-9;
-    boolean bool = true;
-    private Status status = Status.DEFAULT;
-    private static final long MIN_UNIT = 60L;
-    private static final long HOUR_UNIT = 3600L;
-    private static final long DAY_UNIT = 86400L;
-    private static final long YEAR_UNIT = 31536000L;
+	private static final String path = System.getProperty("user.dir") + "/res/Save/";
+	double posy = 1;
+	double scale = 1.4000000000000000E-9;
+	boolean bool = true;
+	private Status status = Status.DEFAULT;
 
-    /**
-     * Creation of new Controller
-     * 
-     * @param v
-     *            ViewInterface Object
-     */
-    private ControllerImpl() {
-        this.model = new ModelImpl();
-        gLoop = new GameLoop(model);
-        gLoop.start();
-    }
+	/**
+	 * Creation of new Controller
+	 * @param v
+	 *            ViewInterface Object
+	 */
+	private ControllerImpl() {
+		this.model = new ModelImpl();
+		gLoop = new GameLoop(model);
+		gLoop.start();
+	}
 
-    public static ControllerImpl getIstanceOf() {
-        return (ControllerImpl.ctrl == null ? new ControllerImpl() : ControllerImpl.ctrl);
-    }
+	public static ControllerImpl getIstanceOf() {
+		return (ControllerImpl.ctrl == null ? new ControllerImpl() : ControllerImpl.ctrl);
+	}
 
-    @Override
-    public void startSim() {
-        gLoop.setRunning();
+	@Override
+	public void startSim() {
+		gLoop.setRunning();
 
-    }
+	}
 
-    @Override
-    public void stopSim() {
-        gLoop.setStopped();
-    }
+	@Override
+	public void stopSim() {
+		gLoop.setStopped();
+	}
 
-    @Override
-    public void exit() {
-        gLoop.setExit();
-    }
+	@Override
+	public void exit() {
+		gLoop.setExit();
+	}
 
-    public void setView(View v) {
-        this.view = v;
-        this.gLoop.setView(v);
-    }
+	public void setView(View v) {
+		this.view = v;
+		this.gLoop.setView(v);
+	}
 
-    @Override
-    public void update(SimEvent event) {
-        switch (event) {
-        
-        case ADD:
-            this.status = Status.ADDING;
-            break;
-            
-        case MOUSE_CLICKED:
-            if(this.status.equals(Status.ADDING)) {
-                Body nextBodyToAdd = view.getSelectedBody().get();
-                nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneX() * scale);
-                nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneY() * scale);
-                this.model.addBody(nextBodyToAdd);            
-            }
-            break;
+	@Override
+	public void update(SimEvent event) {
+		switch (event) {
 
-        case SAVE: 
-            try {
-                /* String name = view.getNameToSave(); 
-                 * String dir = path+name*/
-                this.saveConfig(dir);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            break;
+		case ADD:
+			this.status = Status.ADDING;
+			break;
 
-        case LOAD:         
-            try {
-                /*String name = view.getNameToLoad();
-                 * String dir = path+name;*/
-                this.loadConfig(dir);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            break;
-            
-        case ZOOMUP:
-            this.zoomUp();
-            break;
-            
-        case ZOOMDOWN:
-            this.zoomDown();
-            break;
-            
-        default:
-            break;
-        }
-    }
+		case MOUSE_CLICKED:
+			if (this.status.equals(Status.ADDING)) {
+				Body nextBodyToAdd = view.getSelectedBody().get();
+				nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneX() * scale);
+				nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneY() * scale);
+				this.model.addBody(nextBodyToAdd);
+				this.status = Status.DEFAULT;
+			}
+			break;
 
-    @Override
-    public void setNextBody(Body body) {
-        this.nextBodyToAdd = body;
-    }
+		case SAVE:
+			try {
+				String dir = path + view.getSaveName();
+				this.saveConfig(dir);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 
-    @Override
-    public void reset() {
-        this.nextBodyToAdd = null;
-        this.adding = false;
-    }
+		case LOAD:
+			try {
+				String dir = path + this.view.getSaveName();
+				this.loadConfig(dir);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 
-    @Override
-    public double getUnit() {
-        return this.scale;
-    }
+		case ESC:
+			if (this.status.equals(Status.ADDING)) {
+				this.status = Status.DEFAULT;
+			}
 
-    @Override
-    public double zoomUp() {
-        this.scale = scale * 1.05;
-        return this.scale;
+		case MOUSE_WHEEL_UP:
+			this.zoomUp();
+			break;
 
-    }
+		case MOUSE_WHEEL_DOWN:
+			this.zoomDown();
+			break;
+			
+		case SPEED_CHANGED:
+			try{
+			Pair<Integer, Units> speed = this.view.getSpeedInfo();
+			this.setSpeed(speed.getY(), speed.getX());
+			} catch(IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+			break;
 
-    @Override
-    public double zoomDown() {
-        this.scale = scale * 0.95;
-        return this.scale;
-    }
+		default:
+			break;
+		}
+	}
 
-    @Override
-    public void setSpeed(UI ui, int speed) throws IllegalArgumentException {
-        if (speed <= 1000 || speed > 0) {
-            switch (ui) {
-            case Min_Sec:
-                gLoop.setValue(MIN_UNIT, speed);
-                break;
+	@Override
+	public double getUnit() {
+		return this.scale;
+	}
 
-            case Hour_Sec:
-                gLoop.setValue(HOUR_UNIT, speed);
-                break;
+	@Override
+	public double zoomUp() {
+		this.scale = scale * 1.05;
+		return this.scale;
 
-            case Day_Sec:
-                gLoop.setValue(DAY_UNIT, speed);
-                break;
+	}
 
-            case Year_Sec:
-                gLoop.setValue(YEAR_UNIT, speed);
-                break;
+	@Override
+	public double zoomDown() {
+		this.scale = scale * 0.95;
+		return this.scale;
+	}
 
-            default:
-                break;
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
+	@Override
+	public void setSpeed(Units unit, int speed) throws IllegalArgumentException {
+		if (speed <= 1000 || speed > 0) {
+			switch (unit) {
+			case Min_Sec:
+				gLoop.setValue(Units.Min_Sec.getValue(), speed);
+				break;
 
-    }
+			case Hour_Sec:
+				gLoop.setValue(Units.Hour_Sec.getValue(), speed);
+				break;
 
-    @Override
-    public void saveConfig(String path) throws IOException, IllegalArgumentException {
-        File f = new File(path);
-        if (this.checkFileExists(f)) {
-            throw new IllegalArgumentException();
-        }
+			case Day_Sec:
+				gLoop.setValue(Units.Day_Sec.getValue(), speed);
+				break;
 
-        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
-                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
-            ostream.writeObject(this.model);
-            ostream.writeDouble(this.scale);
-            ostream.writeLong(this.gLoop.getUI());
-            ostream.writeInt(this.gLoop.getSpeed());
-        }
-    }
+			case Year_Sec:
+				gLoop.setValue(Units.Year_Sec.getValue(), speed);
+				break;
 
-    @Override
-    public void loadConfig(String path) throws IOException, IllegalArgumentException {
-        File f = new File(path);
-        if (!this.checkFileExists(f)) {
-            throw new IllegalArgumentException();
-        }
-        this.model = new ModelImpl();
-        try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
-                ObjectInputStream ostream = new ObjectInputStream(bstream);) {
-            this.model = (Model) ostream.readObject();
-            this.scale = ostream.readDouble();
-            long ui = ostream.readLong();
-            int speed = ostream.readInt();
-            this.gLoop.setModel(model);
-            gLoop.setValue(ui, speed);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Content of the file is not suitable.");
-        }
-    }
+			default:
+				break;
+			}
+		} else {
+			throw new IllegalArgumentException();
+		}
 
-    private boolean checkFileExists(File f) {
-        return f.exists() && !f.isDirectory();
-    }
-    
-    private enum Status {
-        DEFAULT, ADDING
-    }
+	}
+
+	@Override
+	public void saveConfig(String path) throws IOException, IllegalArgumentException {
+		File f = new File(path);
+		if (this.checkFileExists(f)) {
+			throw new IllegalArgumentException();
+		}
+
+		try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
+				ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+			ostream.writeObject(this.model);
+			ostream.writeDouble(this.scale);
+			ostream.writeLong(this.gLoop.getUI());
+			ostream.writeInt(this.gLoop.getSpeed());
+		}
+	}
+
+	@Override
+	public void loadConfig(String path) throws IOException, IllegalArgumentException {
+		File f = new File(path);
+		if (!this.checkFileExists(f)) {
+			throw new IllegalArgumentException();
+		}
+		this.model = new ModelImpl();
+		try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
+				ObjectInputStream ostream = new ObjectInputStream(bstream);) {
+			this.model = (Model) ostream.readObject();
+			this.scale = ostream.readDouble();
+			long ui = ostream.readLong();
+			int speed = ostream.readInt();
+			this.gLoop.setModel(model);
+			gLoop.setValue(ui, speed);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("Content of the file is not suitable.");
+		}
+	}
+
+	private boolean checkFileExists(File f) {
+		return f.exists() && !f.isDirectory();
+	}
+
+	private enum Status {
+		DEFAULT, ADDING
+	}
 
 }
