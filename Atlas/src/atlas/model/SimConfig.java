@@ -31,7 +31,7 @@ public class SimConfig {
         double vx = (2.117424563261189E-02 * AU) / DAY_SECONDS;
         double vy = (-7.105386404267509E-03 * AU) / DAY_SECONDS;
 
-        return new BodyImpl("mercury", px, py, vx, vy, BodyType.MERCURY_MASS);
+        return new BodyImpl("Mercury", px, py, vx, vy, BodyType.MERCURY_MASS);
     }
 
     public Body getVenus() {
@@ -41,7 +41,7 @@ public class SimConfig {
         double vx = (5.189070188671264E-04 * AU) / DAY_SECONDS;
         double vy = (-2.031355258779472E-02 * AU) / DAY_SECONDS;
 
-        return new BodyImpl("venus", px, py, vx, vy, BodyType.VENUS_MASS);
+        return new BodyImpl("Venus", px, py, vx, vy, BodyType.VENUS_MASS);
     }
 
     public Body getEarth() {
