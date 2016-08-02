@@ -95,6 +95,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         this.posy += dt * vely;
         // updates the rotation angle
         this.properties.updateRotation(dt);
+        this.checkTrail();
         this.trail.addPoint(this.posx, this.posy);
         // updates orbital period with the 3rd keplar law... don't update every time
         if (this.properties.getParent().isPresent()) {
@@ -184,7 +185,17 @@ public class BodyImpl implements Body, java.io.Serializable {
 
     @Override
     public Collection<Pair<Double, Double>> getTrail() {
+    	this.checkTrail();
         return new ArrayDeque<>(this.trail.getPoints());// defensive copy
+    }
+    
+    /**
+     * Creates a new trail if there isn't one already.
+     */
+    private void checkTrail() {
+    	if(this.trail == null) {
+    		this.trail = new Trail();
+    	}
     }
 
     /**
