@@ -305,6 +305,8 @@ public class ViewImpl extends Application implements View {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    
 
 
     /*
