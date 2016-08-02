@@ -115,6 +115,14 @@ public class ControllerImpl implements Controller {
 			if (this.status.equals(Status.ADDING)) {
 				this.status = Status.DEFAULT;
 			}
+			
+		case SPACEBAR_PRESSED:
+			if(this.gLoop.getStatus().equals(StatusSim.RUNNING)) {
+				this.gLoop.setStopped();
+			} else {
+				this.gLoop.setRunning();
+			}
+			break;
 
 		case MOUSE_WHEEL_UP:
 			this.zoomUp();
@@ -158,7 +166,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void setSpeed(Units unit, int speed) throws IllegalArgumentException {
-		if (speed <= 1000 || speed > 0) {
+		if (speed <= 1000 && speed > 0) {
 			switch (unit) {
 			case Min_Sec:
 				gLoop.setValue(Units.Min_Sec.getValue(), speed);
@@ -196,7 +204,7 @@ public class ControllerImpl implements Controller {
 				ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
 			ostream.writeObject(this.model);
 			ostream.writeDouble(this.scale);
-			ostream.writeLong(this.gLoop.getUI());
+			ostream.writeLong(this.gLoop.getUnit());
 			ostream.writeInt(this.gLoop.getSpeed());
 		}
 	}
@@ -212,10 +220,10 @@ public class ControllerImpl implements Controller {
 				ObjectInputStream ostream = new ObjectInputStream(bstream);) {
 			this.model = (Model) ostream.readObject();
 			this.scale = ostream.readDouble();
-			long ui = ostream.readLong();
+			long unit = ostream.readLong();
 			int speed = ostream.readInt();
 			this.gLoop.setModel(model);
-			gLoop.setValue(ui, speed);
+			gLoop.setValue(unit, speed);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Content of the file is not suitable.");
 		}

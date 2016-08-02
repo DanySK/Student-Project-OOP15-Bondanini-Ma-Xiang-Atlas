@@ -3,7 +3,6 @@ package atlas.controller;
 import java.io.IOException;
 import java.util.Optional;
 import atlas.model.Body;
-import atlas.utils.EventType;
 import atlas.utils.Units;
 import atlas.view.SimEvent;
 import atlas.view.View;
