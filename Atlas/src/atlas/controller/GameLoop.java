@@ -142,7 +142,7 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         return this.speed;
     }
     
-    public long getUI() {
+    public long getUnit() {
         return this.precision;
     }
     
