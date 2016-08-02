@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 import atlas.model.Body;
 import atlas.utils.EventType;
+import atlas.utils.Units;
 import atlas.view.SimEvent;
 import atlas.view.View;
 
@@ -47,18 +48,6 @@ public interface Controller {
     public void setView(View v);
     
     /**
-     * This method sets the next body to add
-     * @param event
-     */
-    public void setNextBody(Body body);
-    
-    /**
-     * This method is called when ESC is pressed
-     * @param event
-     */
-    public void reset();
-    
-    /**
      * This method returns initial zoom
      * @param event
      */
@@ -81,7 +70,7 @@ public interface Controller {
      * @param path the path of the file
      * @throws IllegalArgumentException if speed value is wrong
      */
-    public void setSpeed(UI ui, int speed) throws IllegalArgumentException;
+    public void setSpeed(Units unit, int speed) throws IllegalArgumentException;
     
     /**
      * Saves the current state of the simulation into a file.
