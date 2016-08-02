@@ -6,6 +6,8 @@ import java.util.Optional;
 import atlas.controller.Controller;
 import atlas.controller.ControllerImpl;
 import atlas.model.Body;
+import atlas.utils.Pair;
+import atlas.utils.Units;
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +44,12 @@ public class View2 implements View {
 	@Override
 	public Optional<Body> getSelectedBody() {
 		return this.selectedBody;
+	}
+
+	@Override
+	public Pair<Integer, Units> getSpeedInfo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

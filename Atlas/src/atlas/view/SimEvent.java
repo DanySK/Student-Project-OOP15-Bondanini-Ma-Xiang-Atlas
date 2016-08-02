@@ -4,6 +4,7 @@ public enum SimEvent {
 	
 	ADD,
 	EDIT,
+	SPEED_CHANGED,
 	SAVE,
 	LOAD,
 	MOUSE_CLICKED,
