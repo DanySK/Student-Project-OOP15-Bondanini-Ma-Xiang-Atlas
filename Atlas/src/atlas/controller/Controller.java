@@ -47,24 +47,6 @@ public interface Controller {
     public void setView(View v);
     
     /**
-     * This method sets true the add transition
-     * @param event
-     */
-    public void setAdding();
-    
-    /**
-     * This method sets false the add transition
-     * @param event
-     */
-    public void setNotAdding();
-    
-    /**
-     * This method return if transition add is true or false
-     * @param event
-     */
-    public boolean isAdding();
-    
-    /**
      * This method sets the next body to add
      * @param event
      */

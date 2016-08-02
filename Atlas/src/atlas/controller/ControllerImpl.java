@@ -27,15 +27,13 @@ public class ControllerImpl implements Controller {
     private GameLoop gLoop;
     private static ControllerImpl ctrl = null;
     private View view;
-    private volatile Model model;
-    
-    private String path = System.getProperty("user.home")+System.getProperty("file.separator")+"ciao.bin";
+    private volatile Model model; //check volatile
 
-    private boolean adding = false; // If not work try to set True
-    private Body nextBody = null;
+    private static final String path = System.getProperty("user.dir") + "/res/Save/";
     double posy = 1;
-    double unit = 1.4000000000000000E-9;
+    double scale = 1.4000000000000000E-9;
     boolean bool = true;
+    private Status status = Status.DEFAULT;
     private static final long MIN_UNIT = 60L;
     private static final long HOUR_UNIT = 3600L;
     private static final long DAY_UNIT = 86400L;
@@ -81,69 +79,84 @@ public class ControllerImpl implements Controller {
     @Override
     public void update(SimEvent event) {
         switch (event) {
-        /*case ADDING_BODY:
-            this.nextBody.setPosX(posX.get() * unit);
-            this.nextBody.setPosY(posY.get() * unit);
-            this.model.addBody(nextBody);
-            this.adding = false;
-            this.nextBody = null;
+        
+        case ADD:
+            this.status = Status.ADDING;
+            break;
+            
+        case MOUSE_CLICKED:
+            if(this.status.equals(Status.ADDING)) {
+                Body nextBodyToAdd = view.getSelectedBody().get();
+                nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneX() * scale);
+                nextBodyToAdd.setPosX(this.view.getLastMouseEvent().get().getSceneY() * scale);
+                this.model.addBody(nextBodyToAdd);            
+            }
             break;
 
-        case SAVE:
-            this.saveConfig(path);
+        case SAVE: 
+            try {
+                /* String name = view.getNameToSave(); 
+                 * String dir = path+name*/
+                this.saveConfig(dir);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
 
-        case LOAD:
-            this.loadConfig(path);
-            break;*/
-
+        case LOAD:         
+            try {
+                /*String name = view.getNameToLoad();
+                 * String dir = path+name;*/
+                this.loadConfig(dir);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
+            
+        case ZOOMUP:
+            this.zoomUp();
+            break;
+            
+        case ZOOMDOWN:
+            this.zoomDown();
+            break;
+            
         default:
             break;
         }
     }
 
     @Override
-    public void setAdding() {
-        this.adding = true;
-    }
-
-    @Override
-    public void setNotAdding() {
-        this.adding = false;
-    }
-
-    @Override
-    public boolean isAdding() {
-        return this.adding;
-    }
-
-    @Override
     public void setNextBody(Body body) {
-        this.nextBody = body;
+        this.nextBodyToAdd = body;
     }
 
     @Override
     public void reset() {
-        this.nextBody = null;
+        this.nextBodyToAdd = null;
         this.adding = false;
     }
 
     @Override
     public double getUnit() {
-        return this.unit;
+        return this.scale;
     }
 
     @Override
     public double zoomUp() {
-        this.unit = unit * 1.05;
-        return this.unit;
+        this.scale = scale * 1.05;
+        return this.scale;
 
     }
 
     @Override
     public double zoomDown() {
-        this.unit = unit * 0.95;
-        return this.unit;
+        this.scale = scale * 0.95;
+        return this.scale;
     }
 
     @Override
@@ -155,7 +168,7 @@ public class ControllerImpl implements Controller {
                 break;
 
             case Hour_Sec:
-                gLoop.setValue(HOUR_UNIT, speed); 
+                gLoop.setValue(HOUR_UNIT, speed);
                 break;
 
             case Day_Sec:
@@ -181,11 +194,11 @@ public class ControllerImpl implements Controller {
         if (this.checkFileExists(f)) {
             throw new IllegalArgumentException();
         }
-        
+
         try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(this.model);
-            ostream.writeDouble(this.unit);
+            ostream.writeDouble(this.scale);
             ostream.writeLong(this.gLoop.getUI());
             ostream.writeInt(this.gLoop.getSpeed());
         }
@@ -200,27 +213,23 @@ public class ControllerImpl implements Controller {
         this.model = new ModelImpl();
         try (InputStream bstream = new BufferedInputStream(new FileInputStream(f));
                 ObjectInputStream ostream = new ObjectInputStream(bstream);) {
-            this.model = (Model)ostream.readObject();
-            this.unit = ostream.readDouble();
+            this.model = (Model) ostream.readObject();
+            this.scale = ostream.readDouble();
             long ui = ostream.readLong();
-            int speed = ostream.readInt();     
+            int speed = ostream.readInt();
             this.gLoop.setModel(model);
-            gLoop.setValue(ui, speed); 
+            gLoop.setValue(ui, speed);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Content of the file is not suitable.");
         }
-        
-        
-    }
-    
-    public static void main(String s[]) {
-    	Controller c = ControllerImpl.getIstanceOf();
-    	
     }
 
-    /* True : exists, false otherwise */
     private boolean checkFileExists(File f) {
         return f.exists() && !f.isDirectory();
+    }
+    
+    private enum Status {
+        DEFAULT, ADDING
     }
 
 }
