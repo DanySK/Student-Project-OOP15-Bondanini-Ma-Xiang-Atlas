@@ -251,15 +251,20 @@ public class ViewImpl extends Application implements View {
         }
 
         for (Body a : b) {
-            double h = unit*a.getProperties().getRadius();
+            double h = unit* a.getProperties().getRadius();
             System.out.println("this is h" +  h);
             if (planet_map.containsKey(a.getName())) {
                 planet_map.get(a.getName()).relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)));
                 for (Label i : label_list){
+                	System.out.println("Label text = " + i.getText() + " | a = " + a.getName());
+                	System.out.println("Pos = " + i.getLayoutX());
                     if (i.getText().equals(a.getName())){
                         i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10);
                     }
                 }
+                //Con lo stream e' meglio
+//                this.label_list.stream().filter(p -> p.getText().equals(a.getName())).findFirst()
+//                .ifPresent(i -> i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10));
                 Collection<Pair<Double,Double>> q = a.getTrail();
                 for (Pair p : q){
                    
@@ -271,7 +276,8 @@ public class ViewImpl extends Application implements View {
             }
 
             else {
-                label_list.add(new Label(a.getName()));
+            	Label l = new Label(a.getName());
+                label_list.add(l);
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
                 if(h>1){
@@ -287,9 +293,7 @@ public class ViewImpl extends Application implements View {
                     @Override
                     public void run() {
                         root1.getChildren().add(planet_map.get(a.getName()));
-                        for(int i=0; i<label_list.size(); i++){
-                            root1.getChildren().add(label_list.get(i));
-                        }
+                        root1.getChildren().add(l);
                     }
                 });
 

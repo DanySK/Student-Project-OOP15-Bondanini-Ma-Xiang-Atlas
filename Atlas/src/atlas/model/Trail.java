@@ -44,7 +44,7 @@ public class Trail {
 	}
 	
 	public Collection<Pair<Double, Double>> getPoints(){
-		return this.points; // defensive copy
+		return new ArrayDeque<>(this.points); // defensive copy
 	}
 	
 	public long getLength(){
