@@ -274,8 +274,13 @@ public class ViewImpl extends Application implements View {
                 label_list.add(new Label(a.getName()));
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                planet_map.get(a.getName()).setFitHeight(h);
-                planet_map.get(a.getName()).setFitWidth(h);
+                if(h>1){
+                    planet_map.get(a.getName()).setFitHeight(h);
+                    planet_map.get(a.getName()).setFitWidth(h);
+                } else {
+                    planet_map.get(a.getName()).setFitHeight(1);
+                    planet_map.get(a.getName()).setFitWidth(1);
+                }
                 planet_map.get(a.getName()).setPreserveRatio(true);
                 planet_map.get(a.getName()).relocate(x, y);
                 Platform.runLater(new Runnable() {
