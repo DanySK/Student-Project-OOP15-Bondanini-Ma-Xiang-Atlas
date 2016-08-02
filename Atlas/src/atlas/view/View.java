@@ -6,6 +6,8 @@ import java.util.Optional;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import atlas.model.Body;
+import atlas.utils.Pair;
+import atlas.utils.Units;
 
 public interface View {
     
@@ -16,6 +18,8 @@ public interface View {
     public Optional<Body> getSelectedBody();
     
     public Optional<MouseEvent> getLastMouseEvent();
+    
+    public Pair<Integer, Units> getSpeedInfo();
 	
 	public void resetViewLayout();
 
