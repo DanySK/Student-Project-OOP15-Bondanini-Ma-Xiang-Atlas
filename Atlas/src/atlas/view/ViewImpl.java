@@ -1,8 +1,5 @@
 package atlas.view;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,44 +10,32 @@ import java.util.Optional;
 import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
 import atlas.model.Body;
-import atlas.model.BodyType;
-import atlas.model.EpochJ2000;
-import atlas.utils.EventType;
-import atlas.utils.MyMouse;
 import atlas.utils.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-import java.awt.MouseInfo;
-import java.awt.event.MouseAdapter;
-import java.awt.MouseInfo;
 
 public class ViewImpl extends Application implements View {
 
     Map<String, ImageView> planet_map = new HashMap<>();
-    Map<String, Button> button_map = new HashMap<>();
+    
     List<Label> label_list = new ArrayList<>();
     double x, y;
-    BorderPane rootPane = new BorderPane();
-    Pane root1 = new Pane();
+    StackPane rootPane = new StackPane();
     Controller c;
     double posy = 1;
     boolean bool = true;
     double unit = 0.0;
     private Optional<Body> selectedBody; 
+    BottonPanel vbox;
     
     @Override
     public void notifyObservers(SimEvent event) {
@@ -66,72 +51,10 @@ public class ViewImpl extends Application implements View {
 
         c = ControllerImpl.getIstanceOf();
         c.setView(this);
-        Button play = new Button("Play");
-        Button pause = new Button("Pause");
-        Button close = new Button("Exit");
-        Label zoomLabel = new Label("Zoom");
-        Button zoomUp = new Button("+");
-        Button zoomDown = new Button("-");
-        Button save = new Button("Salva");
-        Button load = new Button("Carica");
-        Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
-        Image cross = new Image("/button_images/not.png", 20, 20, false, false);
-        
-        String path = System.getProperty("user.home")+System.getProperty("file.separator")+"ciao.bin";
-        
-        
 
-        zoomLabel.relocate(x, posy);
-        
         // Azzero le mappe
 
         planet_map.clear();
-        button_map.clear();
-
-        // Inserisco i pulsanti nella mappa
-
-        button_map.put(play.getText(), play);
-        button_map.put(pause.getText(), pause);
-        button_map.put(close.getText(), close);
-        button_map.put(zoomUp.getText(), zoomUp);
-        button_map.put(save.getText(), save);
-        button_map.put(load.getText(), load);
-        
-
-        // Setto i pulsanti
-
-        play.setGraphic(new ImageView(imageOk));
-        pause.setGraphic(new ImageView(cross));
-
-        play.setOnAction(e -> {
-            c.startSim();
-        });
-
-        pause.setOnAction(e -> {
-            c.stopSim();
-        });
-        
-        close.setOnAction(e -> {
-            System.exit(0);
-        });
-        
-        save.setOnAction(e -> {
-            try {
-                c.saveConfig(path);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        });
-        
-        load.setOnAction(e -> {
-            try {
-                c.loadConfig(path);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        });
 
         // In futuro scrivere un action-listener, dato che tanti pulsanti
         // avranno la stessa funzione e ci sarebbe ripetizione di codice
@@ -144,16 +67,13 @@ public class ViewImpl extends Application implements View {
 
         rootPane.setStyle("-fx-background-image: url('/planet_images/star.png'); "
                 + "-fx-background-position: center center; " + "-fx-background-repeat: stretch;");
-
-        // Setto i pannelli
-
-        rootPane.setCenter(root1);
-        BorderPane.setAlignment(root1, Pos.CENTER);
-
+        
         // Setto la scena e le assegno uno stile da un file css
 
         Scene scene = new Scene(rootPane);
         scene.getStylesheets().add(getClass().getResource("/css/testcss.css").toExternalForm());
+        
+        rootPane.getChildren().add(vbox.getBottonBox());
 
         /*
          * Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -184,59 +104,33 @@ public class ViewImpl extends Application implements View {
         primaryStage.centerOnScreen();
         
         primaryStage.setFullScreen(true);
-        primaryStage.show();
-        primaryStage.setResizable(false);
+        primaryStage.show();    
 
         // Posto x e y come origine degli assi
 
         x = (primaryStage.getWidth() / 2) - 50;
         y = (primaryStage.getHeight() / 2) - 50;
-
-        // Sposta bottoni
-
-        play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
-        pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
-        close.relocate(0,0);
         
-        save.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 300);
-        load.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 340);
-        
-        
-        zoomLabel.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 220);
-        zoomUp.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 180);
-        zoomDown.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 140);
-        
-        zoomUp.setOnAction(e -> {
-            this.unit = c.zoomUp();
+        //zoomUp.setOnAction(e -> {
+            //this.unit = c.zoomUp();
            /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*1.2);
                 im.setFitWidth(im.getFitWidth()*1.2);
                 planet_map.replace(a.getKey(), im);
             });*/
-        });
+        //});
         
 
-        zoomDown.setOnAction(e -> {
-            this.unit = c.zoomDown();
+        //zoomDown.setOnAction(e -> {
+            //this.unit = c.zoomDown();
            /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*0.8);
                 im.setFitWidth(im.getFitWidth()*0.8);
                 planet_map.replace(a.getKey(), im);
             });*/
-        });
-
-        // Aggiunta bottoni al pannello
-
-        root1.getChildren().add(play);
-        root1.getChildren().add(pause);
-        root1.getChildren().add(zoomLabel);
-        root1.getChildren().add(zoomUp);
-        root1.getChildren().add(zoomDown);
-        root1.getChildren().add(load);
-        root1.getChildren().add(save);
-        root1.getChildren().add(close);
+        //});
 
         c.startSim();
 
@@ -266,8 +160,8 @@ public class ViewImpl extends Application implements View {
 //                this.label_list.stream().filter(p -> p.getText().equals(a.getName())).findFirst()
 //                .ifPresent(i -> i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10));
                 Collection<Pair<Double,Double>> q = a.getTrail();
-                for (Pair p : q){
-                   
+                for (Pair<Double, Double> p : q){
+                    
                 }
                 System.out.println(x + (a.getPosX() * unit) + "PosX schermo");
                 System.out.println(y - (a.getPosY() * unit) + "PosY schermo");
@@ -292,8 +186,8 @@ public class ViewImpl extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        root1.getChildren().add(planet_map.get(a.getName()));
-                        root1.getChildren().add(l);
+                        rootPane.getChildren().add(planet_map.get(a.getName()));
+                        rootPane.getChildren().add(l);
                     }
                 });
 
