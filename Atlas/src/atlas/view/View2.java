@@ -52,6 +52,17 @@ public class View2 implements View {
 		return null;
 	}
 
+	//zoom with mouse
+//	rootPane.setOnScroll( e-> {
+//    	if (e.getDeltaY() > 0) {
+//    		System.out.println("------------------------UP-----------------------------");
+//    		this.unit = c.zoomUp();
+//    	} else {
+//    		System.out.println("------------------------Down-----------------------------");
+//    		this.unit = c.zoomDown();
+//    	}
+//    });
+
     @Override
     public String getSaveName() {
         // TODO Auto-generated method stub
