@@ -31,9 +31,8 @@ public class ModelImpl implements Model, java.io.Serializable {
 
         this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
         SimConfig sol = new SimConfig();
-        Body earthSun = EpochJ2000.SUN.getBody();
-        earthSun.setName("Earth");
-        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), earthSun));
+        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(),
+                EpochJ2000.EARTH.getBody(), sol.getMars()));
     }
 
     // private static double circlev(double rx, double ry) {
