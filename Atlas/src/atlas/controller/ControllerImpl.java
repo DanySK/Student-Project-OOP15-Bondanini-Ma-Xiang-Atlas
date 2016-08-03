@@ -76,9 +76,14 @@ public class ControllerImpl implements Controller {
     @Override
     public void update(SimEvent event) {
         switch (event) {
-
         case ADD:
-            this.status = Status.ADDING;
+            if (!this.view.getSelectedBody().equals(Optional.empty())) {
+                this.status = Status.ADDING;
+                this.view.getSelectedBody().get().setAttracting(false);
+                this.model.addBody(this.view.getSelectedBody().get());
+                this.thread = new DragPositions(this.view.getSelectedBody().get(), this.scale);
+                this.thread.run();
+            }
             break;
 
         case EDIT:
@@ -86,17 +91,16 @@ public class ControllerImpl implements Controller {
             break;
 
         case MOUSE_CLICKED:
+            if (this.status.equals(Status.ADDING)) {
+                this.thread.interrupt();
+                this.view.getSelectedBody().get().setAttracting(true);
+            }
+            this.status = Status.DEFAULT;
             break;
 
         case MOUSE_PRESSED:
             if (this.status.equals(Status.EDIT)) {
                 if (!this.view.getSelectedBody().equals(Optional.empty())) {
-                    this.thread = new DragPositions(this.view.getSelectedBody().get(), this.scale);
-                    this.thread.run();
-                }
-            } else if (this.status.equals(Status.ADDING)) {
-                if (!this.view.getSelectedBody().equals(Optional.empty())) {
-                    view.getSelectedBody().get().setAttracting(false);
                     this.thread = new DragPositions(this.view.getSelectedBody().get(), this.scale);
                     this.thread.run();
                 }
@@ -109,12 +113,6 @@ public class ControllerImpl implements Controller {
         case MOUSE_RELEASED:
             if (this.status.equals(Status.EDIT)) {
                 this.thread.interrupt();
-                this.view.getSelectedBody().get().setAttracting(true);
-                
-            } else if (this.status.equals(Status.ADDING)) {
-                this.thread.interrupt();
-                this.model.addBody(this.view.getSelectedBody().get());
-                this.view.getSelectedBody().get().setAttracting(true);
             }
             this.status = Status.DEFAULT;
             break;
@@ -142,7 +140,7 @@ public class ControllerImpl implements Controller {
             break;
 
         case ESC:
-            if (this.status.equals(Status.ADDING)) {
+            if (this.status.equals(Status.ADDING) || this.status.equals(Status.EDIT)) {
                 this.status = Status.DEFAULT;
             }
 
