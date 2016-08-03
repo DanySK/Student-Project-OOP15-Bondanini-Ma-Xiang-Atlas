@@ -45,6 +45,11 @@ public class BodyImpl implements Body, java.io.Serializable {
         this.mass = mass;
         this.properties = properties;
     }
+    
+    public BodyImpl(Body b) {
+    	this(b.getType(), b.getName(), b.getPosX(), b.getPosY(), 
+    			b.getVelX(), b.getVelY(), b.getMass(), b.getProperties());
+    }
 
     @Override
     public BodyType getType() {
@@ -52,6 +57,11 @@ public class BodyImpl implements Body, java.io.Serializable {
     }
 
     @Override
+	public void setType(BodyType type) {
+		this.type = type;
+	}
+
+	@Override
     public String getName() {
         return this.name == null ? "Unknown" : name;
     }
@@ -141,6 +151,12 @@ public class BodyImpl implements Body, java.io.Serializable {
     @Override
     public double getVelY() {
         return this.vely;
+    }
+    
+    @Override
+    public void setVelocity(Pair<Double, Double> vel) {
+    	this.velx = vel.getX();
+    	this.vely = vel.getY();
     }
 
     // Algoritmo da sistemare... angolo non va bene ?? I think it's good,

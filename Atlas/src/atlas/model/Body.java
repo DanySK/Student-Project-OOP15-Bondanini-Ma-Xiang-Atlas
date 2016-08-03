@@ -16,6 +16,12 @@ public interface Body {
      * @return the body's type
      */
     public BodyType getType();
+    
+    /**
+     * Changes body type.
+     * @param type the new type
+     */
+    public void setType(BodyType type);
 
     /**
      * 
@@ -35,6 +41,10 @@ public interface Body {
      */
     public double getMass();
     
+    /**
+     * Sets the body's mass.
+     * @param mass the new mass
+     */
     public void setMass(double mass);
 
     /**
@@ -107,6 +117,12 @@ public interface Body {
      * @return the vertical velocity y
      */
     public double getVelY();
+    
+    /**
+     * Sets the velocity with a pair, this methods also changes the direction of the body.
+     * @param velocity
+     */
+    public void setVelocity(Pair<Double, Double> velocity);
 
     /**
      * Sets the total velocity of the body, maintaining the same direction.
@@ -151,7 +167,7 @@ public interface Body {
 		private double radius;
         // Rotazione sul proprio asse
         private long rotationPeriod;
-        private double rotationAngle;
+        private double rotationAngle = 0;
 
         /* Optional properties */
         private Double orbitalPeriod = null;
@@ -168,12 +184,18 @@ public interface Body {
 
         public Properties() {
         }
-
-        public Properties(double radius, long rotationPeriod, double rotationAngle, Body parent, Double temperature) {
+        
+        public Properties(double radius, long rotationPeriod) {
+        	this.radius = radius;
+        	this.rotationPeriod = rotationPeriod;
+        }
+        
+        public Properties(double radius, long rotationPeriod, 
+        		Double orbitalPeriod, Body parent, Double temperature) {
             super();
             this.radius = radius;
             this.rotationPeriod = rotationPeriod;
-            this.rotationAngle = rotationAngle;
+            this.orbitalPeriod = orbitalPeriod;
             this.parent = parent;
             this.temperature = temperature;
         }
