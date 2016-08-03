@@ -14,6 +14,7 @@ import java.util.*;
 
 import atlas.model.algorithms.Algorithm;
 import atlas.model.algorithms.AlgorithmBruteForce;
+import atlas.model.algorithms.CollisionStrategyFragments;
 
 /**
  * Brute force N-body implementation
@@ -28,10 +29,11 @@ public class ModelImpl implements Model, java.io.Serializable {
 
     public ModelImpl() {
 
-        this.alg = new AlgorithmBruteForce();
+        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
         SimConfig sol = new SimConfig();
-        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(),
-                EpochJ2000.EARTH.getBody(), sol.getMars()));
+        Body earthSun = EpochJ2000.SUN.getBody();
+        earthSun.setName("Earth");
+        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), earthSun));
     }
 
     // private static double circlev(double rx, double ry) {
