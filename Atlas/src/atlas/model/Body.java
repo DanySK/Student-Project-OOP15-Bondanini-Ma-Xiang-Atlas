@@ -13,7 +13,7 @@ public interface Body {
 
     /**
      * 
-     * @return which type is the body
+     * @return the body's type
      */
     public BodyType getType();
 
@@ -23,6 +23,10 @@ public interface Body {
      */
     public String getName();
     
+    /**
+     * Assigns the given name to the body.
+     * @param name the new name
+     */
     public void setName(String name);
 
     /**
@@ -71,6 +75,10 @@ public interface Body {
      */
     public double getPosX();
     
+    /**
+     * Sets the horizontal position.
+     * @param x the x coordinate to set
+     */
     public void setPosX(double x);
 
     /**
@@ -80,6 +88,10 @@ public interface Body {
      */
     public double getPosY();
     
+    /**
+     * Sets the vertical position.
+     * @param y the y coordinate to set
+     */
     public void setPosY(double y);
 
     /**
@@ -117,6 +129,17 @@ public interface Body {
      * @return the collection of the trail points
      */
     public Collection<Pair<Double, Double>> getTrail();
+    
+    /**
+     * Checks if the body attracts other bodies.
+     * @return whether this body attracts others
+     */
+    public boolean isAttracting();
+    
+    /**
+     * Set whether the body attracts other bodies.
+     */
+    public void setAttracting(boolean attract);
 
     /**
      * Nested class used to store a celestial body's secondary properties.

@@ -20,6 +20,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     private double mass;
     private transient Trail trail = new Trail();
     private Properties properties;
+    private boolean attracting;
     
     
     @Deprecated
@@ -197,8 +198,18 @@ public class BodyImpl implements Body, java.io.Serializable {
     		this.trail = new Trail();
     	}
     }
+    
+    @Override
+    public boolean isAttracting() {
+		return this.attracting;
+	}
 
-    /**
+    @Override
+	public void setAttracting(boolean attracting) {
+		this.attracting = attracting;
+	}
+
+	/**
      * This inner class is used to implement the Builder design pattern.
      *
      */
