@@ -1,8 +1,5 @@
 package atlas.view;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,44 +10,34 @@ import java.util.Optional;
 import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
 import atlas.model.Body;
-import atlas.model.BodyType;
-import atlas.model.EpochJ2000;
-import atlas.utils.EventType;
-import atlas.utils.MyMouse;
 import atlas.utils.Pair;
+import atlas.utils.Units;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.awt.MouseInfo;
-import java.awt.event.MouseAdapter;
-import java.awt.MouseInfo;
-
-public class ViewImpl extends Application implements View {
+public class ViewTest extends Application implements View {
 
     Map<String, ImageView> planet_map = new HashMap<>();
-    Map<String, Button> button_map = new HashMap<>();
+    
     List<Label> label_list = new ArrayList<>();
     double x, y;
-    BorderPane rootPane = new BorderPane();
-    Pane root1 = new Pane();
+    StackPane rootPane = new StackPane();
     Controller c;
     double posy = 1;
     boolean bool = true;
     double unit = 0.0;
     private Optional<Body> selectedBody; 
+    BottonPanel vbox;
     
     @Override
     public void notifyObservers(SimEvent event) {
@@ -66,66 +53,10 @@ public class ViewImpl extends Application implements View {
 
         c = ControllerImpl.getIstanceOf();
         c.setView(this);
-        Button play = new Button("Play");
-        Button pause = new Button("Pause");
-        Label zoomLabel = new Label("Zoom");
-        Button zoomUp = new Button("+");
-        Button zoomDown = new Button("-");
-        Button save = new Button("Salva");
-        Button load = new Button("Carica");
-        Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
-        Image cross = new Image("/button_images/not.png", 20, 20, false, false);
-        
-        String path = System.getProperty("user.home")+System.getProperty("file.separator")+"ciao.bin";
-        
-        
 
-        zoomLabel.relocate(x, posy);
-        
         // Azzero le mappe
 
         planet_map.clear();
-        button_map.clear();
-
-        // Inserisco i pulsanti nella mappa
-
-        button_map.put(play.getText(), play);
-        button_map.put(pause.getText(), pause);
-        button_map.put(zoomUp.getText(), zoomUp);
-        button_map.put(save.getText(), save);
-        button_map.put(load.getText(), load);
-        
-
-        // Setto i pulsanti
-
-        play.setGraphic(new ImageView(imageOk));
-        pause.setGraphic(new ImageView(cross));
-
-        play.setOnAction(e -> {
-            c.startSim();
-        });
-
-        pause.setOnAction(e -> {
-            c.stopSim();
-        });
-        
-        save.setOnAction(e -> {
-            try {
-                c.saveConfig(path);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        });
-        
-        load.setOnAction(e -> {
-            try {
-                c.loadConfig(path);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        });
 
         // In futuro scrivere un action-listener, dato che tanti pulsanti
         // avranno la stessa funzione e ci sarebbe ripetizione di codice
@@ -138,22 +69,18 @@ public class ViewImpl extends Application implements View {
 
         rootPane.setStyle("-fx-background-image: url('/planet_images/star.png'); "
                 + "-fx-background-position: center center; " + "-fx-background-repeat: stretch;");
-
-        // Setto i pannelli
-
-        rootPane.setCenter(root1);
-        BorderPane.setAlignment(root1, Pos.CENTER);
-
+        
         // Setto la scena e le assegno uno stile da un file css
 
         Scene scene = new Scene(rootPane);
         scene.getStylesheets().add(getClass().getResource("/css/testcss.css").toExternalForm());
+        
+        rootPane.getChildren().add(vbox.getBottonBox());
 
         /*
          * Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
          * 
-         * screenSize.getHeight();
-         * 
+         * screenSize.getHeight();         * 
          * screenSize.getWidth();
          */
 
@@ -176,58 +103,35 @@ public class ViewImpl extends Application implements View {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Atlas");
         primaryStage.centerOnScreen();
+        
         primaryStage.setFullScreen(true);
-        primaryStage.show();
-        primaryStage.setResizable(false);
+        primaryStage.show();    
 
         // Posto x e y come origine degli assi
 
         x = (primaryStage.getWidth() / 2) - 50;
         y = (primaryStage.getHeight() / 2) - 50;
-
-        // Sposta bottoni
-
-        play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
-        pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
         
-        save.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 300);
-        load.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 340);
-        
-        
-        zoomLabel.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 220);
-        zoomUp.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 180);
-        zoomDown.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 140);
-        
-        zoomUp.setOnAction(e -> {
-            this.unit = c.zoomUp();
+        //zoomUp.setOnAction(e -> {
+            //this.unit = c.zoomUp();
            /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*1.2);
                 im.setFitWidth(im.getFitWidth()*1.2);
                 planet_map.replace(a.getKey(), im);
             });*/
-        });
+        //});
         
 
-        zoomDown.setOnAction(e -> {
-            this.unit = c.zoomDown();
+        //zoomDown.setOnAction(e -> {
+            //this.unit = c.zoomDown();
            /* planet_map.entrySet().stream().forEach(a -> {
                 ImageView im = a.getValue();
                 im.setFitHeight(im.getFitHeight()*0.8);
                 im.setFitWidth(im.getFitWidth()*0.8);
                 planet_map.replace(a.getKey(), im);
             });*/
-        });
-
-        // Aggiunta bottoni al pannello
-
-        root1.getChildren().add(play);
-        root1.getChildren().add(pause);
-        root1.getChildren().add(zoomLabel);
-        root1.getChildren().add(zoomUp);
-        root1.getChildren().add(zoomDown);
-        root1.getChildren().add(load);
-        root1.getChildren().add(save);
+        //});
 
         c.startSim();
 
@@ -242,18 +146,23 @@ public class ViewImpl extends Application implements View {
         }
 
         for (Body a : b) {
-            double h = unit*a.getProperties().getRadius();
+            double h = unit* a.getProperties().getRadius();
             System.out.println("this is h" +  h);
             if (planet_map.containsKey(a.getName())) {
                 planet_map.get(a.getName()).relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)));
                 for (Label i : label_list){
+                	System.out.println("Label text = " + i.getText() + " | a = " + a.getName());
+                	System.out.println("Pos = " + i.getLayoutX());
                     if (i.getText().equals(a.getName())){
                         i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10);
                     }
                 }
+                //Con lo stream e' meglio
+//                this.label_list.stream().filter(p -> p.getText().equals(a.getName())).findFirst()
+//                .ifPresent(i -> i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10));
                 Collection<Pair<Double,Double>> q = a.getTrail();
-                for (Pair p : q){
-                   
+                for (Pair<Double, Double> p : q){
+                    
                 }
                 System.out.println(x + (a.getPosX() * unit) + "PosX schermo");
                 System.out.println(y - (a.getPosY() * unit) + "PosY schermo");
@@ -262,20 +171,24 @@ public class ViewImpl extends Application implements View {
             }
 
             else {
-                label_list.add(new Label(a.getName()));
+            	Label l = new Label(a.getName());
+                label_list.add(l);
                 planet_map.put(a.getName(),
                         new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                planet_map.get(a.getName()).setFitHeight(50);
-                planet_map.get(a.getName()).setFitWidth(50);
+                if(h>1){
+                    planet_map.get(a.getName()).setFitHeight(h);
+                    planet_map.get(a.getName()).setFitWidth(h);
+                } else {
+                    planet_map.get(a.getName()).setFitHeight(1);
+                    planet_map.get(a.getName()).setFitWidth(1);
+                }
                 planet_map.get(a.getName()).setPreserveRatio(true);
                 planet_map.get(a.getName()).relocate(x, y);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        root1.getChildren().add(planet_map.get(a.getName()));
-                        for(int i=0; i<label_list.size(); i++){
-                            root1.getChildren().add(label_list.get(i));
-                        }
+                        rootPane.getChildren().add(planet_map.get(a.getName()));
+                        rootPane.getChildren().add(l);
                     }
                 });
 
@@ -287,6 +200,32 @@ public class ViewImpl extends Application implements View {
     public static void main(String[] args) {
         launch(args);
     }
+
+	@Override
+	public Optional<MouseEvent> getLastMouseEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pair<Integer, Units> getSpeedInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getSaveName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resetViewLayout() {
+		// TODO Auto-generated method stub
+		
+	}
+    
+    
 
 
     /*

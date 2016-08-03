@@ -85,7 +85,7 @@ public class BottonPanel {
                 
         }
         
-        public Pane getBottonBox(){
+        public VBox getBottonBox(){
             return vbox;
         }
 

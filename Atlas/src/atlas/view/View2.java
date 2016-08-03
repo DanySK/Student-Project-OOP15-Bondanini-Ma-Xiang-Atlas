@@ -19,7 +19,7 @@ public class View2 implements View {
 	private Optional<MouseEvent> lastMouseEvent;
 	
 	
-	private ViewImpl view = new ViewImpl();
+	private ViewTest view = new ViewTest();
 	
 	@Override
 	public void render(List<Body> b) {
@@ -51,6 +51,12 @@ public class View2 implements View {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public String getSaveName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	
 	
