@@ -16,7 +16,7 @@ public enum EpochJ2000 {
                                 .posY(0)
                                 .velX((5.374260940168565E-06 * AU) / DAY_SECONDS)
                                 .velY((-7.410965396701423E-06 * AU) / DAY_SECONDS)
-                                .properties(new Body.Properties(702020*1000, 26 * DAY_SECONDS, 0, null, 5775.00 ))
+                                .properties(new Body.Properties(702020*1000, 26 * DAY_SECONDS, null, null, 5775.00 ))
                                 .build()),
     
     EARTH(new BodyImpl.Builder().name("Earth")
@@ -26,7 +26,7 @@ public enum EpochJ2000 {
                                 .posY(9.659912850526894E-01 * AU)
                                 .velX((-1.722857156974861E-02 * AU) / DAY_SECONDS)
                                 .velY((-3.015071224668472E-03 * AU) / DAY_SECONDS)
-                                .properties(new Body.Properties(6371*1000, DAY_SECONDS, 0, SUN.getBody(), celsiusToKelvin(14.00) ))
+                                .properties(new Body.Properties(6371*1000, DAY_SECONDS, null, SUN.getBody(), celsiusToKelvin(14.00) ))
                                 .build()),
     ;
     
