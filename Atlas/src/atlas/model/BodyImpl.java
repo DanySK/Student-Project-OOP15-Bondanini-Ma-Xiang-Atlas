@@ -20,7 +20,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     private double mass;
     private transient Trail trail = new Trail();
     private Properties properties;
-    private boolean attracting;
+    private boolean attracting = true;
     
     
     @Deprecated

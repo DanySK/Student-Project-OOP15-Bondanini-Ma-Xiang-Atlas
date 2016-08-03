@@ -23,16 +23,35 @@ public class AlgorithmBruteForce extends AlgorithmGeneric {
 	@Override
 	public ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec) {
 		// 2 loops --> N^2 complexity
-		bodies.stream().filter(i -> i.isAttracting()).forEach(b -> {
+		ArrayList<Body> copy = new ArrayList<>(bodies);
+		for (Body b : copy) {
 			b.resetForce();
-			bodies.stream().filter(c -> b != null && !b.equals(c)).forEach(c -> {
-//				this.collisionStrategy.manageCollision(bodies, b, c);
-				b.addForce(c);
-			});
+			for (Body c : copy) {
+				if (b != null && !b.equals(c)) {
+					if(bodies.contains(b) && bodies.contains(c)) {
+						this.collisionStrategy.manageCollision(bodies, b, c);
+					}
+					b.addForce(c);
+				}
+			}
 			b.updatePos(sec);
-		});
+		}
 		return bodies;
 	}
+//	public ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec) {
+//		// 2 loops --> N^2 complexity
+//		bodies.stream().filter(i -> i.isAttracting()).forEach(b -> {
+//			b.resetForce();
+//			for (Body c : bodies) {
+//				if (b != null && !b.equals(c)) {
+//					this.collisionStrategy.manageCollision(bodies, b, c);
+//					b.addForce(c);
+//				}
+//			}
+//			b.updatePos(sec);
+//		});
+//		return bodies;
+//	}
 }
 
 // public class AlgorithmBruteForce implements Algorithm, java.io.Serializable {

@@ -15,6 +15,7 @@ import java.util.*;
 import atlas.model.algorithms.Algorithm;
 import atlas.model.algorithms.AlgorithmBruteForce;
 import atlas.model.algorithms.CollisionStrategyFragments;
+import atlas.utils.Pair;
 
 /**
  * Brute force N-body implementation
@@ -26,13 +27,40 @@ public class ModelImpl implements Model, java.io.Serializable {
 	private Algorithm alg;
     private ArrayList<Body> bodies = new ArrayList<>();
     private SimClock clock = new SimClock();
+    
+//    public static void main(String s[]) {
+//    	Model m = new ModelImpl();
+//    	
+//    	for(int i = 0 ; i < 200000; i ++) {
+//    		m.updateSim(1000);
+//    		System.out.println(m);
+//    	}
+//    }
 
-    public ModelImpl() {
+    @Override
+	public String toString() {
+		return "ModelImpl [ clock=" + clock + "bodies=" + bodies +"]";
+	}
+
+
+	public ModelImpl() {
 
         this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
         SimConfig sol = new SimConfig();
-        this.bodies.addAll(Arrays.asList(EpochJ2000.SUN.getBody(), sol.getMercury(), sol.getVenus(),
-                EpochJ2000.EARTH.getBody(), sol.getMars()));
+        Body b = EpochJ2000.EARTH.getBody();
+        b.setName("sun");
+        b.setMass(EpochJ2000.EARTH.getBody().getMass()+1000);
+        b.setPosX(-b.getPosX());
+        b.setPosY(0);
+        b.setVelocity(new Pair<>(new Double(-4000), new Double(0)));
+        
+        Body c = new BodyImpl(EpochJ2000.EARTH.getBody());
+        c.setName("earth");
+        c.setPosX(0);
+        c.setPosY(0);
+        c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
+        
+        this.bodies.addAll(Arrays.asList(c,b));
     }
 
     // private static double circlev(double rx, double ry) {
