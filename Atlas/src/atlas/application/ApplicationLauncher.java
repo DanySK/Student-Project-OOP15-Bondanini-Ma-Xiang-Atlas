@@ -3,6 +3,7 @@ package atlas.application;
 import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
 import atlas.view.View;
+import atlas.view.ViewImpl;
 
 /**
  * 
@@ -15,10 +16,11 @@ public class ApplicationLauncher {
         //this method must create the controller and the view
         System.out.println("fuck her right in the pussy!");
         
-//        View v = new ViewTest();
-//        Controller c = ControllerImpl.getIstanceOf();
-//        c.setView(v);
-//        c.startSim();
+        View v = new ViewImpl();
+        Controller c = ControllerImpl.getIstanceOf();
+        c.setView(v);
+        c.startSim();
+        javafx.application.Application.launch(ViewImpl.class);
     }
 
 }
