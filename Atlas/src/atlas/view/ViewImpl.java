@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.awt.MouseInfo;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.MouseInfo;
 
@@ -44,23 +45,24 @@ public class ViewImpl extends Application implements View {
     Map<String, ImageView> planet_map = new HashMap<>();
     Map<String, Button> button_map = new HashMap<>();
     List<Label> label_list = new ArrayList<>();
-    double x, y;
+    private Pair<Double, Double> reference = new Pair<>(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 -50, 
+            Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 -50);
     BorderPane rootPane = new BorderPane();
     Pane root1 = new Pane();
     Controller c;
     double posy = 1;
     boolean bool = true;
-    double unit = 0.0;
-    private Optional<Body> selectedBody; 
-    
+    double scale = 1.4000000000000000E-9;
+    private Optional<Body> selectedBody;
+
     @Override
     public void notifyObservers(SimEvent event) {
-            ControllerImpl.getIstanceOf().update(event);
+        ControllerImpl.getIstanceOf().update(event);
     }
 
     @Override
     public Optional<Body> getSelectedBody() {
-            return this.selectedBody;
+        return this.selectedBody;
     }
 
     public void start(Stage primaryStage) {
@@ -76,13 +78,11 @@ public class ViewImpl extends Application implements View {
         Button load = new Button("Carica");
         Image imageOk = new Image("/button_images/ok.png", 20, 20, false, false);
         Image cross = new Image("/button_images/not.png", 20, 20, false, false);
-        
-        String path = System.getProperty("user.home")+System.getProperty("file.separator")+"ciao.bin";
-        
-        
 
-        zoomLabel.relocate(x, posy);
-        
+        String path = System.getProperty("user.home") + System.getProperty("file.separator") + "ciao.bin";
+
+        zoomLabel.relocate(reference.getX(), posy);
+
         // Azzero le mappe
 
         planet_map.clear();
@@ -95,7 +95,6 @@ public class ViewImpl extends Application implements View {
         button_map.put(zoomUp.getText(), zoomUp);
         button_map.put(save.getText(), save);
         button_map.put(load.getText(), load);
-        
 
         // Setto i pulsanti
 
@@ -109,7 +108,7 @@ public class ViewImpl extends Application implements View {
         pause.setOnAction(e -> {
             c.stopSim();
         });
-        
+
         save.setOnAction(e -> {
             try {
                 c.saveConfig(path);
@@ -118,7 +117,7 @@ public class ViewImpl extends Application implements View {
                 e1.printStackTrace();
             }
         });
-        
+
         load.setOnAction(e -> {
             try {
                 c.loadConfig(path);
@@ -130,10 +129,10 @@ public class ViewImpl extends Application implements View {
 
         // In futuro scrivere un action-listener, dato che tanti pulsanti
         // avranno la stessa funzione e ci sarebbe ripetizione di codice
-        /* earth.setOnAction(e -> {
-            c.setAdding();
-            c.setNextBody(EpochJ2000.EARTH.getBody());
-        });*/
+        /*
+         * earth.setOnAction(e -> { c.setAdding();
+         * c.setNextBody(EpochJ2000.EARTH.getBody()); });
+         */
 
         // Setto lo sfondo
 
@@ -182,42 +181,39 @@ public class ViewImpl extends Application implements View {
         primaryStage.setResizable(false);
 
         // Posto x e y come origine degli assi
-
-        x = (primaryStage.getWidth() / 2) - 50;
-        y = (primaryStage.getHeight() / 2) - 50;
+        //   this.reference = new Pair<>(primaryStage.getWidth() / 2 - 50, primaryStage.getHeight() / 2 - 50);
+        
 
         // Sposta bottoni
 
         play.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 100);
         pause.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 60);
-        
+
         save.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 300);
         load.relocate(primaryStage.getWidth() - 80, primaryStage.getHeight() - 340);
-        
-        
+
         zoomLabel.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 220);
         zoomUp.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 180);
         zoomDown.relocate(primaryScreenBounds.getMaxX() - 80, primaryScreenBounds.getMaxY() - 140);
-        
+
         zoomUp.setOnAction(e -> {
-            this.unit = c.zoomUp();
-           /* planet_map.entrySet().stream().forEach(a -> {
-                ImageView im = a.getValue();
-                im.setFitHeight(im.getFitHeight()*1.2);
-                im.setFitWidth(im.getFitWidth()*1.2);
-                planet_map.replace(a.getKey(), im);
-            });*/
+            c.update(SimEvent.MOUSE_WHEEL_UP);
+            /*
+             * planet_map.entrySet().stream().forEach(a -> { ImageView im =
+             * a.getValue(); im.setFitHeight(im.getFitHeight()*1.2);
+             * im.setFitWidth(im.getFitWidth()*1.2);
+             * planet_map.replace(a.getKey(), im); });
+             */
         });
-        
 
         zoomDown.setOnAction(e -> {
-            this.unit = c.zoomDown();
-           /* planet_map.entrySet().stream().forEach(a -> {
-                ImageView im = a.getValue();
-                im.setFitHeight(im.getFitHeight()*0.8);
-                im.setFitWidth(im.getFitWidth()*0.8);
-                planet_map.replace(a.getKey(), im);
-            });*/
+            c.update(SimEvent.MOUSE_WHEEL_DOWN);
+            /*
+             * planet_map.entrySet().stream().forEach(a -> { ImageView im =
+             * a.getValue(); im.setFitHeight(im.getFitHeight()*0.8);
+             * im.setFitWidth(im.getFitWidth()*0.8);
+             * planet_map.replace(a.getKey(), im); });
+             */
         });
 
         // Aggiunta bottoni al pannello
@@ -235,44 +231,51 @@ public class ViewImpl extends Application implements View {
     }
 
     public void render(List<Body> b) {
-        //Prende lo Zoom inizale solo la prima volta..
+        // Prende lo Zoom inizale solo la prima volta..
         if (bool) {
-            this.unit = c.getUnit();
+            this.scale = c.getUnit();
             this.bool = false;
-            System.out.println("unitView " + unit);
+            System.out.println("unitView " + scale);
         }
 
+        Pair<Double, Double> actualReference = this.reference;
+        double actualScale = this.scale;
+        
+
         for (Body a : b) {
-            double h = unit*a.getProperties().getRadius();
-            System.out.println("this is h" +  h);
+            double h = actualScale * a.getProperties().getRadius();
+            //System.out.println(a.getName());
+            //System.out.println("this is h" + h);
             if (planet_map.containsKey(a.getName())) {
-                planet_map.get(a.getName()).relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)));
-                for (Label i : label_list){
-                    System.out.println("Label text = " + i.getText() + " | a = " + a.getName());
-                    System.out.println("Pos = " + i.getLayoutX());
-                if (i.getText().equals(a.getName())){
-                    i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10);
+                planet_map.get(a.getName()).relocate((actualReference.getX() + (a.getPosX() * actualScale)),
+                        (actualReference.getY() - (a.getPosY() * actualScale)));
+                for (Label i : label_list) {
+                    //System.out.println("Label text = " + i.getText() + " | a = " + a.getName());
+                  //  System.out.println("Pos = " + i.getLayoutX());
+                    if (i.getText().equals(a.getName())) {
+                        i.relocate((actualReference.getX() + (a.getPosX() * actualScale)),
+                                (actualReference.getY() - (a.getPosY() * actualScale)) + 10);
+                    }
                 }
-            }
-            //Con lo stream e' meglio
-//            this.label_list.stream().filter(p -> p.getText().equals(a.getName())).findFirst()
-//            .ifPresent(i -> i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10));
-                Collection<Pair<Double,Double>> q = a.getTrail();
-                for (Pair p : q){
-                   
+                // Con lo stream e' meglio
+                /*this.label_list.stream().filter(p -> p.getText().equals(a.getName())).findFirst() 
+                .ifPresent(i -> i.relocate((x + (a.getPosX() * unit)), (y - (a.getPosY() * unit)) + 10));*/
+                Collection<Pair<Double, Double>> q = a.getTrail();
+                for (Pair p : q) {
+
                 }
-                System.out.println(x + (a.getPosX() * unit) + "PosX schermo");
-                System.out.println(y - (a.getPosY() * unit) + "PosY schermo");
-                System.out.println(x + (a.getPosX()) + "PosX real");
-                System.out.println(y - (a.getPosY()) + "PosY real");
+//               System.out.println(actualReference.getX() + (a.getPosX() * actualScale) + "PosX schermo");
+//               System.out.println(actualReference.getY() - (a.getPosY() * actualScale) + "PosY schermo");
+//               System.out.println(actualReference.getX() + (a.getPosX()) + "PosX real");
+//               System.out.println(actualReference.getY() - (a.getPosY()) + "PosY real");
+                
             }
 
             else {
                 Label l = new Label(a.getName());
                 label_list.add(l);
-                planet_map.put(a.getName(),
-                        new ImageView(new Image("/planet_images/" + a.getName().toLowerCase() + ".png")));
-                if(h>1){
+                planet_map.put(a.getName(), new ImageView(new Image("/planet_images/" + "sun" + ".png")));
+                if (h > 1) {
                     planet_map.get(a.getName()).setFitHeight(h);
                     planet_map.get(a.getName()).setFitWidth(h);
                 } else {
@@ -280,7 +283,7 @@ public class ViewImpl extends Application implements View {
                     planet_map.get(a.getName()).setFitWidth(1);
                 }
                 planet_map.get(a.getName()).setPreserveRatio(true);
-                planet_map.get(a.getName()).relocate(x, y);
+                planet_map.get(a.getName()).relocate(actualReference.getX(), actualReference.getY());
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -306,7 +309,7 @@ public class ViewImpl extends Application implements View {
 
     @Override
     public Pair<Integer, Units> getSpeedInfo() {
-        // TODO Auto-generated method stub
+        // TODO Auto-geSystem.out.println(a.getName());nerated method stub
         return null;
     }
 
@@ -319,9 +322,23 @@ public class ViewImpl extends Application implements View {
     @Override
     public void resetViewLayout() {
         // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void updateReferce(Pair<Double, Double> newReference, double newScale) {
+        System.out.println(newReference.getX());
+        System.out.println(newReference.getY());
+        System.out.println(newScale);
+        this.reference = newReference;
+        this.scale = newScale;   
         
     }
 
+    @Override
+    public Pair<Double, Double> getReference() {
+        return this.reference;
+    }
 
     /*
      * Not Work -> Capire come funziona con javaFX public void

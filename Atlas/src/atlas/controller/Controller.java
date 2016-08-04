@@ -56,13 +56,13 @@ public interface Controller {
      * This method increases zoom
      * @param event
      */
-    public double zoomUp();
+    public void zoomUp();
     
     /**
      * This method decreases zoom
      * @param event
      */
-    public double zoomDown();
+    public void zoomDown();
     
     /**
      * Set the UI and Speed of simulation

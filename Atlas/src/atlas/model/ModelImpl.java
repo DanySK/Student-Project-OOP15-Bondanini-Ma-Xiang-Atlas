@@ -60,7 +60,7 @@ public class ModelImpl implements Model, java.io.Serializable {
         c.setPosY(0);
         c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
         
-        this.bodies.addAll(Arrays.asList(c,b));
+        this.bodies.addAll(sol.getAll());
     }
 
     // private static double circlev(double rx, double ry) {
