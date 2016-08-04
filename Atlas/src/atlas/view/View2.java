@@ -13,17 +13,20 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class View2 implements View {
+public class View2 extends Application implements View {
 	
 	private Optional<Body> selectedBody;
 	private Optional<MouseEvent> lastMouseEvent;
 	
-	
-	private ViewTest view = new ViewTest();
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public void render(List<Body> b) {
-		this.view.render(b);
+	
 	}
 
 	@Override
@@ -52,6 +55,11 @@ public class View2 implements View {
 		return null;
 	}
 
+	@Override
+	public String getSaveName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	//zoom with mouse
 //	rootPane.setOnScroll( e-> {
 //    	if (e.getDeltaY() > 0) {
@@ -63,11 +71,7 @@ public class View2 implements View {
 //    	}
 //    });
 
-    @Override
-    public String getSaveName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 
 	
 	
