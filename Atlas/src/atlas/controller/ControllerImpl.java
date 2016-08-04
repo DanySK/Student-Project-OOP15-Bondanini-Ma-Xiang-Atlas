@@ -196,20 +196,20 @@ public class ControllerImpl implements Controller {
     public void setSpeed(Units unit, int speed) throws IllegalArgumentException {
         if (speed <= 1000 && speed > 0) {
             switch (unit) {
-            case Min_Sec:
-                gLoop.setValue(Units.Min_Sec.getValue(), speed);
+            case MIN_SEC:
+                gLoop.setValue(Units.MIN_SEC.getValue(), speed);
                 break;
 
-            case Hour_Sec:
-                gLoop.setValue(Units.Hour_Sec.getValue(), speed);
+            case HOUR_SEC:
+                gLoop.setValue(Units.HOUR_SEC.getValue(), speed);
                 break;
 
-            case Day_Sec:
-                gLoop.setValue(Units.Day_Sec.getValue(), speed);
+            case DAY_SEC:
+                gLoop.setValue(Units.DAY_SEC.getValue(), speed);
                 break;
 
-            case Year_Sec:
-                gLoop.setValue(Units.Year_Sec.getValue(), speed);
+            case YEAR_SEC:
+                gLoop.setValue(Units.YEAR_SEC.getValue(), speed);
                 break;
 
             default:
