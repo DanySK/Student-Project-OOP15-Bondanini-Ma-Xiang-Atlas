@@ -35,6 +35,7 @@ public class ControllerImpl implements Controller {
     double scale = 1.4000000000000000E-9;
     boolean bool = true;
     private volatile Status status = Status.DEFAULT; // volatile?
+    private Pair<Double, Double> reference;
 
     /**
      * Creation of new Controller
@@ -70,6 +71,7 @@ public class ControllerImpl implements Controller {
 
     public void setView(View v) {
         this.view = v;
+        this.reference = this.view.getReference();
         this.gLoop.setView(v);
     }
 
@@ -88,6 +90,37 @@ public class ControllerImpl implements Controller {
 
         case EDIT:
             this.status = Status.EDIT;
+            break;
+
+        case SAVE:
+            try {
+                String dir = path + view.getSaveName();
+                this.saveConfig(dir);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
+
+        case LOAD:
+            try {
+                String dir = path + this.view.getSaveName();
+                this.loadConfig(dir);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
+
+        case SPEED_CHANGED:
+            try {
+                Pair<Integer, Units> speed = this.view.getSpeedInfo();
+                this.setSpeed(speed.getY(), speed.getX());
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
             break;
 
         case MOUSE_CLICKED:
@@ -117,41 +150,6 @@ public class ControllerImpl implements Controller {
             this.status = Status.DEFAULT;
             break;
 
-        case SAVE:
-            try {
-                String dir = path + view.getSaveName();
-                this.saveConfig(dir);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            break;
-
-        case LOAD:
-            try {
-                String dir = path + this.view.getSaveName();
-                this.loadConfig(dir);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            break;
-
-        case ESC:
-            if (this.status.equals(Status.ADDING) || this.status.equals(Status.EDIT)) {
-                this.status = Status.DEFAULT;
-            }
-
-        case SPACEBAR_PRESSED:
-            if (this.gLoop.getStatus().equals(StatusSim.RUNNING)) {
-                this.gLoop.setStopped();
-            } else {
-                this.gLoop.setRunning();
-            }
-            break;
-
         case MOUSE_WHEEL_UP:
             this.zoomUp();
             break;
@@ -160,12 +158,32 @@ public class ControllerImpl implements Controller {
             this.zoomDown();
             break;
 
-        case SPEED_CHANGED:
-            try {
-                Pair<Integer, Units> speed = this.view.getSpeedInfo();
-                this.setSpeed(speed.getY(), speed.getX());
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+        case ESC:
+            if (this.status.equals(Status.ADDING) || this.status.equals(Status.EDIT)) {
+                this.status = Status.DEFAULT;
+            }
+            
+        case W:
+            this.wSlide();
+            break;
+
+        case A:
+            this.aSlide();
+            break;
+
+        case S:
+            this.sSlide();
+            break;
+
+        case D:
+            this.dSlide();
+            break;
+
+        case SPACEBAR_PRESSED:
+            if (this.gLoop.getStatus().equals(StatusSim.RUNNING)) {
+                this.gLoop.setStopped();
+            } else {
+                this.gLoop.setRunning();
             }
             break;
 
@@ -180,16 +198,35 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public double zoomUp() {
-        this.scale = scale * 1.05;
-        return this.scale;
-
+    public void zoomUp() {
+        this.scale *= 1.05;
+        this.view.updateReferce(this.reference, this.scale);
     }
 
     @Override
-    public double zoomDown() {
-        this.scale = scale * 0.95;
-        return this.scale;
+    public void zoomDown() {
+        this.scale *= 0.95;
+        this.view.updateReferce(this.reference, this.scale);
+    }
+    
+    public void wSlide() {
+        this.reference = new Pair<Double, Double> (this.reference.getX(), this.reference.getY()+25);
+        this.view.updateReferce(this.reference, this.scale);
+    }
+    
+    public void sSlide() {
+        this.reference = new Pair<Double, Double> (this.reference.getX(), this.reference.getY()-25);
+        this.view.updateReferce(this.reference, this.scale);
+    }
+    
+    public void aSlide() {
+        this.reference = new Pair<Double, Double> (this.reference.getX()-25, this.reference.getY());
+        this.view.updateReferce(this.reference, this.scale);
+    }
+    
+    public void dSlide() {
+        this.reference = new Pair<Double, Double> (this.reference.getX()+25, this.reference.getY());
+        this.view.updateReferce(this.reference, this.scale);      
     }
 
     @Override

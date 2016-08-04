@@ -22,7 +22,11 @@ public interface View {
     public Pair<Integer, Units> getSpeedInfo();
     
     public String getSaveName();
-	
-	public void resetViewLayout();
+
+    public void resetViewLayout();
+    
+    public void updateReferce(Pair<Double, Double> newReference, double newScale);
+    
+    public Pair<Double, Double> getReference();
 
 }
