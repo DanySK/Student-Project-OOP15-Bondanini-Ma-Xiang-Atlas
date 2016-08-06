@@ -24,7 +24,7 @@ public class SceneMain extends Scene {
 	
 	public SceneMain(double width, double height) {
 		super(new Pane());
-		this.renderPanel = new RenderScreen();//width, height-100
+		this.renderPanel = new RenderScreen(width, height-70);//width, height-100
 		this.cruise = new CruiseControl();
 		
 		this.root.setCenter(renderPanel);
@@ -36,6 +36,6 @@ public class SceneMain extends Scene {
 	
 	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate) {
 		System.out.println("inside draw");
-		this.renderPanel.render(bodies, ControllerImpl.getIstanceOf().getUnit(), translate);
+		this.renderPanel.render(bodies, scale, translate);
 	}
 }
