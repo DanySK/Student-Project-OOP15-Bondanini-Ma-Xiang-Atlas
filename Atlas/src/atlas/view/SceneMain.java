@@ -1,5 +1,10 @@
 package atlas.view;
 
+import java.util.List;
+
+import atlas.controller.ControllerImpl;
+import atlas.model.Body;
+import atlas.utils.Pair;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,18 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class SceneSim extends Scene {
+public class SceneMain extends Scene {
 
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
-	protected Canvas renderPanel;
+	protected RenderScreen renderPanel;
 	protected GraphicsContext graphics;
 	protected Image background;
 	
-	public SceneSim(double width, double height) {
+	public SceneMain(double width, double height) {
 		super(new Pane());
-		this.renderPanel = new Canvas(width, height-100);
-		this.graphics = renderPanel.getGraphicsContext2D();
+		this.renderPanel = new RenderScreen();//width, height-100
 		this.cruise = new CruiseControl();
 		
 		this.root.setCenter(renderPanel);
@@ -30,15 +34,8 @@ public class SceneSim extends Scene {
 		
 	}
 	
-	public Image getBackgroundImage() {
-		return background != null ? background : new Image("/images/" + "star.png");
-	}
-	
-	public void setBackgroundImage(Image background) {
-		this.background = background;
-	}
-	
-	protected void draw() {
-		
+	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate) {
+		System.out.println("inside draw");
+		this.renderPanel.render(bodies, ControllerImpl.getIstanceOf().getUnit(), translate);
 	}
 }
