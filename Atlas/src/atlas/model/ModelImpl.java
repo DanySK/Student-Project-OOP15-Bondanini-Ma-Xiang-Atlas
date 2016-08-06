@@ -47,18 +47,18 @@ public class ModelImpl implements Model, java.io.Serializable {
 
         this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
         SimConfig sol = new SimConfig();
-        Body b = EpochJ2000.EARTH.getBody();
-        b.setName("sun");
-        b.setMass(EpochJ2000.EARTH.getBody().getMass()+1000);
-        b.setPosX(-b.getPosX());
-        b.setPosY(0);
-        b.setVelocity(new Pair<>(new Double(-4000), new Double(0)));
-        
-        Body c = new BodyImpl(EpochJ2000.EARTH.getBody());
-        c.setName("earth");
-        c.setPosX(0);
-        c.setPosY(0);
-        c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
+//        Body b = EpochJ2000.EARTH.getBody();
+//        b.setName("sun");
+//        b.setMass(EpochJ2000.EARTH.getBody().getMass()+1000);
+//        b.setPosX(-b.getPosX());
+//        b.setPosY(0);
+//        b.setVelocity(new Pair<>(new Double(-4000), new Double(0)));
+//        
+//        Body c = new BodyImpl(EpochJ2000.EARTH.getBody());
+//        c.setName("earth");
+//        c.setPosX(0);
+//        c.setPosY(0);
+//        c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
         
         this.bodies.addAll(sol.getAll());
     }

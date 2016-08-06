@@ -1,9 +1,11 @@
 package atlas.view;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import atlas.model.Body;
+import atlas.model.EpochJ2000;
 import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.application.Application;
@@ -16,14 +18,13 @@ public class TestUI extends Application implements View{
 	private static int HEIGHT = 720;
 	private static int WIDTH = 1280;
 	
-	private double scale;
+	private double scale = 1.4000000000000000E-9;
 	private Pair<Double, Double> translate;
 	
 	private SceneMain scene;
 
 	public TestUI() {
-		Double initialTran = new Double(0);
-		this.translate = new Pair<>(initialTran, initialTran);
+		this.translate = new Pair<>(new Double(WIDTH/2), new Double(HEIGHT/2));
 	}
 	
 	@Override
@@ -34,8 +35,10 @@ public class TestUI extends Application implements View{
 		 
 		 
 		 this.scene = new SceneMain(WIDTH, HEIGHT);
-		 primaryStage.setScene(this.scene);		 
-	     primaryStage.show();	       
+		 primaryStage.setScene(this.scene);
+		 this.scene.draw(Arrays.asList(EpochJ2000.SUN.getBody(), EpochJ2000.EARTH.getBody()), 1.4000000000000000E-9 , translate);
+	     primaryStage.show();	
+	     this.scene.draw(Arrays.asList(EpochJ2000.EARTH.getBody()), 1.4000000000000000E-9 , translate);
 	     this.setOnClose(primaryStage);
 	}
 	
@@ -60,7 +63,7 @@ public class TestUI extends Application implements View{
 		if(scene == null){
 			scene = new SceneMain(WIDTH, HEIGHT);
 		}
-		this.scene.draw(b, scale, translate);
+		this.scene.draw(b, this.scale, this.translate);
 	}
 
 	@Override

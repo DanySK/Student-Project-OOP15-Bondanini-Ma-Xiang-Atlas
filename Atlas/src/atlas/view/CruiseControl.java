@@ -47,8 +47,14 @@ public class CruiseControl extends HBox {
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 		
 		/*Setting actions*/
-		this.buttonPlay.setOnAction( a -> switchPlayStop());
-		this.buttonStop.setOnAction( a -> switchPlayStop());
+		this.buttonPlay.setOnAction( a -> {
+			switchPlayStop();
+			//do something else
+		});
+		this.buttonStop.setOnAction( a -> {
+			switchPlayStop();
+			//do something else
+		});
 	}
 
 	private void switchPlayStop() {
