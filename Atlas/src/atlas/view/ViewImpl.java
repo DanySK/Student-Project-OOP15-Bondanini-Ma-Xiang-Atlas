@@ -56,11 +56,6 @@ public class ViewImpl extends Application implements View {
     private Optional<Body> selectedBody;
 
     @Override
-    public void notifyObservers(SimEvent event) {
-        ControllerImpl.getIstanceOf().update(event);
-    }
-
-    @Override
     public Optional<Body> getSelectedBody() {
         return this.selectedBody;
     }
@@ -136,7 +131,7 @@ public class ViewImpl extends Application implements View {
 
         // Setto lo sfondo
 
-        rootPane.setStyle("-fx-background-image: url('/planet_images/star.png'); "
+        rootPane.setStyle("-fx-background-image: url('/images/star.png'); "
                 + "-fx-background-position: center center; " + "-fx-background-repeat: stretch;");
 
         // Setto i pannelli

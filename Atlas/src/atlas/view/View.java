@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import atlas.controller.ControllerImpl;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
@@ -13,7 +14,9 @@ public interface View {
     
     public void render(List<Body> b);
     
-    public void notifyObservers(SimEvent event);
+    public static void notifyObservers(SimEvent event) {
+    	ControllerImpl.getIstanceOf().update(event);
+    }
     
     public Optional<Body> getSelectedBody();
     

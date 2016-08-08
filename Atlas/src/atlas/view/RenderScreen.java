@@ -76,69 +76,51 @@ public class RenderScreen extends StackPane {
 
 	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate) {
 		/* Preliminary actions */
-		// this.adjustScreen(scale, translate);
-		// this.clearScreen();
+//		 this.adjustScreen(scale, translate);
+//		 this.clearScreen();
 		/* Drawing the new frame */
 
 		bodies.forEach(b -> {
-			String path = "/planet_images/";
-			ImageView img = null;
-			try {
-				if (bMap.containsKey(b.getName())) {
-					img = bMap.get(b.getName()).getX();
-				} else {
-					img = new ImageView(new Image(path.concat(b.getName().toLowerCase() + ".png")));
-				}
-			} catch (Exception e) {
-				img = new ImageView(new Image(path.concat("mars.png")));
-			}
-			double radiusScaled = b.getProperties().getRadius() * scale;
-			radiusScaled *= 20;
-			System.out.println("radius" + radiusScaled);
-			img.setFitHeight(50);
-			img.setFitWidth(50);
-			// if (!this.lMid2.getChildren().contains(img)) {
-			// lMid2.getChildren().add(img);
-			// }
-
-			/* Labels */// might work mate
-			ImageView m = img;
-			// String key = this.bMap.keySet().stream().filter(p ->
-			// p.equals(b.getName())).findFirst().orElseGet(() -> {
-			// // If not present, create new label
-			// Label lab = new Label(b.getName());
-			// lab.setTextFill(Color.WHITESMOKE);
-			// bMap.put(b.getName(), new Pair<>(m, lab));
-			// lMid2.getChildren().add(m);
-			// lTop.getChildren().add(lab);
-			// // assign action to the label
-			// // assign
-			// return b.getName();
-			// });
+			final ImageView img = this.getOrCreatePlanetImage(b, scale);
+			
+			// If not present, create new entry
 			if (!this.bMap.keySet().contains(b.getName())) {
 				Label lab = new Label(b.getName());
 				lab.setTextFill(Color.WHITESMOKE);
-				bMap.put(b.getName(), new Pair<>(m, lab));
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						lMid2.getChildren().add(m);
-						lTop.getChildren().add(lab);
-					}
-				});
+				bMap.put(b.getName(), new Pair<>(img, lab));
+
+				lMid2.getChildren().add(img);
+				lTop.getChildren().add(lab);
 			}
-			Label l = this.bMap.get(b.getName()).getY();
 			bMap.get(b.getName()).getX().relocate(translate.getX() + b.getPosX() * scale,
 					translate.getY() + b.getPosY() * scale);
 			bMap.get(b.getName()).getY().relocate(translate.getX() + b.getPosX() * scale,
 					translate.getY() + b.getPosY() * scale + b.getProperties().getRadius());
-
-			System.out.println("trans  = " + translate + " posx = " + (translate.getX() + b.getPosX() * scale)
-					+ " posy = " + (translate.getY() + b.getPosY() * scale) + "  label " + b.getName() + " x = "
-					+ l.getLayoutX() + " y = " + l.getLayoutY());
 		});
 	}
-
+	
+	
+	private ImageView getOrCreatePlanetImage(Body b, double scale) {
+		String path = "/planet_images/";
+		ImageView img = null;
+		try {
+			if (bMap.containsKey(b.getName())) {
+				img = bMap.get(b.getName()).getX();
+			} else {
+				img = new ImageView(new Image(path.concat(b.getName().toLowerCase() + ".png")));
+			}
+		} catch (Exception e) {
+			img = new ImageView(new Image(path.concat("mars.png")));
+		}
+		double radiusScaled = b.getProperties().getRadius() * scale;
+		radiusScaled *= 2;
+		System.out.println("radius" + radiusScaled);
+		img.setFitHeight(10);
+		img.setFitWidth(10);
+		
+		return img;
+	}
+	
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
 		if (this.currentScale != scale || !this.currentTranlate.equals(translate)) {
 			this.setScaleX(scale);

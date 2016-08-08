@@ -22,9 +22,8 @@ public class TestUI extends Application implements View{
 	private final double scale = 1.4000000000000000E-9;
 	private final Pair<Double, Double> translate = new Pair<>(new Double(WIDTH/2), new Double(HEIGHT/2));
 	
-	private SceneMain scene;
-	private static RenderScreen renderer = new RenderScreen(WIDTH, HEIGHT);
-	private Stage stage;
+	private static SceneMain scene;
+//	private static RenderScreen RENDERER = new RenderScreen(WIDTH, HEIGHT);
 	
 	public TestUI() {
 	}
@@ -38,19 +37,19 @@ public class TestUI extends Application implements View{
 		 primaryStage.setHeight(HEIGHT);
 		 
 		 
-		 this.scene = new SceneMain(WIDTH, HEIGHT);
-		 this.stage = primaryStage;
-		 RenderScreen r = new RenderScreen(WIDTH, HEIGHT);
-		 this.stage.setScene(new Scene(r));
+		 SceneMain s = new SceneMain(WIDTH, HEIGHT);
+		 primaryStage.setScene(s);
 		 
-		 setRenderer(r);
+		 setRenderer(s);
 		 
 		 this.setOnClose(primaryStage);
-	     this.stage.show();	
+		 primaryStage.show();	
 	}
-	private static void setRenderer(RenderScreen r) {
-		renderer = r;
+	
+	private static void setRenderer(SceneMain r) {
+		scene = r;
 	}
+	
 	private void setOnClose(Stage primaryStage) {
 		primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
@@ -64,20 +63,10 @@ public class TestUI extends Application implements View{
 
 	@Override
 	public void render(List<Body> b) {
-		if(scene == null){
-			System.out.println("scene == null");
-		}else {
-			this.scene.draw(b, 1.4000000000000000E-9, this.translate);
+		if(scene != null) {
+			
+			Platform.runLater(() -> TestUI.scene.draw(b, scale, translate) );
 		}
-		System.out.println("renderer ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>> = " + renderer);
-		
-        Platform.runLater(() -> TestUI.renderer.render(b, scale, translate) );
-	}
-
-	@Override
-	public void notifyObservers(SimEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
