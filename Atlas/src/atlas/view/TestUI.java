@@ -9,6 +9,7 @@ import atlas.model.EpochJ2000;
 import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -18,32 +19,41 @@ public class TestUI extends Application implements View{
 	private static int HEIGHT = 720;
 	private static int WIDTH = 1280;
 	
-	private double scale = 1.4000000000000000E-9;
-	private Pair<Double, Double> translate;
+	private final double scale = 1.4000000000000000E-9;
+	private final Pair<Double, Double> translate = new Pair<>(new Double(WIDTH/2), new Double(HEIGHT/2));
 	
 	private SceneMain scene;
-
+	private static RenderScreen renderer = new RenderScreen(WIDTH, HEIGHT);
+	private Stage stage;
+	
 	public TestUI() {
-		this.translate = new Pair<>(new Double(WIDTH/2), new Double(HEIGHT/2));
 	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		 primaryStage.setTitle("Testing UI");
+		 primaryStage.setX(0);
+	     primaryStage.setY(0);
 		 primaryStage.setWidth(WIDTH);
 		 primaryStage.setHeight(HEIGHT);
 		 
 		 
 		 this.scene = new SceneMain(WIDTH, HEIGHT);
-		 primaryStage.setScene(this.scene);
-		 this.scene.draw(Arrays.asList(EpochJ2000.SUN.getBody(), EpochJ2000.EARTH.getBody()), 1.4000000000000000E-9 , translate);
-	     primaryStage.show();	
-	     this.scene.draw(Arrays.asList(EpochJ2000.EARTH.getBody()), 1.4000000000000000E-9 , translate);
-	     this.setOnClose(primaryStage);
+		 this.stage = primaryStage;
+		 RenderScreen r = new RenderScreen(WIDTH, HEIGHT);
+		 this.stage.setScene(new Scene(r));
+		 
+		 setRenderer(r);
+		 
+		 this.setOnClose(primaryStage);
+	     this.stage.show();	
 	}
-	
+	private static void setRenderer(RenderScreen r) {
+		renderer = r;
+	}
 	private void setOnClose(Stage primaryStage) {
 		primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
             System.exit(0);
         });
 	}
@@ -54,16 +64,14 @@ public class TestUI extends Application implements View{
 
 	@Override
 	public void render(List<Body> b) {
-//		b.forEach(i -> {
-//			System.out.println(i);
-//		});
-		System.out.println("Scene = " + scene);
-		System.out.println("scale = " + scale);
-		System.out.println("translate = " + translate);
 		if(scene == null){
-			scene = new SceneMain(WIDTH, HEIGHT);
+			System.out.println("scene == null");
+		}else {
+			this.scene.draw(b, 1.4000000000000000E-9, this.translate);
 		}
-		this.scene.draw(b, this.scale, this.translate);
+		System.out.println("renderer ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>> = " + renderer);
+		
+        Platform.runLater(() -> TestUI.renderer.render(b, scale, translate) );
 	}
 
 	@Override
@@ -104,8 +112,8 @@ public class TestUI extends Application implements View{
 
 	@Override
 	public void updateReferce(Pair<Double, Double> newReference, double newScale) {
-		this.scale = newScale;
-		this.translate = newReference;
+//		this.scale = newScale;
+//		this.translate = newReference;
 	}
 
 	@Override
