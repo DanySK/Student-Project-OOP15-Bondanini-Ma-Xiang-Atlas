@@ -1,5 +1,6 @@
 package atlas.view;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -57,8 +59,8 @@ public class RenderScreen extends StackPane {
 		this.lMid1.setWidth(width);
 		this.lMid1.setHeight(height);
 
-		this.getChildren().addAll(this.lBottom, this.lMid1, this.lMid2, this.lTop);
-
+		// this.getChildren().addAll(this.lBottom, this.lMid1);
+		this.getChildren().addAll(this.lMid2, this.lTop);
 		// Hopefully sets the position to center
 		// this.setTranslateX(this.getWidth() / 2);
 		// this.setTranslateY(this.getHeight() / 2);
@@ -74,59 +76,66 @@ public class RenderScreen extends StackPane {
 
 	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate) {
 		/* Preliminary actions */
-		System.out.println("Preliminary check1");
 		// this.adjustScreen(scale, translate);
-		this.clearScreen();
-		System.out.println("Preliminary check2");
+		// this.clearScreen();
 		/* Drawing the new frame */
-		System.out.println("Preliminary check3");
+
 		bodies.forEach(b -> {
 			String path = "/planet_images/";
 			ImageView img = null;
 			try {
-				if(bMap.containsKey(b.getName())){
+				if (bMap.containsKey(b.getName())) {
 					img = bMap.get(b.getName()).getX();
 				} else {
-					img = new ImageView(new Image(path.concat(b.getName()+".png")));
+					img = new ImageView(new Image(path.concat(b.getName().toLowerCase() + ".png")));
 				}
-			} catch(Exception e) {
-				img = new ImageView(new Image(path.concat("mars.png")));					
+			} catch (Exception e) {
+				img = new ImageView(new Image(path.concat("mars.png")));
 			}
 			double radiusScaled = b.getProperties().getRadius() * scale;
 			radiusScaled *= 20;
-			System.out.println("radius"+radiusScaled);
-			img.setFitHeight(radiusScaled);
-			img.setFitWidth(radiusScaled);
-			if (!this.lMid2.getChildren().contains(img)) {
-				lMid2.getChildren().add(img);
-			}
-			img.relocate(translate.getX() + b.getPosX() * scale, translate.getY() + b.getPosY() * scale);
+			System.out.println("radius" + radiusScaled);
+			img.setFitHeight(50);
+			img.setFitWidth(50);
+			// if (!this.lMid2.getChildren().contains(img)) {
+			// lMid2.getChildren().add(img);
+			// }
 
 			/* Labels */// might work mate
-			final ImageView m = img;
-			String key = this.bMap.keySet().stream().filter(p -> p.equals(b.getName())).findFirst().orElseGet(() -> {
-				// If not present, create new label
+			ImageView m = img;
+			// String key = this.bMap.keySet().stream().filter(p ->
+			// p.equals(b.getName())).findFirst().orElseGet(() -> {
+			// // If not present, create new label
+			// Label lab = new Label(b.getName());
+			// lab.setTextFill(Color.WHITESMOKE);
+			// bMap.put(b.getName(), new Pair<>(m, lab));
+			// lMid2.getChildren().add(m);
+			// lTop.getChildren().add(lab);
+			// // assign action to the label
+			// // assign
+			// return b.getName();
+			// });
+			if (!this.bMap.keySet().contains(b.getName())) {
 				Label lab = new Label(b.getName());
-				
+				lab.setTextFill(Color.WHITESMOKE);
 				bMap.put(b.getName(), new Pair<>(m, lab));
-				lTop.getChildren().add(lab);
-				// assign action to the label
-				// assign
-				return b.getName();
-			});
-			Label l = this.bMap.get(key).getY();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						lMid2.getChildren().add(m);
+						lTop.getChildren().add(lab);
+					}
+				});
+			}
+			Label l = this.bMap.get(b.getName()).getY();
+			bMap.get(b.getName()).getX().relocate(translate.getX() + b.getPosX() * scale,
+					translate.getY() + b.getPosY() * scale);
+			bMap.get(b.getName()).getY().relocate(translate.getX() + b.getPosX() * scale,
+					translate.getY() + b.getPosY() * scale + b.getProperties().getRadius());
 
-			l.relocate(translate.getX() + b.getPosX() * scale,
-					translate.getY() + b.getPosY() * scale + LABEL_OFFSETX);
-			System.out.println(
-					"trans = " + translate + "  label " + key + " x = " + l.getWidth() + " y = " + l.getHeight());
-
-			/* Removing unused labels and images, doesnt work */
-			// if (!this.bMap.keySet().contains(b.getName())) {
-			// this.lMid2.getChildren().remove(this.bMap.get(b.getName()).getX());
-			// this.lTop.getChildren().remove(this.bMap.get(b.getName()).getY());
-			// this.bMap.remove(b.getName());
-			// }
+			System.out.println("trans  = " + translate + " posx = " + (translate.getX() + b.getPosX() * scale)
+					+ " posy = " + (translate.getY() + b.getPosY() * scale) + "  label " + b.getName() + " x = "
+					+ l.getLayoutX() + " y = " + l.getLayoutY());
 		});
 	}
 

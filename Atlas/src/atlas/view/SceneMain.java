@@ -15,11 +15,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class SceneMain extends Scene {
-
+	
+	private static SceneMain sceneMain;
+	
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
 	protected RenderScreen renderPanel;
-	protected GraphicsContext graphics;
 	protected Image background;
 	
 	public SceneMain(double width, double height) {
