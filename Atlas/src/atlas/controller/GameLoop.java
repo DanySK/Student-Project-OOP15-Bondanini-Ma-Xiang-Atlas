@@ -70,13 +70,13 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 // timeSLF = time since last frame
                 long timeSLF = System.currentTimeMillis() - lastFrame;
                 // rendering();
-                this.view.render(model.getBodiesToRender());
                 long FPS = 1000 / timeSLF;
-                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
+                this.view.render(model.getBodiesToRender(), (int)FPS);
+//                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
             }
-
+            
             // render when is stopped shish
-            this.view.render(model.getBodiesToRender());
+            this.view.render(model.getBodiesToRender(), GameLoop.FPS);
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {

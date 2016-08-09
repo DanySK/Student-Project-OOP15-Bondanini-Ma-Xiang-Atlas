@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import atlas.controller.Controller;
 import atlas.model.Body;
 import atlas.model.EpochJ2000;
 import atlas.utils.Pair;
@@ -108,5 +109,23 @@ public class TestUI extends Application implements View{
 	@Override
 	public Pair<Double, Double> getReference() {
 		return this.translate;
+	}
+
+	@Override
+	public void notifyObservers(SimEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Controller getController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scene getCurrentScene() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
