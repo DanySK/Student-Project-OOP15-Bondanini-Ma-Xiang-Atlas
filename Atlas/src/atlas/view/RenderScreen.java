@@ -114,7 +114,7 @@ public class RenderScreen extends StackPane {
 		}
 		double radiusScaled = b.getProperties().getRadius() * scale;
 		radiusScaled *= 2;
-		System.out.println("radius" + radiusScaled);
+//		System.out.println("radius" + radiusScaled);
 		img.setFitHeight(10);
 		img.setFitWidth(10);
 		

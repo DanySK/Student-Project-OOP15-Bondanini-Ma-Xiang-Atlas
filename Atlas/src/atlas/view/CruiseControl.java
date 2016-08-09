@@ -1,6 +1,8 @@
 package atlas.view;
 
 import atlas.utils.Units;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -34,8 +36,11 @@ public class CruiseControl extends HBox {
 	protected Button buttonAdd = new Button("ADD");
 
 	protected Button buttonSearch = new Button();
+	
+	private View view;
 
-	public CruiseControl() {
+	public CruiseControl(View v) {
+		this.view = v;
 		this.getChildren().add(0, buttonStop);
 		this.getChildren().add(1, labelTime);
 		this.getChildren().add(2, textSpeed);
@@ -47,14 +52,19 @@ public class CruiseControl extends HBox {
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 		
 		/*Setting actions*/
-		this.buttonPlay.setOnAction( a -> {
-			switchPlayStop();
-			//do something else
-		});
-		this.buttonStop.setOnAction( a -> {
-			switchPlayStop();
-			//do something else
-		});
+		EventHandler<ActionEvent> stopPlayHandler = new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e) {
+				switchPlayStop();
+				if(e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
+					CruiseControl.this.view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
+				} else {
+					new IllegalAccessException("Button unknow(not play nor stop)");
+				}
+			}			
+		};
+		this.buttonPlay.setOnAction(stopPlayHandler);
+		this.buttonStop.setOnAction(stopPlayHandler);
 	}
 
 	private void switchPlayStop() {

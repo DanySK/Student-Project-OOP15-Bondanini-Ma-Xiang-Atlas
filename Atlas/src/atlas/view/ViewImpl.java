@@ -335,6 +335,24 @@ public class ViewImpl extends Application implements View {
         return this.reference;
     }
 
+	@Override
+	public void notifyObservers(SimEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Controller getController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scene getCurrentScene() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     /*
      * Not Work -> Capire come funziona con javaFX public void
      * mouseClicked(MouseEvent e) { if (c.isAdding()) { try {

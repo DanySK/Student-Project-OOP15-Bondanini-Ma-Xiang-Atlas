@@ -224,6 +224,30 @@ public class ViewTest extends Application implements View {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Controller getController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateReferce(Pair<Double, Double> newReference, double newScale) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Pair<Double, Double> getReference() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scene getCurrentScene() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 

@@ -46,7 +46,6 @@ public class ControllerImpl implements Controller {
     private ControllerImpl() {
         this.model = new ModelImpl();
         gLoop = new GameLoop(model);
-        gLoop.start();
     }
 
     public static ControllerImpl getIstanceOf() {
@@ -55,8 +54,8 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void startSim() {
-        gLoop.setRunning();
-
+    	gLoop.setRunning();
+        gLoop.start();
     }
 
     @Override
@@ -71,8 +70,8 @@ public class ControllerImpl implements Controller {
 
     public void setView(View v) {
         this.view = v;
-        this.reference = this.view.getReference();
         this.gLoop.setView(v);
+        this.reference = this.view.getReference();
     }
 
     @Override
