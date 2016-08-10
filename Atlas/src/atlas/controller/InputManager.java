@@ -2,30 +2,52 @@ package atlas.controller;
 
 import java.io.IOException;
 
-
 public interface InputManager {
 
+    /**
+     * This method is invocated when left mouse button is clicked
+     */
     public void mouseClicked();
 
+    /**
+     * This method is invocated when left mouse button is pressed
+     */
     public void mousePressed();
 
+    /**
+     * This method is invocated when left mouse button is released
+     */
     public void mouseReleased();
 
+    /**
+     * This method is invocated when ESC is pressed
+     */
     public void ESC();
 
+    /**
+     * This method is invocated when the Spacebar is pressed
+     */
     public void spaceBar();
 
-   public void changeStatus(Status status);
-    
+    /**
+     * Changes the status of InputManager
+     */
+    public void changeStatus(Status status);
+
+    /**
+     * Changes Speed and Unit of the simulation
+     */
     public void changeSpeed();
 
+    /**
+     * Sets the status of InputManager to Adding, when the user want add a new
+     * body
+     */
     public void addMode();
 
     /**
      * Saves the current state of the simulation into a file.
      * 
-     * @param path
-     *            the path of the file
      * @throws IOException
      *             any IOException
      * @throws IllegalArgumentException
@@ -36,7 +58,6 @@ public interface InputManager {
     /**
      * Loads a configuration from a file.
      * 
-     * @param path
      * @throws IOException
      *             any IOException
      * @throws IllegalArgumentException
@@ -47,42 +68,35 @@ public interface InputManager {
     /**
      * This method increases zoom
      * 
-     * @param event
      */
     public void zoomUp();
 
     /**
      * This method decreases zoom
      * 
-     * @param event
      */
     public void zoomDown();
 
     /**
      * Slide simulation when user press W
      * 
-     * @param event
      */
     public void wSlide();
 
     /**
-     * Slide simulation when user press S
-     * 
-     * @param event
+     * Slide simulation when user press S t
      */
     public void sSlide();
 
     /**
      * Slide simulation when user press A
      * 
-     * @param event
      */
     public void aSlide();
 
     /**
      * Slide simulation when user press D
      * 
-     * @param event
      */
     public void dSlide();
 
