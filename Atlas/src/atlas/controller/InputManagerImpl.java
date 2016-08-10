@@ -14,6 +14,7 @@ import java.util.Optional;
 import atlas.model.Model;
 import atlas.model.ModelImpl;
 import atlas.utils.Pair;
+import atlas.utils.Units;
 import atlas.view.View;
 
 public class InputManagerImpl implements InputManager {
@@ -179,6 +180,13 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void changeSpeed() {
+		Pair<Integer, Units> speed = this.view.getSpeedInfo();
+		this.gLoop.setValue(speed.getY().getValue(), speed.getX());
+	}
+
+	@Override
+	public void changeStatus(Status status) {
+		this.status = status;
 		
 	}
 }

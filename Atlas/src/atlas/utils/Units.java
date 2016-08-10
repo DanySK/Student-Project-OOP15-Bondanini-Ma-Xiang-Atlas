@@ -13,6 +13,7 @@ public enum Units {
 	
 	private Units(int u, String name) {
 		this.number = u;
+		this.name = name;
 	}
 	
 	public int getValue() {

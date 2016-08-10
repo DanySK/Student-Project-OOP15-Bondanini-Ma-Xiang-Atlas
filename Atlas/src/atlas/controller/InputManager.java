@@ -16,7 +16,7 @@ public interface InputManager {
 
     public void spaceBar();
 
-   // public void changeStatus(Status edit);
+   public void changeStatus(Status status);
     
     public void changeSpeed();
 

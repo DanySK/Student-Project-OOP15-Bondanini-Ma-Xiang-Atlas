@@ -133,8 +133,8 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         this.view = v;
     }
      
-    public void setValue(final long ui, final int speed) {
-        this.precision = ui;
+    public void setValue(final long precision, final int speed) {
+        this.precision = precision;
         this.speed = speed;
     }
     
