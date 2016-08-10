@@ -4,17 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import atlas.controller.Controller;
-import atlas.controller.ControllerImpl;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ViewNewImpl implements View {
+public class ViewImpl implements View {
 
 	// Visualization fields
 	private static int HEIGHT = 720;
@@ -31,7 +28,7 @@ public class ViewNewImpl implements View {
 	private Controller ctrl;
 	private Stage stage;
 	
-	public ViewNewImpl(Controller c, Stage primaryStage) {
+	public ViewImpl(Controller c, Stage primaryStage) {
 		this.ctrl = c;
 		this.stage = primaryStage;
 		this.mainScene = new SceneMain(this, WIDTH, HEIGHT);

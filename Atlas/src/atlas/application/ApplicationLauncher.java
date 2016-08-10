@@ -4,7 +4,6 @@ import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
 import atlas.view.View;
 import atlas.view.ViewImpl;
-import atlas.view.ViewNewImpl;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -36,7 +35,7 @@ public class ApplicationLauncher extends Application{
 
 		Controller c = ControllerImpl.getIstanceOf();
         
-        View v = new ViewNewImpl(c, primaryStage);
+        View v = new ViewImpl(c, primaryStage);
         System.out.println("view = " + v);
         c.setView(v);
         c.startSim();

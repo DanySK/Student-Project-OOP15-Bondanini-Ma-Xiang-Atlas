@@ -2,12 +2,8 @@ package atlas.view;
 
 import java.util.List;
 import java.util.Optional;
-
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import atlas.controller.Controller;
-import atlas.controller.ControllerImpl;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
