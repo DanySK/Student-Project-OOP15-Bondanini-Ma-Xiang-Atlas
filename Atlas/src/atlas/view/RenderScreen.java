@@ -1,16 +1,23 @@
 package atlas.view;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+
 import atlas.model.Body;
 import atlas.utils.Pair;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
 
 /**
  * This pane serves as the render screen, which displays all the bodies for each
@@ -23,7 +30,7 @@ import javafx.scene.paint.Color;
 public class RenderScreen extends StackPane {
 
 	private static String DEFAULT_BACKGROUND = "/images/" + "star.png";
-	private static int LABEL_OFFSETX = 10;
+	private static int LABEL_OFFSET = 10;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
 	private Canvas lMid1 = new Canvas(); // first intermediate layer
@@ -46,7 +53,7 @@ public class RenderScreen extends StackPane {
 		this.lMid1.setWidth(width);
 		this.lMid1.setHeight(height);
 
-		// this.getChildren().addAll(this.lBottom, this.lMid1);
+		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lTop);
 		// Hopefully sets the position to center
 		// this.setTranslateX(this.getWidth() / 2);
@@ -63,13 +70,13 @@ public class RenderScreen extends StackPane {
 
 	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate) {
 		/* Preliminary actions */
-//		 this.adjustScreen(scale, translate);
-//		 this.clearScreen();
+		this.adjustScreen(scale, translate);
+		this.clearScreen();
 		/* Drawing the new frame */
 
 		bodies.forEach(b -> {
 			final ImageView img = this.getOrCreatePlanetImage(b, scale);
-			
+
 			// If not present, create new entry
 			if (!this.bMap.keySet().contains(b.getName())) {
 				Label lab = new Label(b.getName());
@@ -79,15 +86,47 @@ public class RenderScreen extends StackPane {
 				lMid2.getChildren().add(img);
 				lTop.getChildren().add(lab);
 			}
-			System.out.println(b.getName() + " X = " + b.getPosX() + " Y = " + b.getPosY());
-			bMap.get(b.getName()).getX().relocate(translate.getX() + b.getPosX() * scale,
-					translate.getY() + b.getPosY() * scale);
-			bMap.get(b.getName()).getY().relocate(translate.getX() + b.getPosX() * scale,
-					translate.getY() + b.getPosY() * scale + b.getProperties().getRadius());
+
+			this.drawTrail(b, scale);
+
+			// System.out.println(b.getName() + " X = " + b.getPosX() + " Y = "
+			// + b.getPosY());
+			bMap.get(b.getName()).getX().relocate(this.calcPosX(b.getPosX()), this.calcPosY(b.getPosY()));
+			bMap.get(b.getName()).getY().relocate(this.calcPosX(b.getPosX()) + LABEL_OFFSET,
+					this.calcPosY(b.getPosY()));
 		});
 	}
-	
-	
+
+	private double calcPosX(double realX) {
+		return this.currentTranlate.getX() + realX * this.currentScale;
+	}
+
+	private double calcPosY(double realY) {
+		return this.currentTranlate.getY() - realY * this.currentScale;
+	}
+
+	private void drawTrail(Body b, double scale) {
+		int minPointsTodraw = 2;
+		if (b.getTrail().size() < minPointsTodraw) {
+			return;
+		}
+		int arraySize = b.getTrail().size();
+		double[] pointsX = new double[arraySize];
+		double[] pointsY = new double[arraySize];
+		Iterator<Pair<Double, Double>> it = b.getTrail().iterator();
+		int x = 0;
+		int y = 0;
+		while (it.hasNext() && x < arraySize) {
+			Pair<Double, Double> p = it.next();
+			pointsX[x++] = this.calcPosX(p.getX());
+			pointsY[y++] = this.calcPosY(p.getY());
+		}
+		GraphicsContext gc = this.lMid1.getGraphicsContext2D();
+		gc.setStroke(Color.AQUA);
+		gc.setLineWidth(5);
+		gc.strokePolyline(pointsX, pointsY, arraySize);
+	}
+
 	private ImageView getOrCreatePlanetImage(Body b, double scale) {
 		String path = "/planet_images/";
 		ImageView img = null;
@@ -102,19 +141,19 @@ public class RenderScreen extends StackPane {
 		}
 		double radiusScaled = b.getProperties().getRadius() * scale;
 		radiusScaled *= 2;
-//		System.out.println("radius" + radiusScaled);
+		// System.out.println("radius" + radiusScaled);
 		img.setFitHeight(10);
 		img.setFitWidth(10);
-		
+
 		return img;
 	}
-	
+
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
-		if (this.currentScale != scale || !this.currentTranlate.equals(translate)) {
-			this.setScaleX(scale);
-			this.setScaleY(scale);
-			this.setTranslateX(translate.getX());
-			this.setTranslateY(translate.getY());
+		if (this.currentScale != scale || !translate.equals(currentTranlate)) {
+			// this.setScaleX(scale);
+			// this.setScaleY(scale);
+			// this.setTranslateX(translate.getX());
+			// this.setTranslateY(translate.getY());
 			this.currentScale = scale;
 			this.currentTranlate = translate;
 		}

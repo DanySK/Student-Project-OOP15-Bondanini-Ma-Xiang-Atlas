@@ -1,10 +1,12 @@
 package atlas.model;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
 import atlas.utils.Counter;
+import atlas.utils.Units;
 
 public class SimClock implements java.io.Serializable {
 
@@ -12,7 +14,8 @@ public class SimClock implements java.io.Serializable {
 
     private Counter time;
     private Long epochOffset = null;
-    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private static SimpleDateFormat DATE_FOR = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private static DecimalFormat DEC_FOR = new DecimalFormat(".##");
 
     /**
      * Default clock don't have a date, just a time counter.
@@ -79,10 +82,26 @@ public class SimClock implements java.io.Serializable {
     
     public String toString() {
         if (this.getEpoch().isPresent()) {
-            return FORMATTER.format(new Date(this.time.get() + this.getEpoch().get()));
+            return DATE_FOR.format(new Date(this.time.get() + this.getEpoch().get()));
         } else {
-            // Feature da implementare : unita' di misura tempo variabile...
-            return new StringBuilder().append((int) (this.time.get() / (1000 * 86400))).append(" days").toString();
+        	double seconds = this.time.get() / 1000;
+        	String time;
+        	if(seconds > Units.YEAR_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.YEAR_SEC.getValue())).concat(" years");
+        	} else if(seconds > Units.MONTH_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.MONTH_SEC.getValue())).concat(" months");
+        	} else if(seconds > Units.WEEK_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.WEEK_SEC.getValue())).concat(" weeks");
+        	} else if(seconds > Units.DAY_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.DAY_SEC.getValue())).concat(" days");
+        	} else if(seconds > Units.HOUR_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.HOUR_SEC.getValue())).concat(" hours");
+        	} else if(seconds > Units.MIN_SEC.getValue()) {
+        		time = DEC_FOR.format((seconds /= Units.MIN_SEC.getValue())).concat(" minutes");
+        	} else {
+        		time = seconds + "seconds";
+        	}
+            return time;
         }
     }
 }
