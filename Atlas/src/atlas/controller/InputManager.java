@@ -2,7 +2,6 @@ package atlas.controller;
 
 import java.io.IOException;
 
-import atlas.controller.InputManagerImpl.Status;
 
 public interface InputManager {
 
