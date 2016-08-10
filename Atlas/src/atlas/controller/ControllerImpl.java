@@ -1,20 +1,9 @@
 package atlas.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.Optional;
 import atlas.model.*;
 import atlas.view.SimEvent;
 import atlas.view.View;
-import atlas.utils.*;
 
 /**
  * Implementation of ControllerInterface
@@ -29,7 +18,7 @@ public class ControllerImpl implements Controller {
     private View view;
     private volatile Model model; // check volatile
     private InputManager inputManager;
-    
+
     /**
      * Creation of new Controller
      * 
@@ -47,7 +36,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void startSim() {
-    	gLoop.setRunning();
+        gLoop.setRunning();
         gLoop.start();
     }
 
@@ -68,103 +57,103 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-	public void update(SimEvent event) {
-		switch (event) {
-		case START:
-			this.startSim();
-			break;
+    public void update(SimEvent event) {
+        switch (event) {
+        case START:
+            this.startSim();
+            break;
 
-		case STOP:
-			this.stopSim();
-			break;
+        case STOP:
+            this.stopSim();
+            break;
 
-		case EXIT:
-			this.exit();
-			break;
+        case EXIT:
+            this.exit();
+            break;
 
-		case ADD:
-			this.inputManager.addMode();
-			break;
+        case ADD:
+            this.inputManager.addMode();
+            break;
 
-		case EDIT:
-			this.inputManager.changeStatus(Status.EDIT);
-			break;
+        case EDIT:
+            this.inputManager.changeStatus(Status.EDIT);
+            break;
 
-		case SAVE:
-			try {
-				this.inputManager.saveConfig();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
+        case SAVE:
+            try {
+                this.inputManager.saveConfig();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
 
-		case LOAD:
-			try {
-				this.inputManager.loadConfig();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
+        case LOAD:
+            try {
+                this.inputManager.loadConfig();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
 
-		case SPEED_CHANGED:
-			try {
-				this.inputManager.changeSpeed();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-			break;
+        case SPEED_CHANGED:
+            try {
+                this.inputManager.changeSpeed();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+            break;
 
-		case MOUSE_CLICKED:
-			this.inputManager.mouseClicked();
-			break;
+        case MOUSE_CLICKED:
+            this.inputManager.mouseClicked();
+            break;
 
-		case MOUSE_PRESSED:
-			this.inputManager.mousePressed();
-			break;
+        case MOUSE_PRESSED:
+            this.inputManager.mousePressed();
+            break;
 
-		case MOUSE_RELEASED:
-			this.inputManager.mouseReleased();
-			break;
+        case MOUSE_RELEASED:
+            this.inputManager.mouseReleased();
+            break;
 
-		case MOUSE_WHEEL_UP:
-			this.inputManager.zoomUp();
-			break;
+        case MOUSE_WHEEL_UP:
+            this.inputManager.zoomUp();
+            break;
 
-		case MOUSE_WHEEL_DOWN:
-			this.inputManager.zoomDown();
-			break;
+        case MOUSE_WHEEL_DOWN:
+            this.inputManager.zoomDown();
+            break;
 
-		case ESC:
-			this.inputManager.ESC();
-			break;
+        case ESC:
+            this.inputManager.ESC();
+            break;
 
-		case W:
-			this.inputManager.wSlide();
-			break;
+        case W:
+            this.inputManager.wSlide();
+            break;
 
-		case A:
-			this.inputManager.aSlide();
-			break;
+        case A:
+            this.inputManager.aSlide();
+            break;
 
-		case S:
-			this.inputManager.sSlide();
-			break;
+        case S:
+            this.inputManager.sSlide();
+            break;
 
-		case D:
-			this.inputManager.dSlide();
-			break;
+        case D:
+            this.inputManager.dSlide();
+            break;
 
-		case SPACEBAR_PRESSED:
-			this.inputManager.spaceBar();
-			break;
+        case SPACEBAR_PRESSED:
+            this.inputManager.spaceBar();
+            break;
 
-		default:
-			break;
-		}
+        default:
+            break;
+        }
 
-    } 
+    }
 }

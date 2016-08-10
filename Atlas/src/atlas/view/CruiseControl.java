@@ -25,6 +25,9 @@ import javafx.scene.layout.HBox;
 public class CruiseControl extends HBox {
 	protected Button buttonPlay = new Button("PLAY");// setGraphic
 	protected Button buttonStop = new Button("STOP");
+	protected Button buttonSpeed = new Button("SPEED");
+	protected Button buttonEdit = new Button("EDIT");
+        protected Button buttonAdd = new Button("ADD");
 	private boolean play;
 
 	protected Label labelTime = new Label("Sample: 01/01/2000");
@@ -32,8 +35,7 @@ public class CruiseControl extends HBox {
 	protected TextField textSpeed = new TextField();
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
-	protected Button buttonEdit = new Button("EDIT");
-	protected Button buttonAdd = new Button("ADD");
+	
 
 	protected Button buttonSearch = new Button();
 	
@@ -45,9 +47,10 @@ public class CruiseControl extends HBox {
 		this.getChildren().add(1, labelTime);
 		this.getChildren().add(2, textSpeed);
 		this.getChildren().add(3, choiceSpeedUnit);
-		this.getChildren().add(4, buttonEdit);
-		this.getChildren().add(5, buttonAdd);
-		this.getChildren().add(6, buttonSearch);
+		this.getChildren().add(4, buttonSpeed);
+		this.getChildren().add(5, buttonEdit);
+		this.getChildren().add(6, buttonAdd);
+		this.getChildren().add(7, buttonSearch);
 		this.play = false;
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 		
@@ -65,6 +68,10 @@ public class CruiseControl extends HBox {
 		};
 		this.buttonPlay.setOnAction(stopPlayHandler);
 		this.buttonStop.setOnAction(stopPlayHandler);
+		
+		this.buttonSpeed.setOnAction(e -> {
+		    view.notifyObservers(SimEvent.SPEED_CHANGED);
+		});
 	}
 
 	private void switchPlayStop() {
