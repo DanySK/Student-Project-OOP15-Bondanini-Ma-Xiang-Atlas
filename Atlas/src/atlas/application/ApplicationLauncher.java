@@ -2,7 +2,6 @@ package atlas.application;
 
 import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
-import atlas.view.TestUI;
 import atlas.view.View;
 import atlas.view.ViewImpl;
 import atlas.view.ViewNewImpl;
@@ -37,11 +36,10 @@ public class ApplicationLauncher extends Application{
 
 		Controller c = ControllerImpl.getIstanceOf();
         
-        View v = new ViewNewImpl(c);
+        View v = new ViewNewImpl(c, primaryStage);
         System.out.println("view = " + v);
         c.setView(v);
         c.startSim();
-		primaryStage.setScene(v.getCurrentScene());
 		this.setOnClose(primaryStage);
 		primaryStage.show();
 	}

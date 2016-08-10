@@ -45,8 +45,9 @@ public class SceneMain extends Scene {
 		
 	}
 	
-	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
+	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
 		this.fpsCounter.setText("FPS: " + fps);
+		this.cruise.labelTime.setText(time);
 		this.renderPanel.render(bodies, scale, translate);
 	}
 }

@@ -36,10 +36,10 @@ public class SimClock implements java.io.Serializable {
      * Increments the time counter
      * 
      * @param dt
-     *            delta time to increment
+     *            delta time(seconds) to increment
      */
     public void update(long dt) {
-        this.time.increment(dt);
+        this.time.increment(dt*1000);
     }
 
     /**
