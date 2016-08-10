@@ -1,7 +1,9 @@
 package atlas.view;
 
 public enum SimEvent {
-	
+	START,
+	STOP,
+	EXIT,
 	ADD,
 	EDIT,
 	SPEED_CHANGED,
