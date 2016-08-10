@@ -11,8 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Optional;
-
-import atlas.controller.InputManagerImpl.Status;
 import atlas.model.Model;
 import atlas.model.ModelImpl;
 import atlas.utils.Pair;
@@ -37,10 +35,10 @@ public class InputManagerImpl implements InputManager {
         this.reference = reference;
     }
 
-    @Override
-    public void changeStatus(Status status) {
-        this.status = status;
-    }
+//    @Override
+//    public void changeStatus(Status status) {
+//        this.status = status;
+//    }
 
     @Override
     public void addMode() {
@@ -138,8 +136,8 @@ public class InputManagerImpl implements InputManager {
     }
 
     @Override
-    public void saveConfig(String name) throws IOException, IllegalArgumentException {
-        String dir = path + name;
+    public void saveConfig() throws IOException, IllegalArgumentException {
+        String dir = path + this.view.getSaveName();
         File f = new File(dir);
         if (this.checkFileExists(f)) {
             throw new IllegalArgumentException();
@@ -155,8 +153,8 @@ public class InputManagerImpl implements InputManager {
     }
 
     @Override
-    public void loadConfig(String name) throws IOException, IllegalArgumentException {
-        String dir = path + name;
+    public void loadConfig() throws IOException, IllegalArgumentException {
+    	String dir = path + this.view.getSaveName();
         File f = new File(dir);
         if (!this.checkFileExists(f)) {
             throw new IllegalArgumentException();
@@ -178,4 +176,9 @@ public class InputManagerImpl implements InputManager {
     private boolean checkFileExists(File f) {
         return f.exists() && !f.isDirectory();
     }
+
+	@Override
+	public void changeSpeed() {
+		
+	}
 }

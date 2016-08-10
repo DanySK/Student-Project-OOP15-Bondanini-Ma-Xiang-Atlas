@@ -16,7 +16,9 @@ public interface InputManager {
 
     public void spaceBar();
 
-    public void changeStatus(Status status);
+   // public void changeStatus(Status edit);
+    
+    public void changeSpeed();
 
     public void addMode();
 
@@ -30,7 +32,7 @@ public interface InputManager {
      * @throws IllegalArgumentException
      *             if the file doesn't exits
      */
-    public void saveConfig(String path) throws IOException, IllegalArgumentException;
+    public void saveConfig() throws IOException, IllegalArgumentException;
 
     /**
      * Loads a configuration from a file.
@@ -41,7 +43,7 @@ public interface InputManager {
      * @throws IllegalArgumentException
      *             if file doesn't exits or cannot be deserialized
      */
-    public void loadConfig(String path) throws IOException, IllegalArgumentException;
+    public void loadConfig() throws IOException, IllegalArgumentException;
 
     /**
      * This method increases zoom

@@ -15,6 +15,7 @@ import atlas.model.*;
 import atlas.view.SimEvent;
 import atlas.view.View;
 import atlas.utils.*;
+import atlas.controller.StatusSim;;
 
 /**
  * Implementation of ControllerInterface
@@ -24,50 +25,51 @@ import atlas.utils.*;
  */
 public class ControllerImpl implements Controller {
 
-    private GameLoop gLoop;
-    private static ControllerImpl ctrl = null;
-    private View view;
-    private volatile Model model; // check volatile
-    private InputManager inputManager;
-    
-    /**
-     * Creation of new Controller
-     * 
-     * @param v
-     *            ViewInterface Object
-     */
-    private ControllerImpl() {
-        this.model = new ModelImpl();
-        gLoop = new GameLoop(model);
-    }
+	private GameLoop gLoop;
+	private static ControllerImpl ctrl = null;
+	private View view;
+	private volatile Model model; // check volatile
+	private InputManager inputManager;
 
-    public static ControllerImpl getIstanceOf() {
-        return (ControllerImpl.ctrl == null ? new ControllerImpl() : ControllerImpl.ctrl);
-    }
+	/**
+	 * Creation of new Controller
+	 * 
+	 * @param v
+	 *            ViewInterface Object
+	 */
+	private ControllerImpl() {
+		this.model = new ModelImpl();
+		gLoop = new GameLoop(model);
+		gLoop.start();
+	}
 
-    @Override
-    public void startSim() {
-    	gLoop.setRunning();
-        gLoop.start();
-    }
+	public static ControllerImpl getIstanceOf() {
+		return (ControllerImpl.ctrl == null ? new ControllerImpl() : ControllerImpl.ctrl);
+	}
 
-    @Override
-    public void stopSim() {
-        gLoop.setStopped();
-    }
+	@Override
+	public void startSim() {
+		gLoop.setRunning();
 
-    @Override
-    public void exit() {
-        gLoop.setExit();
-    }
+	}
 
-    public void setView(View v) {
-        this.view = v;
-        this.gLoop.setView(v);
-        this.inputManager = new InputManagerImpl(this.view, this.model, this.gLoop, this.view.getReference());
-    }
+	@Override
+	public void stopSim() {
+		gLoop.setStopped();
+	}
 
-    @Override
+	@Override
+	public void exit() {
+		gLoop.setExit();
+	}
+
+	public void setView(View v) {
+		this.view = v;
+		this.inputManager = new InputManagerImpl(this.view, this.model, this.gLoop, this.view.getReference());
+		this.gLoop.setView(v);
+	}
+
+	@Override
 	public void update(SimEvent event) {
 		switch (event) {
 		case START:
@@ -87,6 +89,7 @@ public class ControllerImpl implements Controller {
 			break;
 
 		case EDIT:
+			this.inputManager.changeStatus(Status.EDIT);
 			break;
 
 		case SAVE:
@@ -164,6 +167,5 @@ public class ControllerImpl implements Controller {
 		default:
 			break;
 		}
-
-    } 
+	}
 }
