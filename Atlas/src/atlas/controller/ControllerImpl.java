@@ -87,6 +87,7 @@ public class ControllerImpl implements Controller {
 			break;
 
 		case EDIT:
+			this.inputManager.changeStatus(Status.EDIT);
 			break;
 
 		case SAVE:

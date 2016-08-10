@@ -123,10 +123,6 @@ public class InputManagerImpl implements InputManager {
         this.view.updateReferce(this.reference, this.scale);
     }
 
-    public enum Status {
-        DEFAULT, ADDING, EDIT
-    }
-
     @Override
     public void spaceBar() {
         if (this.gLoop.getStatus().equals(StatusSim.RUNNING)) {
