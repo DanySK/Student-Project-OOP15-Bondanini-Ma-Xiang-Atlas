@@ -36,11 +36,6 @@ public class InputManagerImpl implements InputManager {
         this.reference = reference;
     }
 
-//    @Override
-//    public void changeStatus(Status status) {
-//        this.status = status;
-//    }
-
     @Override
     public void addMode() {
         if (!this.view.getSelectedBody().equals(Optional.empty())) {

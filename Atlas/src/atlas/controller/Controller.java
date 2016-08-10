@@ -1,9 +1,5 @@
 package atlas.controller;
 
-import java.io.IOException;
-import java.util.Optional;
-import atlas.model.Body;
-import atlas.utils.Units;
 import atlas.view.SimEvent;
 import atlas.view.View;
 
@@ -38,16 +34,10 @@ public interface Controller {
     public void update(SimEvent event);
 
     /**
-     * This method sets the view
+     * This method sets the view and the InputManager
+     * 
      * @param event
      */
     public void setView(View v);
-
-    /**
-     * Set the UI and Speed of simulation
-     * @param path the path of the file
-     * @throws IllegalArgumentException if speed value is wrong
-     */
-    
 
 }
