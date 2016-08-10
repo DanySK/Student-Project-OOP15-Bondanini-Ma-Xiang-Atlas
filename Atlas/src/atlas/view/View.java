@@ -14,7 +14,7 @@ import atlas.utils.Units;
 
 public interface View {
     
-    public void render(List<Body> b, int fps);
+    public void render(List<Body> b, String time,int fps);
     
     public void notifyObservers(SimEvent event);
     
@@ -34,5 +34,9 @@ public interface View {
     
     public Pair<Double, Double> getReference();
     
-    public Scene getCurrentScene();
+    public boolean isMainScene();
+    
+    public void switchToMainScene();
+    
+    public void switchToLoadingScene();
 }

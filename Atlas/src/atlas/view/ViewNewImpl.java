@@ -22,16 +22,20 @@ public class ViewNewImpl implements View {
 	private double scale = 1.4000000000000000E-9;
 	private Pair<Double, Double> translate = new Pair<>(new Double(WIDTH / 2), new Double(HEIGHT / 2));
 	private SceneMain mainScene;
+	private SceneLoading loadingScene;
 
 	// inputs fields
 	private Optional<Body> selectedBody;
 	private Optional<MouseEvent> lastMouseEvent;
 	
 	private Controller ctrl;
+	private Stage stage;
 	
-	public ViewNewImpl(Controller c) {
+	public ViewNewImpl(Controller c, Stage primaryStage) {
 		this.ctrl = c;
+		this.stage = primaryStage;
 		this.mainScene = new SceneMain(this, WIDTH, HEIGHT);
+		this.stage.setScene(mainScene);
 		setSceneMain();
 	}
 
@@ -48,9 +52,9 @@ public class ViewNewImpl implements View {
 	}
 
 	@Override
-	public void render(List<Body> b, int fps) {
+	public void render(List<Body> b, String time, int fps) {
 		if (mainScene != null) {
-			Platform.runLater(() -> mainScene.draw(b, scale, translate, fps));
+			Platform.runLater(() -> mainScene.draw(b, scale, translate, time, fps));
 		}
 	}
 
@@ -109,7 +113,17 @@ public class ViewNewImpl implements View {
 	}
 
 	@Override
-	public Scene getCurrentScene() {
-		return this.mainScene;
+	public boolean isMainScene() {
+		return this.stage.getScene().equals(mainScene);
+	}
+
+	@Override
+	public void switchToMainScene() {
+		this.stage.setScene(mainScene);		
+	}
+
+	@Override
+	public void switchToLoadingScene() {
+		this.stage.setScene(loadingScene);		
 	}
 }

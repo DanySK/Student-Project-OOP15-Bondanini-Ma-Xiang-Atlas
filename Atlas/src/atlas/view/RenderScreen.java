@@ -92,6 +92,7 @@ public class RenderScreen extends StackPane {
 				lMid2.getChildren().add(img);
 				lTop.getChildren().add(lab);
 			}
+			System.out.println(b.getName() + " X = " + b.getPosX() + " Y = " + b.getPosY());
 			bMap.get(b.getName()).getX().relocate(translate.getX() + b.getPosX() * scale,
 					translate.getY() + b.getPosY() * scale);
 			bMap.get(b.getName()).getY().relocate(translate.getX() + b.getPosX() * scale,
