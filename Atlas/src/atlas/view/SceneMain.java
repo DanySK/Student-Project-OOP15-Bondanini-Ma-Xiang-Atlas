@@ -43,6 +43,31 @@ public class SceneMain extends Scene {
 		
 		this.setRoot(root);
 		
+		this.setKeyboardCommands();
+	}
+	
+	private void setKeyboardCommands() {
+		root.setOnKeyPressed(k -> {
+			switch(k.getCode()) {
+			case W: 
+				view.notifyObservers(SimEvent.W);
+				break;
+			case A: 
+				view.notifyObservers(SimEvent.A);
+				break;
+			case S: 
+				view.notifyObservers(SimEvent.S);
+				break;
+			case D: 
+				view.notifyObservers(SimEvent.D);
+				break;
+			case SPACE:
+				view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
+				break;
+			default:
+				break;
+			}
+		});
 	}
 	
 	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
