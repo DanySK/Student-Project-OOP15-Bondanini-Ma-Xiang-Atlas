@@ -29,7 +29,7 @@ public class RenderScreen extends StackPane {
 
 	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
 	private final static int LABEL_OFFSET = 10;
-	private final static int CANVAS_BORDER = 50;
+	private final static int CANVAS_BORDER = 0;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
 	private Canvas lMid1 = new Canvas(); // first intermediate layer
@@ -47,17 +47,18 @@ public class RenderScreen extends StackPane {
 	public RenderScreen(final Pane root) {
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
 		
-		DoubleBinding y = root.heightProperty().subtract(CANVAS_BORDER);
-		this.lBottom.widthProperty().bind(root.widthProperty());
+		DoubleBinding y = this.heightProperty().subtract(CANVAS_BORDER);
+		this.lBottom.widthProperty().bind(this.widthProperty());
 		this.lBottom.heightProperty().bind(y);
-		this.lMid1.widthProperty().bind(root.widthProperty());
+		this.lMid1.widthProperty().bind(this.widthProperty());
 		this.lMid1.heightProperty().bind(y);
-		this.lMid2.prefWidthProperty().bind(root.widthProperty());
-		this.lMid2.prefHeightProperty().bind(root.heightProperty());
-		this.lTop.prefWidthProperty().bind(root.widthProperty());
-		this.lTop.prefHeightProperty().bind(root.heightProperty());
+		this.lMid2.prefWidthProperty().bind(this.widthProperty());
+		this.lMid2.prefHeightProperty().bind(this.heightProperty());
+		this.lTop.prefWidthProperty().bind(this.widthProperty());
+		this.lTop.prefHeightProperty().bind(this.heightProperty());
 		
-
+		this.prefHeightProperty().bind(root.heightProperty());
+		this.prefWidthProperty().bind(root.widthProperty());
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lTop);
 
