@@ -32,7 +32,8 @@ public class ViewImpl implements View {
 		this.ctrl = c;
 		this.stage = primaryStage;
 		this.mainScene = new SceneMain(this, WIDTH, HEIGHT);
-		this.stage.setScene(mainScene);
+		this.loadingScene = new SceneLoading();
+		this.stage.setScene(loadingScene);
 		setSceneMain();
 	}
 
@@ -51,7 +52,12 @@ public class ViewImpl implements View {
 	@Override
 	public void render(List<Body> b, String time, int fps) {
 		if (mainScene != null) {
-			Platform.runLater(() -> mainScene.draw(b, scale, translate, time, fps));
+			Platform.runLater(() -> {
+				mainScene.draw(b, scale, translate, time, fps);
+				if(!isMainScene()) {
+					this.switchToMainScene();
+				}
+			});
 		}
 	}
 
