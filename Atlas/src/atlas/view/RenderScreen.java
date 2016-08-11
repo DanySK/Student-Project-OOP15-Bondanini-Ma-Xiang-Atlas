@@ -1,14 +1,13 @@
 package atlas.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -17,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
 
 /**
  * This pane serves as the render screen, which displays all the bodies for each
@@ -29,8 +27,9 @@ import javafx.scene.shape.Polyline;
  */
 public class RenderScreen extends StackPane {
 
-	private static String DEFAULT_BACKGROUND = "/images/" + "star.png";
-	private static int LABEL_OFFSET = 10;
+	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
+	private final static int LABEL_OFFSET = 10;
+	private final static int CANVAS_BORDER = 50;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
 	private Canvas lMid1 = new Canvas(); // first intermediate layer
@@ -45,19 +44,22 @@ public class RenderScreen extends StackPane {
 	/**
 	 * Constructor
 	 */
-	public RenderScreen(double width, double height) {
+	public RenderScreen(final Pane root) {
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
-
-		this.lBottom.setWidth(width);
-		this.lBottom.setHeight(height);
-		this.lMid1.setWidth(width);
-		this.lMid1.setHeight(height);
+		
+		DoubleBinding y = root.heightProperty().subtract(CANVAS_BORDER);
+		this.lBottom.widthProperty().bind(root.widthProperty());
+		this.lBottom.heightProperty().bind(y);
+		this.lMid1.widthProperty().bind(root.widthProperty());
+		this.lMid1.heightProperty().bind(y);
+		this.lMid2.prefWidthProperty().bind(root.widthProperty());
+		this.lMid2.prefHeightProperty().bind(root.heightProperty());
+		this.lTop.prefWidthProperty().bind(root.widthProperty());
+		this.lTop.prefHeightProperty().bind(root.heightProperty());
+		
 
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lTop);
-		// Hopefully sets the position to center
-		// this.setTranslateX(this.getWidth() / 2);
-		// this.setTranslateY(this.getHeight() / 2);
 
 		Double inTran = new Double(0);
 		this.currentTranlate = new Pair<>(inTran, inTran);
@@ -98,11 +100,11 @@ public class RenderScreen extends StackPane {
 	}
 
 	private double calcPosX(double realX) {
-		return this.currentTranlate.getX() + realX * this.currentScale;
+		return this.getWidth()/2 + this.currentTranlate.getX() + realX * this.currentScale;
 	}
 
 	private double calcPosY(double realY) {
-		return this.currentTranlate.getY() - realY * this.currentScale;
+		return this.getHeight()/2 + this.currentTranlate.getY() - realY * this.currentScale;
 	}
 
 	private void drawTrail(Body b, double scale) {

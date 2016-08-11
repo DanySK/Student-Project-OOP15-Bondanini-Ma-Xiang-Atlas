@@ -1,8 +1,11 @@
 package atlas.view;
 
 import java.util.List;
+
 import atlas.model.Body;
 import atlas.utils.Pair;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,12 +23,14 @@ public class SceneMain extends Scene {
 	protected Image background;
 	private Label fpsCounter;
 	
+//	private Pair<DoubleProperty, DoubleProperty> screenCenter;
+	
 	private View view;
 	
 	public SceneMain(View v, double width, double height) {
 		super(new Pane());
 		this.view = v;
-		this.renderPanel = new RenderScreen(width, height-70);//width, height-100
+		this.renderPanel = new RenderScreen(root);
 		this.cruise = new CruiseControl(v);
 		this.fpsCounter = new Label("FPS : ");
 		this.fpsCounter.setTextFill(Color.BLACK);
@@ -34,6 +39,7 @@ public class SceneMain extends Scene {
 		this.root.setCenter(renderPanel);
 		this.root.setBottom(cruise);
 		this.root.setTop(fpsCounter);
+		this.root.setStyle("-fx-border-color: aqua;");
 		
 		this.setRoot(root);
 		

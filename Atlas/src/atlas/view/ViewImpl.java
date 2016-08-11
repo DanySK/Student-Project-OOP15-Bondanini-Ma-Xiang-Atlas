@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 public class ViewImpl implements View {
 
 	// Visualization fields
-	private static int HEIGHT = 720;
-	private static int WIDTH = 1280;
+	private static int HEIGHT = 360;
+	private static int WIDTH = 640;
 	private double scale = 1.4000000000000000E-9;
-	private Pair<Double, Double> translate = new Pair<>(new Double(WIDTH / 2), new Double(HEIGHT / 2));
+	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
 	private SceneMain mainScene;
 	private SceneLoading loadingScene;
 
