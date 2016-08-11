@@ -6,9 +6,9 @@ import atlas.utils.Pair;
 
 public class Trail {
     
-	private static int TRAILSIZE = 60*60*6;
+	private final static int TRAILSIZE = 500;
 	/*Determines the storing frequency*/
-	private static int STORE_PER_UPDATE = 20;
+	private final static int STORE_PER_UPDATE = 20;
 	
 	private Deque<Pair<Double, Double>> points;
 	private int length;
