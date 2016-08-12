@@ -19,9 +19,7 @@ public class SimConfig {
     }
 
     public Body getSun() {
-        double sunvx = 5.374260940168565E-06 * AU / DAY_SECONDS;
-        double sunvy = -7.410965396701423E-06 * AU / DAY_SECONDS;
-        return new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS);
+        return EpochJ2000.SUN.getBody();
     }
 
     public Body getMercury() {
@@ -45,14 +43,7 @@ public class SimConfig {
     }
 
     public Body getEarth() {
-        // EARTH
-        double px = -1.756637922977121E-01 * AU;
-        double py = 9.659912850526894E-01 * AU;
-
-        double vx = (-1.722857156974861E-02 * AU) / DAY_SECONDS;
-        double vy = (-3.015071224668472E-03 * AU) / DAY_SECONDS;
-
-        return new BodyImpl("earth", px, py, vx, vy, BodyType.EARTH_MASS);
+        return EpochJ2000.EARTH.getBody();
     }
 
     public Body getMars() {
