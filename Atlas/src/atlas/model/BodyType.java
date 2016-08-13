@@ -1,5 +1,7 @@
 package atlas.model;
 
+import atlas.utils.Units;
+
 /**
  * All Possible body types and physical values.
  *
@@ -34,10 +36,6 @@ public enum BodyType {
      */
     public static final double AU = 149597870.700 * 1000;
     
-    /**
-     * Seconds in a day
-     */
-    public static final int DAY_SECONDS = 60*60*24;
     
     /**
      * Data from NASA Jet Propulsion Laboratory (link = http://ssd.jpl.nasa.gov)
@@ -52,5 +50,19 @@ public enum BodyType {
     public static final double URANUS_MASS = 86.8103e24; 
     public static final double NEPTUNE_MASS = 102.410e24;
     public static final double PLUTO_MASS = 0.01309e24;
+    
+    /**
+     * Rotation period
+     */
+    public static final long SUN_DAY = (long)(27 * Units.DAY_SEC.getValue());
+    public static final long MERCURY_DAY = (long)(58.6462 * Units.DAY_SEC.getValue());
+    public static final long VENUS_DAY = (long)(-243.0185 * Units.DAY_SEC.getValue());
+    public static final long EARTH_DAY = (long)(1.002738 * Units.DAY_SEC.getValue());
+    public static final long MARS_DAY = (long)(24.622962 * Units.HOUR_SEC.getValue());
+    public static final long JUPITER_DAY = (long)(0.413538021 * Units.DAY_SEC.getValue());
+    public static final long SATURN_DAY = (long)(0.449375 * Units.DAY_SEC.getValue());
+    public static final long URANUS_DAY = (long)(0.71833 * Units.DAY_SEC.getValue());
+    public static final long NEPTUNE_DAY = (long)(16.11 * Units.HOUR_SEC.getValue());
+    public static final long PLUTO_DAY = (long)(6.387230 * Units.DAY_SEC.getValue());
     
 }
