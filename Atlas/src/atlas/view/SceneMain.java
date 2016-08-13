@@ -4,8 +4,6 @@ import java.util.List;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,8 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class SceneMain extends Scene {
-	
-	private static SceneMain sceneMain;
 	
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
@@ -43,7 +39,24 @@ public class SceneMain extends Scene {
 		
 		this.setRoot(root);
 		
+		this.setCommands();
+	}
+	
+	private void setCommands() {
 		this.setKeyboardCommands();
+		this.setScrollCommands();
+	}
+	
+	private void setScrollCommands() {
+		this.renderPanel.setOnScroll( e-> {
+	    	if (e.getDeltaY() > 0) {
+	    		System.out.println("------------------------UP-----------------------------");
+	    		this.view.notifyObservers(SimEvent.MOUSE_WHEEL_UP);
+	    	} else {
+	    		System.out.println("------------------------Down-----------------------------");
+	    		this.view.notifyObservers(SimEvent.MOUSE_WHEEL_DOWN);
+	    	}
+	    });
 	}
 	
 	private void setKeyboardCommands() {

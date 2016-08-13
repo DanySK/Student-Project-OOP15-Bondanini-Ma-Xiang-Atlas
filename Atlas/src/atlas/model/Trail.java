@@ -8,7 +8,7 @@ public class Trail {
     
 	private final static int TRAILSIZE = 500;
 	/*Determines the storing frequency*/
-	private final static int STORE_PER_UPDATE = 20;
+	private final static int STORE_PER_UPDATE = 50;
 	
 	private Deque<Pair<Double, Double>> points;
 	private int length;
@@ -26,7 +26,7 @@ public class Trail {
 		this.length = length;
 	}
 	
-	public void addPoint(double x, double y){
+	public synchronized void addPoint(double x, double y){
 	    if(this.shouldAdd()){
 	        this.points.addFirst(new Pair<Double, Double>(x,y));
 	        if(this.points.size() - 1 == length){
@@ -43,7 +43,7 @@ public class Trail {
 	    return (timesCalled % Trail.STORE_PER_UPDATE) == 0; 
 	}
 	
-	public Collection<Pair<Double, Double>> getPoints(){
+	public synchronized Collection<Pair<Double, Double>> getPoints(){
 		return new ArrayDeque<>(this.points); // defensive copy
 	}
 	

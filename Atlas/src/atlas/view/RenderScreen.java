@@ -33,7 +33,7 @@ import javafx.scene.shape.Polyline;
 public class RenderScreen extends StackPane {
 
     private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
-    private final static float TRAIL_OPACITY = 0.7f;
+    private final static float TRAIL_OPACITY = 0.4f;
     private final static int TRAIL_WIDTH = 5;
     private final static int LABEL_OFFSET = 10;
     private final static int CANVAS_BORDER = 50;
@@ -41,7 +41,7 @@ public class RenderScreen extends StackPane {
 
     private Canvas lBottom = new Canvas(); // the bottom layer
     private Canvas lMid1 = new Canvas(); // first intermediate layer
-    private Pane lMid3 = new Pane();
+    private Pane lMid3 = new Pane();//for now
     private Pane lMid2 = new Pane();
     private Pane lTop = new Pane(); // the top layer -> labels
 
@@ -73,8 +73,8 @@ public class RenderScreen extends StackPane {
         this.getChildren().addAll(this.lBottom, this.lMid1);
         this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
 
-        Double inTran = new Double(0);
-        this.currentTranlate = new Pair<>(inTran, inTran);
+        Double defTran = new Double(0);
+        this.currentTranlate = new Pair<>(defTran, defTran);
     }
 
     public void setBackgroundImage(String imageUrl) {
@@ -104,8 +104,6 @@ public class RenderScreen extends StackPane {
             Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getName());
             this.drawTrail(b, scale, entry.getY());
 
-            // System.out.println(b.getName() + " X = " + b.getPosX() + " Y = "
-            // + b.getPosY());
             entry.getX().getX().relocate(this.calcPosX(b.getPosX()), this.calcPosY(b.getPosY()));
             entry.getX().getY().relocate(this.calcPosX(b.getPosX()) + LABEL_OFFSET, this.calcPosY(b.getPosY()));
         });
@@ -145,16 +143,13 @@ public class RenderScreen extends StackPane {
             points[i++] = this.calcPosY(p.getY());
         }
         /*POLY MODE*/
-        Stop[] stops = new Stop[] { new Stop(1, color), new Stop(1, Color.BLACK)};
-        LinearGradient grad = new LinearGradient(pointsX[0], pointsY[0], pointsX[arraySize - 1], pointsY[arraySize - 1],
-                false, CycleMethod.NO_CYCLE, stops);
 //        Polyline pl = new Polyline(points);
-//        pl.setStroke(grad);
+//        pl.setStroke(color);
 //        pl.setStrokeWidth(TRAIL_WIDTH);
 //        this.lMid3.getChildren().add(pl);
         /*CANVAS MODE*/
         GraphicsContext gc = this.lMid1.getGraphicsContext2D();
-        gc.setStroke(grad);
+        gc.setStroke(color);
         gc.setLineWidth(TRAIL_WIDTH);
         gc.strokePolyline(pointsX, pointsY, arraySize);
     }
@@ -173,7 +168,6 @@ public class RenderScreen extends StackPane {
         }
         double radiusScaled = b.getProperties().getRadius() * scale;
         radiusScaled *= 2;
-        // System.out.println("radius" + radiusScaled);
         img.setFitHeight(radiusScaled >= MIN_IMAGE_SIZE ? radiusScaled : MIN_IMAGE_SIZE);
         img.setFitWidth(radiusScaled >= MIN_IMAGE_SIZE ? radiusScaled : MIN_IMAGE_SIZE);
 
@@ -182,10 +176,6 @@ public class RenderScreen extends StackPane {
 
     private void adjustScreen(double scale, Pair<Double, Double> translate) {
         if (this.currentScale != scale || !translate.equals(currentTranlate)) {
-            // this.setScaleX(scale);
-            // this.setScaleY(scale);
-            // this.setTranslateX(translate.getX());
-            // this.setTranslateY(translate.getY());
             this.currentScale = scale;
             this.currentTranlate = translate;
         }
