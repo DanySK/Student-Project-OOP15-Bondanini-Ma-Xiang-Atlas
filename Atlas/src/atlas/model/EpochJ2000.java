@@ -14,20 +14,100 @@ public enum EpochJ2000 {
                                 .mass(SOLAR_MASS)
                                 .posX(0)
                                 .posY(0)
-                                .velX((5.374260940168565E-06 * AU) / DAY_SECONDS)
-                                .velY((-7.410965396701423E-06 * AU) / DAY_SECONDS)
-                                .properties(new Body.Properties(702020*1000, 26 * DAY_SECONDS, null, null, 5775.00 ))
+                                .velX((5.374260940168565E-06 * AU) / EARTH_DAY)
+                                .velY((-7.410965396701423E-06 * AU) / EARTH_DAY)
+                                .properties(new Body.Properties(702020*1000, 26 * EARTH_DAY, null, null, 5775.00 ))
                                 .build()),
+    
+    MERCURY(new BodyImpl.Builder().name("Mercury")
+            .type(PLANET)
+            .mass(MERCURY_MASS)
+            .posX(-1.478672233442572E-01 * AU)
+            .posY(-4.466929775364947E-01 * AU)
+            .velX(( 2.117424563261189E-02 * AU) / EARTH_DAY)
+            .velY((-7.105386404267509E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(2440*1000, MERCURY_DAY, null, SUN.getBody(), 440.00 ))
+            .build()),
+    
+    VENUS(new BodyImpl.Builder().name("Venus")
+    		.type(PLANET)
+    		.mass(VENUS_MASS)
+    		.posX(-7.257693602841776E-01 * AU)
+    		.posY(-2.529582082587794E-02 * AU)
+    		.velX(( 5.189070188671264E-04 * AU) / EARTH_DAY)
+    		.velY((-2.031355258779472E-02 * AU) / EARTH_DAY)
+    		.properties(new Body.Properties(6051.8*1000, VENUS_DAY, null, SUN.getBody(), 735.00 ))
+    		.build()),
     
     EARTH(new BodyImpl.Builder().name("Earth")
                                 .type(PLANET)
                                 .mass(EARTH_MASS)
                                 .posX(-1.756637922977121E-01 * AU)
                                 .posY(9.659912850526894E-01 * AU)
-                                .velX((-1.722857156974861E-02 * AU) / DAY_SECONDS)
-                                .velY((-3.015071224668472E-03 * AU) / DAY_SECONDS)
-                                .properties(new Body.Properties(6371*1000, DAY_SECONDS, null, SUN.getBody(), celsiusToKelvin(14.00) ))
+                                .velX((-1.722857156974861E-02 * AU) / EARTH_DAY)
+                                .velY((-3.015071224668472E-03 * AU) / EARTH_DAY)
+                                .properties(new Body.Properties(6371*1000, EARTH_DAY, null, SUN.getBody(), celsiusToKelvin(14.00) ))
                                 .build()),
+    
+    MARS(new BodyImpl.Builder().name("Mars")
+            .type(PLANET)
+            .mass(MARS_MASS)
+            .posX(1.383221922520998E+00 * AU)
+            .posY(-2.380174081741852E-02 * AU)
+            .velX((7.533013850513374E-04 * AU) / EARTH_DAY)
+            .velY((1.517888771209419E-02 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(3389.9*1000, MARS_DAY, null, SUN.getBody(), 210.00 ))
+            .build()),
+    
+    JUPITER(new BodyImpl.Builder().name("Jupiter")
+            .type(PLANET)
+            .mass(JUPITER_MASS)
+            .posX(3.996321311604079E+00 * AU)
+            .posY(2.932561211517849E+00 * AU)
+            .velX((-4.558376589062066E-03 * AU) / EARTH_DAY)
+            .velY((6.439863212743646E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(71492*1000, JUPITER_DAY, null, SUN.getBody(), 165.00 ))
+            .build()),
+    
+    SATURN(new BodyImpl.Builder().name("Saturn")
+            .type(PLANET)
+            .mass(SATURN_MASS)
+            .posX(6.401416890663500E+00 * AU)
+            .posY(6.565250734685103E+00 * AU)
+            .velX((-4.285166238539475E-03 * AU) / EARTH_DAY)
+            .velY((3.884579926659154E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(60268*1000, SATURN_DAY, null, SUN.getBody(), 134.00 ))
+            .build()),
+    
+    URANUS(new BodyImpl.Builder().name("Uranus")
+            .type(PLANET)
+            .mass(URANUS_MASS)
+            .posX(1.442337843936191E+01 * AU)
+            .posY(-1.373845030140273E+01 * AU)
+            .velX((2.683840344076701E-03 * AU) / EARTH_DAY)
+            .velY((2.665016541217002E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(25559*1000, URANUS_DAY, null, SUN.getBody(), 76.00 ))
+            .build()),
+    
+    NEPTUNE(new BodyImpl.Builder().name("Neptune")
+            .type(PLANET)
+            .mass(NEPTUNE_MASS)
+            .posX(1.680361764335729E+01 * AU)
+            .posY(-2.499544328458694E+01 * AU)
+            .velX((2.584589572083709E-03 * AU) / EARTH_DAY)
+            .velY((1.768943546348827E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(24766*1000, NEPTUNE_DAY, null, SUN.getBody(), 72.00 ))
+            .build()),
+    
+    PLUTO(new BodyImpl.Builder().name("Pluto")
+            .type(DWARF_PLANET)
+            .mass(PLUTO_MASS)
+            .posX(-9.884006595855094E+00 * AU)
+            .posY(-2.796081320603301E+01 * AU)
+            .velX((3.044390641302692E-03 * AU) / EARTH_DAY)
+            .velY((-1.537290075737863E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(1195*1000, PLUTO_DAY, null, SUN.getBody(), 40.00 ))
+            .build()),
     ;
     
   //moon

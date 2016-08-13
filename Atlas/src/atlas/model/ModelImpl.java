@@ -59,7 +59,7 @@ public class ModelImpl implements Model, java.io.Serializable {
 //        c.setPosX(0);
 //        c.setPosY(0);
 //        c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
-        
+        this.clock.setEpoch(EpochJ2000.TIME_MILLS);
         this.bodies.addAll(sol.getAll());
     }
 
