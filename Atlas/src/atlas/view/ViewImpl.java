@@ -34,19 +34,7 @@ public class ViewImpl implements View {
 		this.mainScene = new SceneMain(this, WIDTH, HEIGHT);
 		this.loadingScene = new SceneLoading();
 		this.stage.setScene(loadingScene);
-		setSceneMain();
-	}
-
-	private void setSceneMain() {
-		mainScene.renderPanel.setOnScroll( e-> {
-    	if (e.getDeltaY() > 0) {
-    		System.out.println("------------------------UP-----------------------------");
-    		notifyObservers(SimEvent.MOUSE_WHEEL_UP);
-    	} else {
-    		System.out.println("------------------------Down-----------------------------");
-    		notifyObservers(SimEvent.MOUSE_WHEEL_DOWN);
-    	}
-    });
+		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
 	}
 
 	@Override
