@@ -45,8 +45,7 @@ public class ModelImpl implements Model, java.io.Serializable {
 
 	public ModelImpl() {
 
-        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
-        SimConfig sol = new SimConfig();
+        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(5));
 //        Body b = EpochJ2000.EARTH.getBody();
 //        b.setName("sun");
 //        b.setMass(EpochJ2000.EARTH.getBody().getMass()+1000);
@@ -58,9 +57,12 @@ public class ModelImpl implements Model, java.io.Serializable {
 //        c.setName("earth");
 //        c.setPosX(0);
 //        c.setPosY(0);
-//        c.setVelocity(new Pair<>(new Double(-1000), new Double(0)));
+//        c.setVelocity(new Pair<>(new Double(+4000), new Double(0)));
+//        this.bodies.addAll(Arrays.asList(b,c));
         this.clock.setEpoch(EpochJ2000.TIME_MILLS);
-        this.bodies.addAll(sol.getAll());
+        for(EpochJ2000 b : EpochJ2000.values()) {
+        	this.bodies.add(b.getBody());
+        }
     }
 
     // private static double circlev(double rx, double ry) {

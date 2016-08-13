@@ -13,7 +13,7 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 
 	private static final long serialVersionUID = -1811886471163319254L;
 
-	private static double ATTRACTING_FRAGMENTS_PERCENTAGE = 0.1;
+	private static double ATTRACTING_FRAGMENTS_PERCENTAGE = 0.9;
 
 	private int numFragments;
 
@@ -48,7 +48,7 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 	private List<Body> spawnFragments(Body body, Body parent) {
 		List<Body> fragments = new ArrayList<>();
 		int numAttract = (int) (numFragments * ATTRACTING_FRAGMENTS_PERCENTAGE);
-		int multiplier = 10;
+		int multiplier = 5;
 		int offset = 3;
 		Random rand = new Random();
 
