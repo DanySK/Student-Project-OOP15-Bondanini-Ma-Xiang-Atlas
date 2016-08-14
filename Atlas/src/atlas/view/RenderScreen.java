@@ -21,6 +21,9 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Polyline;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * This pane serves as the render screen, which displays all the bodies for each
@@ -35,7 +38,7 @@ public class RenderScreen extends StackPane {
 	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
 	private final static float TRAIL_OPACITY = 0.4f;
 	private final static int TRAIL_WIDTH = 5;
-	private final static int CANVAS_BORDER = 50;
+	private final static int BORDER = 40;
 	private final static int MIN_IMAGE_SIZE = 1;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
@@ -43,6 +46,7 @@ public class RenderScreen extends StackPane {
 	private Pane lMid3 = new Pane();// for now
 	private Pane lMid2 = new Pane();
 	private Pane lTop = new Pane(); // the top layer -> labels
+	private Label fpsCounter = new Label();
 
 	private Map<String, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
 
@@ -54,21 +58,30 @@ public class RenderScreen extends StackPane {
 	 */
 	public RenderScreen(final Pane root) {
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
-
-		DoubleBinding y = root.heightProperty().subtract(CANVAS_BORDER);
-		this.lBottom.widthProperty().bind(root.widthProperty());
+		
+		DoubleBinding x = this.widthProperty().subtract(0);
+		DoubleBinding y = this.heightProperty().subtract(0);
+		this.lBottom.widthProperty().bind(x);
 		this.lBottom.heightProperty().bind(y);
-		this.lMid1.widthProperty().bind(root.widthProperty());
+		this.lMid1.widthProperty().bind(x);
 		this.lMid1.heightProperty().bind(y);
-		this.lMid2.prefWidthProperty().bind(root.widthProperty());
-		this.lMid2.prefHeightProperty().bind(root.heightProperty());
-		this.lMid3.prefWidthProperty().bind(root.widthProperty());
-		this.lMid3.prefHeightProperty().bind(root.heightProperty());
-		this.lTop.prefWidthProperty().bind(root.widthProperty());
-		this.lTop.prefHeightProperty().bind(root.heightProperty());
+		this.lMid2.prefWidthProperty().bind(x);
+		this.lMid2.prefHeightProperty().bind(x);
+		this.lMid3.prefWidthProperty().bind(x);
+		this.lMid3.prefHeightProperty().bind(x);
+		this.lTop.prefWidthProperty().bind(x);
+		this.lTop.prefHeightProperty().bind(x);
+		
+		this.lTop.getChildren().add(fpsCounter);
+		fpsCounter.setTextFill(Color.MAGENTA);
+		fpsCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
 
-		this.prefHeightProperty().bind(root.heightProperty());
-		this.prefWidthProperty().bind(root.widthProperty());
+		this.maxHeightProperty().bind(root.heightProperty().subtract(BORDER));
+		this.maxWidthProperty().bind(root.widthProperty().subtract(BORDER));
+		this.minHeightProperty().bind(root.heightProperty().subtract(BORDER));
+		this.minWidthProperty().bind(root.widthProperty().subtract(BORDER));
+		this.prefHeightProperty().bind(root.heightProperty().subtract(BORDER));
+		this.prefWidthProperty().bind(root.widthProperty().subtract(BORDER));
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
 
@@ -81,10 +94,11 @@ public class RenderScreen extends StackPane {
 				+ "-fx-background-repeat: stretch;");
 	}
 
-	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate) {
+	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
 		/* Preliminary actions */
 		this.adjustScreen(scale, translate);
 		this.clearScreen();
+		this.fpsCounter.setText("FPS: "+fps);
 		/* Drawing the new frame */
 
 		bodies.forEach(b -> {

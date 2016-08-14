@@ -1,23 +1,23 @@
 package atlas.view;
 
+import java.awt.Toolkit;
 import java.util.List;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public class SceneMain extends Scene {
 	
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
 	protected RenderScreen renderPanel;
+	protected Button left,right;
 	protected Image background;
-	private Label fpsCounter;
 	
 //	private Pair<DoubleProperty, DoubleProperty> screenCenter;
 	
@@ -28,14 +28,16 @@ public class SceneMain extends Scene {
 		this.view = v;
 		this.renderPanel = new RenderScreen(root);
 		this.cruise = new CruiseControl(v);
-		this.fpsCounter = new Label("FPS : ");
-		this.fpsCounter.setTextFill(Color.BLACK);
-		this.fpsCounter.relocate(5, 5);
+		this.left = new Button("|||");
+		this.right = new Button("|||");
 		
 		this.root.setCenter(renderPanel);
 		this.root.setBottom(cruise);
-		this.root.setTop(fpsCounter);
 		this.root.setStyle("-fx-border-color: aqua;");
+		this.root.setLeft(left);
+		this.root.setRight(right);
+		left.setMaxHeight(Double.MAX_VALUE);
+		right.setMaxHeight(Double.MAX_VALUE);
 		
 		this.setRoot(root);
 		
@@ -84,8 +86,7 @@ public class SceneMain extends Scene {
 	}
 	
 	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
-		this.fpsCounter.setText("FPS: " + fps);
 		this.cruise.labelTime.setText(time);
-		this.renderPanel.render(bodies, scale, translate);
+		this.renderPanel.render(bodies, scale, translate, fps);
 	}
 }
