@@ -3,6 +3,8 @@ package atlas.controller;
 import java.io.IOException;
 
 public interface InputManager {
+	
+	public void lockVenuse(); //provvisorio... da eliminare
 
     /**
      * This method is invocated when left mouse button is clicked
@@ -99,5 +101,8 @@ public interface InputManager {
      * 
      */
     public void dSlide();
+    
+    
+    public void initialReference();
 
 }

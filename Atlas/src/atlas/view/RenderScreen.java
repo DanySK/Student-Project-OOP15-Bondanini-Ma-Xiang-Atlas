@@ -1,5 +1,6 @@
 package atlas.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -81,7 +82,8 @@ public class RenderScreen extends StackPane {
 				+ "-fx-background-repeat: stretch;");
 	}
 
-	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
+	public void render(List<Body> bodiess, double scale, Pair<Double, Double> translate, int fps) {
+		List<Body> bodies = new ArrayList<>(bodiess);
 		/* Preliminary actions */
 		this.adjustScreen(scale, translate);
 		this.clearScreen();
