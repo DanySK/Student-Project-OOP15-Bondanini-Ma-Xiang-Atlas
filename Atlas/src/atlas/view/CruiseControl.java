@@ -12,12 +12,9 @@ import javafx.scene.layout.HBox;
 
 /**
  * This class contains part of the UI which is used to control the simulation.
- * It provides the following functionalities: 
- * - Play/Pause 
- * - Show date or time of the simulation 
- * - A way to change the simulation speed 
- * - EDIT and ADD buttons 
- * - Search and eventually info/screenshots 
+ * It provides the following functionalities: - Play/Pause - Show date or time
+ * of the simulation - A way to change the simulation speed - EDIT and ADD
+ * buttons - Search and eventually info/screenshots
  * 
  * @author MaXX
  *
@@ -27,7 +24,9 @@ public class CruiseControl extends HBox {
 	protected Button buttonStop = new Button("STOP");
 	protected Button buttonSpeed = new Button("SPEED");
 	protected Button buttonEdit = new Button("EDIT");
-        protected Button buttonAdd = new Button("ADD");
+	protected Button buttonAdd = new Button("ADD");
+	protected Button buttonCenter = new Button("CENTER");
+	protected Button buttonLockVenus = new Button("LockVenus"); //To delete
 	private boolean play;
 
 	protected Label labelTime = new Label("Sample: 01/01/2000");
@@ -35,10 +34,8 @@ public class CruiseControl extends HBox {
 	protected TextField textSpeed = new TextField();
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
-	
-
 	protected Button buttonSearch = new Button();
-	
+
 	private View view;
 
 	public CruiseControl(View v) {
@@ -51,39 +48,50 @@ public class CruiseControl extends HBox {
 		this.getChildren().add(5, buttonEdit);
 		this.getChildren().add(6, buttonAdd);
 		this.getChildren().add(7, buttonSearch);
+		this.getChildren().add(8, buttonCenter);
+		this.getChildren().add(9, buttonLockVenus);
 		this.play = false;
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
-		
-		/*Setting actions*/
-		EventHandler<ActionEvent> stopPlayHandler = new EventHandler<ActionEvent>(){
+
+		/* Setting actions */
+		EventHandler<ActionEvent> stopPlayHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				switchPlayStop();
-				if(e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
+				if (e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
 					CruiseControl.this.view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
 				} else {
 					new IllegalAccessException("Button unknow(not play nor stop)");
 				}
-			}			
+			}
 		};
 		this.buttonPlay.setOnAction(stopPlayHandler);
 		this.buttonStop.setOnAction(stopPlayHandler);
-		
+
 		this.buttonAdd.setOnAction(e -> {
-		    view.setNextBodyToAdd(EpochJ2000.EARTH.getBody());    
-		    view.notifyObservers(SimEvent.ADD);
-		    try {
-                Thread.sleep(2000);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-		    view.notifyObservers(SimEvent.MOUSE_CLICKED);
-		    
+			view.setNextBodyToAdd(EpochJ2000.EARTH.getBody());
+			view.notifyObservers(SimEvent.ADD);
+			try {
+				Thread.sleep(2000);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			view.notifyObservers(SimEvent.MOUSE_CLICKED);
+
 		});
 		
+		this.buttonCenter.setOnAction(e -> {
+			view.notifyObservers(SimEvent.CENTER);
+		});
+
 		this.buttonSpeed.setOnAction(e -> {
-		    view.notifyObservers(SimEvent.SPEED_CHANGED);
+			view.notifyObservers(SimEvent.SPEED_CHANGED);
+		});
+		
+		this.buttonLockVenus.setOnAction(e -> {
+			view.setNextBodyToAdd(EpochJ2000.VENUS.getBody());
+			view.notifyObservers(SimEvent.LOCK);
 		});
 	}
 

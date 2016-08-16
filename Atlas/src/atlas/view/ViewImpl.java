@@ -93,7 +93,7 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void updateReferce(Pair<Double, Double> translate, double scale) {
+	public synchronized void updateReferce(Pair<Double, Double> translate, double scale) {
 		this.scale = scale;
 		this.translate = translate;
 	}
@@ -119,7 +119,7 @@ public class ViewImpl implements View {
 	}
 
     @Override
-    public void setNextBodyToAdd(Body body) {
+    public void setNextBodyToAdd(Body body) { //ToChangeName
         this.selectedBody = Optional.of(body);
         
     }
