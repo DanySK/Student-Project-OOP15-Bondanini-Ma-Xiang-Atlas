@@ -1,5 +1,7 @@
 package atlas.controller;
 
+import java.util.Optional;
+
 import atlas.model.*;
 import atlas.view.*;
 
@@ -21,6 +23,7 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
     private StatusSim status;
     private Model model;
     private View view;
+    private Optional<Body> nextBodyToAdd = Optional.empty();
     
 
     /**
@@ -71,6 +74,13 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 long timeSLF = System.currentTimeMillis() - lastFrame;
                 // rendering();
                 long FPS = 1000 / timeSLF;
+                
+                if(!this.nextBodyToAdd.equals(Optional.empty())) {
+                    System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                    this.model.addBody(this.nextBodyToAdd.get());
+                    this.nextBodyToAdd = Optional.empty();
+                }
+                
                 this.view.render(model.getBodiesToRender(), model.getTime(), (int)FPS);
 //                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
             }
@@ -148,6 +158,10 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
     
     public void setModel(Model model) {
         this.model = model;
+    }
+    
+    public void setNextBodyToAdd(Body body) {
+        this.nextBodyToAdd = Optional.of(body);
     }
 
 }

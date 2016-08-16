@@ -1,5 +1,6 @@
 package atlas.view;
 
+import atlas.model.EpochJ2000;
 import atlas.utils.Units;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -67,6 +68,19 @@ public class CruiseControl extends HBox {
 		};
 		this.buttonPlay.setOnAction(stopPlayHandler);
 		this.buttonStop.setOnAction(stopPlayHandler);
+		
+		this.buttonAdd.setOnAction(e -> {
+		    view.setNextBodyToAdd(EpochJ2000.EARTH.getBody());    
+		    view.notifyObservers(SimEvent.ADD);
+		    try {
+                Thread.sleep(2000);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+		    view.notifyObservers(SimEvent.MOUSE_CLICKED);
+		    
+		});
 		
 		this.buttonSpeed.setOnAction(e -> {
 		    view.notifyObservers(SimEvent.SPEED_CHANGED);

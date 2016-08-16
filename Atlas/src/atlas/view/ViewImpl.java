@@ -117,4 +117,10 @@ public class ViewImpl implements View {
 	public void switchToLoadingScene() {
 		this.stage.setScene(loadingScene);		
 	}
+
+    @Override
+    public void setNextBodyToAdd(Body body) {
+        this.selectedBody = Optional.of(body);
+        
+    }
 }

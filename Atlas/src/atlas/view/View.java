@@ -18,6 +18,8 @@ public interface View {
     
     public Optional<Body> getSelectedBody();
     
+    public void setNextBodyToAdd(Body body);
+    
     public Optional<MouseEvent> getLastMouseEvent();
     
     public Pair<Integer, Units> getSpeedInfo();

@@ -1,5 +1,6 @@
 package atlas.controller;
 
+import java.awt.MouseInfo;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -39,19 +40,20 @@ public class InputManagerImpl implements InputManager {
     @Override
     public void addMode() {
         if (!this.view.getSelectedBody().equals(Optional.empty())) {
-            this.status = Status.ADDING;
-            this.view.getSelectedBody().get().setAttracting(false);
-            this.model.addBody(this.view.getSelectedBody().get());
-            this.thread = new DragPositions(this.view.getSelectedBody().get(), this.scale);
-            this.thread.run();
+            this.status = Status.ADDING;       
         }
     }
 
     @Override
     public void mouseClicked() {
         if (this.status.equals(Status.ADDING)) {
-            this.thread.interrupt();
-            this.view.getSelectedBody().get().setAttracting(true);
+            this.view.getSelectedBody().get().setPosX(MouseInfo.getPointerInfo().getLocation().getX() * this.scale);
+            this.view.getSelectedBody().get().setPosY(MouseInfo.getPointerInfo().getLocation().getY() * this.scale);
+            this.gLoop.setNextBodyToAdd(this.view.getSelectedBody().get());
+            System.out.println(this.view.getSelectedBody().get().getPosX());
+            System.out.println(this.view.getSelectedBody().get().getPosX());
+            System.out.println(model.getBodiesToRender());
+            
         }
         this.status = Status.DEFAULT;
     }
