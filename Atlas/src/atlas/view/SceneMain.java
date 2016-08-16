@@ -5,6 +5,7 @@ import java.util.List;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -31,6 +32,8 @@ public class SceneMain extends Scene {
 		this.left = new Button("|||");
 		this.right = new Button("|||");
 		
+		this.root.minHeight(360);
+		this.root.minWidth(640);
 		this.root.setCenter(renderPanel);
 		this.root.setBottom(cruise);
 		this.root.setStyle("-fx-border-color: aqua;");

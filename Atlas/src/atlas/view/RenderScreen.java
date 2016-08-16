@@ -14,15 +14,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 /**
@@ -38,7 +34,8 @@ public class RenderScreen extends StackPane {
 	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
 	private final static float TRAIL_OPACITY = 0.4f;
 	private final static int TRAIL_WIDTH = 5;
-	private final static int BORDER = 40;
+	private final static int RIGHT_BORDER = 50;
+	private final static int BOTTOM_BORDER = 25;
 	private final static int MIN_IMAGE_SIZE = 1;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
@@ -56,32 +53,22 @@ public class RenderScreen extends StackPane {
 	/**
 	 * Constructor
 	 */
-	public RenderScreen(final Pane root) {
+	public RenderScreen(final BorderPane root) {
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
-		
 		DoubleBinding x = this.widthProperty().subtract(0);
 		DoubleBinding y = this.heightProperty().subtract(0);
 		this.lBottom.widthProperty().bind(x);
 		this.lBottom.heightProperty().bind(y);
 		this.lMid1.widthProperty().bind(x);
 		this.lMid1.heightProperty().bind(y);
-		this.lMid2.prefWidthProperty().bind(x);
-		this.lMid2.prefHeightProperty().bind(x);
-		this.lMid3.prefWidthProperty().bind(x);
-		this.lMid3.prefHeightProperty().bind(x);
-		this.lTop.prefWidthProperty().bind(x);
-		this.lTop.prefHeightProperty().bind(x);
 		
 		this.lTop.getChildren().add(fpsCounter);
 		fpsCounter.setTextFill(Color.MAGENTA);
 		fpsCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
 
-		this.maxHeightProperty().bind(root.heightProperty().subtract(BORDER));
-		this.maxWidthProperty().bind(root.widthProperty().subtract(BORDER));
-		this.minHeightProperty().bind(root.heightProperty().subtract(BORDER));
-		this.minWidthProperty().bind(root.widthProperty().subtract(BORDER));
-		this.prefHeightProperty().bind(root.heightProperty().subtract(BORDER));
-		this.prefWidthProperty().bind(root.widthProperty().subtract(BORDER));
+		this.maxHeight(Double.MAX_VALUE);
+		this.maxWidth(Double.MAX_VALUE);
+		this.setMinSize(0, 0);
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
 
