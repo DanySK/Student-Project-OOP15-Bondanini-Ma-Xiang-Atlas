@@ -26,7 +26,7 @@ public class CruiseControl extends HBox {
 	protected Button buttonEdit = new Button("EDIT");
 	protected Button buttonAdd = new Button("ADD");
 	protected Button buttonCenter = new Button("CENTER");
-	protected Button buttonLockVenus = new Button("LockVenus"); //To delete
+	protected Button buttonLockMars = new Button("LockMars"); //To delete
 	private boolean play;
 
 	protected Label labelTime = new Label("Sample: 01/01/2000");
@@ -49,7 +49,7 @@ public class CruiseControl extends HBox {
 		this.getChildren().add(6, buttonAdd);
 		this.getChildren().add(7, buttonSearch);
 		this.getChildren().add(8, buttonCenter);
-		this.getChildren().add(9, buttonLockVenus);
+		this.getChildren().add(9, buttonLockMars);
 		this.play = false;
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 
@@ -89,8 +89,8 @@ public class CruiseControl extends HBox {
 			view.notifyObservers(SimEvent.SPEED_CHANGED);
 		});
 		
-		this.buttonLockVenus.setOnAction(e -> {
-			view.setNextBodyToAdd(EpochJ2000.VENUS.getBody());
+		this.buttonLockMars.setOnAction(e -> {
+			view.setNextBodyToAdd(view.getBodies().get(2));
 			view.notifyObservers(SimEvent.LOCK);
 		});
 	}

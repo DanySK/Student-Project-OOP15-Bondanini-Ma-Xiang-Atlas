@@ -37,4 +37,6 @@ public interface View {
     public void switchToMainScene();
     
     public void switchToLoadingScene();
+    
+    public List<Body> getBodies();
 }
