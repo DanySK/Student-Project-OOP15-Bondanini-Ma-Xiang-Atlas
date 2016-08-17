@@ -24,6 +24,7 @@ public class ViewImpl implements View {
 	// inputs fields
 	private Optional<Body> selectedBody;
 	private Optional<MouseEvent> lastMouseEvent;
+	private List<Body> bodyList;
 	
 	private Controller ctrl;
 	private Stage stage;
@@ -39,6 +40,8 @@ public class ViewImpl implements View {
 
 	@Override
 	public void render(List<Body> b, String time, int fps) {
+		System.out.println(b);
+		this.bodyList = b;
 		if (mainScene != null) {
 			Platform.runLater(() -> {
 				mainScene.draw(b, scale, translate, time, fps);
@@ -123,4 +126,9 @@ public class ViewImpl implements View {
         this.selectedBody = Optional.of(body);
         
     }
+
+	@Override
+	public List<Body> getBodies() {
+		return this.bodyList;
+	}
 }

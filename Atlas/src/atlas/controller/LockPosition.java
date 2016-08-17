@@ -19,7 +19,9 @@ public class LockPosition extends Thread{
 			System.out.println("oooo");
 			double actualScale = this.scale;
 			long last = System.currentTimeMillis();
-			Pair<Double, Double> coordinate = new Pair<>(this.view.getSelectedBody().get().getPosX() / actualScale, this.view.getSelectedBody().get().getPosX() / actualScale);
+			System.out.println(this.view.getSelectedBody().get().getPosY() + " Y-----" + this.view.getSelectedBody().get().getPosX()+" X");
+			Pair<Double, Double> coordinate = new Pair<>(this.view.getSelectedBody().get().getPosY() * actualScale, this.view.getSelectedBody().get().getPosX() * actualScale);
+			System.out.println(this.view.getSelectedBody().get().getPosY() + " Y-----" + this.view.getSelectedBody().get().getPosX()+" X");
 			this.view.updateReferce(coordinate, actualScale);
             while(System.currentTimeMillis()-last < step) {    	
                 try {
