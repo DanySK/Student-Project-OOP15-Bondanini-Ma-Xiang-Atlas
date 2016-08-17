@@ -27,6 +27,7 @@ public class CruiseControl extends HBox {
 	protected Button buttonAdd = new Button("ADD");
 	protected Button buttonCenter = new Button("CENTER");
 	protected Button buttonLockMars = new Button("LockMars"); //To delete
+	protected Button buttonESC = new Button("ESC");
 	private boolean play;
 
 	protected Label labelTime = new Label("Sample: 01/01/2000");
@@ -50,6 +51,7 @@ public class CruiseControl extends HBox {
 		this.getChildren().add(7, buttonSearch);
 		this.getChildren().add(8, buttonCenter);
 		this.getChildren().add(9, buttonLockMars);
+		this.getChildren().add(10, buttonESC);
 		this.play = false;
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 
@@ -92,6 +94,10 @@ public class CruiseControl extends HBox {
 		this.buttonLockMars.setOnAction(e -> {
 			view.setNextBodyToAdd(view.getBodies().get(2));
 			view.notifyObservers(SimEvent.LOCK);
+		});
+		
+		this.buttonESC.setOnAction(e -> {
+			this.view.notifyObservers(SimEvent.ESC);
 		});
 	}
 

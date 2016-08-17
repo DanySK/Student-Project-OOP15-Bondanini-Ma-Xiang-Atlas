@@ -84,6 +84,7 @@ public class ControllerImpl implements Controller {
         	break;
         	
         case LOCK:
+        	this.inputManager.changeStatus(Status.LOCK);
         	this.inputManager.lockVenuse();
         	break;
 
