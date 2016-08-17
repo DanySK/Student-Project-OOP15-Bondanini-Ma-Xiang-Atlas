@@ -16,6 +16,7 @@ import atlas.model.Model;
 import atlas.model.ModelImpl;
 import atlas.utils.Pair;
 import atlas.utils.Units;
+import atlas.view.SimEvent;
 import atlas.view.View;
 
 public class InputManagerImpl implements InputManager {
@@ -38,6 +39,7 @@ public class InputManagerImpl implements InputManager {
 		this.gLoop = gLoop;
 		this.initialReference = reference;
 		this.reference = reference;
+		this.threadLock = new LockPosition(this.view, this.scale);
 	}
 
 	@Override
@@ -72,49 +74,67 @@ public class InputManagerImpl implements InputManager {
 	}
 
 	@Override
-    public void ESC() {
-        if (this.status.equals(Status.ADDING)) {
-            this.threadDrag.interrupt();
-        } else if (this.status.equals(Status.LOCK)) {
-        	this.threadLock.interrupt();
-        }
-        this.status = Status.DEFAULT;
-    }
+	public void ESC() {
+		if (this.status.equals(Status.ADDING)) {
+			this.threadDrag.interrupt();
+		} else if (this.status.equals(Status.LOCK)) {
+			this.threadLock.stopLock();
+			System.out.println("STOOPP");
+		}
+		this.status = Status.DEFAULT;
+	}
 
 	@Override
 	public void zoomUp() {
 		this.scale *= 1.05;
-		this.view.updateReferce(this.reference, this.scale);
+		if (this.threadLock.isAlive()) {
+			this.threadLock.setScale(this.scale);
+		} else {
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
 	public void zoomDown() {
 		this.scale *= 0.95;
-		this.view.updateReferce(this.reference, this.scale);
+		if (this.threadLock.isAlive()) {
+			this.threadLock.setScale(this.scale);
+		} else {
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
 	public void wSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
-		this.view.updateReferce(this.reference, this.scale);
+		if (!this.checkLocked()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
 	public void sSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
-		this.view.updateReferce(this.reference, this.scale);
+		if (!this.checkLocked()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
 	public void aSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
-		this.view.updateReferce(this.reference, this.scale);
+		if (!this.checkLocked()) {
+			System.out.println("A");
+			this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
 	public void dSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
-		this.view.updateReferce(this.reference, this.scale);
+		if (!this.checkLocked()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
+			this.view.updateReferce(this.reference, this.scale);
+		}
 	}
 
 	@Override
@@ -190,5 +210,10 @@ public class InputManagerImpl implements InputManager {
 	public void lockVenuse() {
 		this.threadLock = new LockPosition(this.view, this.scale);
 		this.threadLock.start();
+	}
+
+	private boolean checkLocked() {
+		System.out.println(this.status);
+		return this.status.equals(SimEvent.LOCK) ? true : false;
 	}
 }

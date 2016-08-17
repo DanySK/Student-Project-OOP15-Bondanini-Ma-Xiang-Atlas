@@ -40,7 +40,7 @@ public class ViewImpl implements View {
 
 	@Override
 	public void render(List<Body> b, String time, int fps) {
-		System.out.println(b);
+//		System.out.println(b);
 		this.bodyList = b;
 		if (mainScene != null) {
 			Platform.runLater(() -> {
