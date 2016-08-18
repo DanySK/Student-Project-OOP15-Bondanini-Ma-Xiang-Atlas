@@ -15,7 +15,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -35,8 +34,6 @@ public class RenderScreen extends StackPane {
 	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
 	private final static float TRAIL_OPACITY = 0.4f;
 	private final static int TRAIL_WIDTH = 5;
-	private final static int RIGHT_BORDER = 50;
-	private final static int BOTTOM_BORDER = 25;
 	private final static int MIN_IMAGE_SIZE = 1;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
@@ -54,8 +51,10 @@ public class RenderScreen extends StackPane {
 	/**
 	 * Constructor
 	 */
-	public RenderScreen(final BorderPane root) {
+	public RenderScreen() {
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
+		
+		/*Resizable canvas*/
 		DoubleBinding x = this.widthProperty().subtract(0);
 		DoubleBinding y = this.heightProperty().subtract(0);
 		this.lBottom.widthProperty().bind(x);
@@ -63,16 +62,21 @@ public class RenderScreen extends StackPane {
 		this.lMid1.widthProperty().bind(x);
 		this.lMid1.heightProperty().bind(y);
 		
+		/*FPS counter*/
 		this.lTop.getChildren().add(fpsCounter);
 		fpsCounter.setTextFill(Color.MAGENTA);
 		fpsCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
-
+		
+		/*Resizable pane*/
 		this.maxHeight(Double.MAX_VALUE);
 		this.maxWidth(Double.MAX_VALUE);
 		this.setMinSize(0, 0);
+		
+		/*Adding children/layers*/
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
-
+		
+		/*Default tranlate*/
 		Double defTran = new Double(0);
 		this.currentTranlate = new Pair<>(defTran, defTran);
 	}
@@ -83,13 +87,13 @@ public class RenderScreen extends StackPane {
 	}
 
 	public void render(List<Body> bodiess, double scale, Pair<Double, Double> translate, int fps) {
-		List<Body> bodies = new ArrayList<>(bodiess);
+		List<Body> bodies = new ArrayList<>(bodiess);//?
 		/* Preliminary actions */
 		this.adjustScreen(scale, translate);
 		this.clearScreen();
 		this.fpsCounter.setText("FPS: "+fps);
-		/* Drawing the new frame */
 
+		/* Drawing the new frame */
 		bodies.forEach(b -> {
 			final ImageView img = this.getOrCreateBodyImage(b, scale);
 

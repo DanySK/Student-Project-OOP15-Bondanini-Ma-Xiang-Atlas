@@ -8,14 +8,14 @@ import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
 
 	// Visualization fields
-	private static int HEIGHT = 360;
-	private static int WIDTH = 640;
 	private double scale = 1.4000000000000000E-9;
 	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
 	private SceneMain mainScene;
@@ -32,10 +32,31 @@ public class ViewImpl implements View {
 	public ViewImpl(Controller c, Stage primaryStage) {
 		this.ctrl = c;
 		this.stage = primaryStage;
-		this.mainScene = new SceneMain(this, WIDTH, HEIGHT);
+		this.mainScene = new SceneMain(this);
 		this.loadingScene = new SceneLoading();
 		this.stage.setScene(loadingScene);
 		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
+		
+		primaryStage.setOnCloseRequest(e -> {
+			Platform.exit();
+			System.exit(0);			
+		});
+	}
+	
+	
+	static boolean onClose() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to exit?", ButtonType.YES,
+				ButtonType.NO);
+		alert.setTitle("Exit");
+		alert.setHeaderText(null);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			Platform.exit();
+			System.exit(0);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
