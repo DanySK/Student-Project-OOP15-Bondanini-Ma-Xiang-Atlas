@@ -1,11 +1,9 @@
 package atlas.view;
 
-import java.awt.Toolkit;
 import java.util.List;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,27 +16,27 @@ public class SceneMain extends Scene {
 	protected CruiseControl cruise;
 	protected RenderScreen renderPanel;
 	protected Button left,right;
+	protected OptionMenu optionMenu;
 	protected Image background;
-	
-//	private Pair<DoubleProperty, DoubleProperty> screenCenter;
 	
 	private View view;
 	
-	public SceneMain(View v, double width, double height) {
+	public SceneMain(View v) {
 		super(new Pane());
 		this.view = v;
-		this.renderPanel = new RenderScreen(root);
+		this.renderPanel = new RenderScreen();
 		this.cruise = new CruiseControl(v);
 		this.left = new Button("|||");
 		this.right = new Button("|||");
+		this.optionMenu = new OptionMenu();
+		this.optionMenu.setRight(left);
 		
-		this.root.minHeight(360);
-		this.root.minWidth(640);
+		this.root.setMinSize(0, 0);
 		this.root.setCenter(renderPanel);
 		this.root.setBottom(cruise);
+		this.root.setLeft(optionMenu);
 		this.root.setStyle("-fx-border-color: aqua;");
-		this.root.setLeft(left);
-		this.root.setRight(right);
+		
 		left.setMaxHeight(Double.MAX_VALUE);
 		right.setMaxHeight(Double.MAX_VALUE);
 		
@@ -50,6 +48,17 @@ public class SceneMain extends Scene {
 	private void setCommands() {
 		this.setKeyboardCommands();
 		this.setScrollCommands();
+		this.showLateral();
+	}
+	
+	private void showLateral() {
+		this.left.setOnAction(e -> {
+			if(this.optionMenu.isShown()) {
+				this.optionMenu.hideContent();
+			} else {
+				this.optionMenu.showContent();
+			}
+		});
 	}
 	
 	private void setScrollCommands() {
