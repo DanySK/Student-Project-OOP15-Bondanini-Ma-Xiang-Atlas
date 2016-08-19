@@ -86,8 +86,7 @@ public class RenderScreen extends StackPane {
 				+ "-fx-background-repeat: stretch;");
 	}
 
-	public void render(List<Body> bodiess, double scale, Pair<Double, Double> translate, int fps) {
-		List<Body> bodies = new ArrayList<>(bodiess);//?
+	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
 		/* Preliminary actions */
 		this.adjustScreen(scale, translate);
 		this.clearScreen();

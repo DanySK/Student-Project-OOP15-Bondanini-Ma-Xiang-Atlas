@@ -1,5 +1,7 @@
 package atlas.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import atlas.model.*;
@@ -24,6 +26,7 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
     private Model model;
     private View view;
     private Optional<Body> nextBodyToAdd = Optional.empty();
+    private List<Body> copy;
     
 
     /**
@@ -52,6 +55,7 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
             while (status.equals(StatusSim.RUNNING)) {
                 long lastFrame = System.currentTimeMillis();
                 this.loop = 0;
+                this.copy = model.getBodiesToRender();
                 while ((System.currentTimeMillis() > this.next_game_tick) && (this.loop < MAX_FRAMESKIP)) {
                     for (int i = 0; i < speed; i++) {
                         this.model.updateSim(precision / FPS);
@@ -75,18 +79,18 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 // rendering();
                 long FPS = 1000 / timeSLF;
                 
-                if(!this.nextBodyToAdd.equals(Optional.empty())) {
-                    System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                if(this.nextBodyToAdd.isPresent()) {
                     this.model.addBody(this.nextBodyToAdd.get());
-                    this.nextBodyToAdd = Optional.empty();
+                    this.copy = new ArrayList<>(this.model.getBodiesToRender());
+                    this.nextBodyToAdd = Optional.empty(); 
                 }
                 
-                this.view.render(model.getBodiesToRender(), model.getTime(), (int)FPS);
+                this.view.render(this.copy, model.getTime(), (int)FPS);
 //                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
             }
             
             // render when is stopped shish
-            this.view.render(model.getBodiesToRender(), model.getTime(), GameLoop.FPS);
+            this.view.render(this.copy, model.getTime(), GameLoop.FPS);
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
