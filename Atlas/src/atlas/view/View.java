@@ -2,6 +2,10 @@ package atlas.view;
 
 import java.util.List;
 import java.util.Optional;
+
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import atlas.controller.Controller;
 import atlas.model.Body;
@@ -39,4 +43,16 @@ public interface View {
     public void switchToLoadingScene();
     
     public List<Body> getBodies();
+    
+    static void onClose() {
+		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES,
+				ButtonType.NO);
+		alert.setTitle("Exit ATLAS");
+		alert.setHeaderText(null);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			Platform.exit();
+			System.exit(0);
+		}
+	}
 }

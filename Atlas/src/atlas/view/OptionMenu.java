@@ -43,7 +43,7 @@ public class OptionMenu extends BorderPane {
 
 		root.getChildren().addAll(SceneLoading.LOGO, this.newSim, this.save, this.load, this.credits, this.exit);
 		
-		this.setStyle("-fx-background-color: black;");
+		this.setStyle("-fx-background-color: grey;");
 		
 		this.setCenter(root);
 	}

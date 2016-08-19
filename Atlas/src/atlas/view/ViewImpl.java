@@ -38,25 +38,9 @@ public class ViewImpl implements View {
 		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
 		
 		primaryStage.setOnCloseRequest(e -> {
-			Platform.exit();
-			System.exit(0);			
+			View.onClose();
+			e.consume();
 		});
-	}
-	
-	
-	static boolean onClose() {
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to exit?", ButtonType.YES,
-				ButtonType.NO);
-		alert.setTitle("Exit");
-		alert.setHeaderText(null);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.YES) {
-			Platform.exit();
-			System.exit(0);
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override
