@@ -48,6 +48,7 @@ public class SceneMain extends Scene {
 	private void setCommands() {
 		this.setKeyboardCommands();
 		this.setScrollCommands();
+		this.setMouseCommands();
 		this.showLateral();
 	}
 	
@@ -95,6 +96,15 @@ public class SceneMain extends Scene {
 				break;
 			}
 		});
+	}
+	
+	private void setMouseCommands() {
+	    this.renderPanel.setOnMouseClicked(e-> {
+//	        MouseEvent lastEv = view.getLastMouseEvent().orElseGet(null);
+//              lastEv = e;MouseEvent lastEv = view.getLastMouseEvent().orElseGet(null);
+//	        lastEv = e;
+	        view.notifyObservers(SimEvent.MOUSE_CLICKED);
+	    });
 	}
 	
 	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
