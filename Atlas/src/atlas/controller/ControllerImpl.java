@@ -77,16 +77,18 @@ public class ControllerImpl implements Controller {
 
         case EDIT:
             this.inputManager.changeStatus(Status.EDIT);
-            break;
             
+            break;
+
         case CENTER:
-        	this.inputManager.initialReference();
-        	break;
-        	
+            this.inputManager.initialReference();
+            break;
+
         case LOCK:
-        	this.inputManager.changeStatus(Status.LOCK);
-        	this.inputManager.lockVenuse();
-        	break;
+            this.inputManager.lockVenuse();
+            this.inputManager.changeStatus(Status.LOCK);
+
+            break;
 
         case SAVE:
             try {

@@ -22,7 +22,7 @@ public interface View {
     
     public Optional<Body> getSelectedBody();
     
-    public void setNextBodyToAdd(Body body);
+    public void setNextBodyToAdd(Body body); //To changeName
     
     public void deleteNextBody();
     
