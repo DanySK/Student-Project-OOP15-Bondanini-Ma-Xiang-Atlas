@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 public class ViewImpl implements View {
 
+	private static View view; 
 	// Visualization fields
 	private double scale = 1.4000000000000000E-9;
 	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
@@ -30,6 +31,7 @@ public class ViewImpl implements View {
 	private Stage stage;
 
 	public ViewImpl(Controller c, Stage primaryStage) {
+		view = this;
 		this.ctrl = c;
 		this.stage = primaryStage;
 		this.mainScene = new SceneMain(this);
@@ -38,33 +40,17 @@ public class ViewImpl implements View {
 		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
 
 		primaryStage.setOnCloseRequest(e -> {
-<<<<<<< local
 			View.onClose();
 			e.consume();
-=======
-			Platform.exit();
-			System.exit(0);
->>>>>>> other
 		});
 	}
-<<<<<<< local
-=======
-
-	static boolean onClose() {
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to exit?", ButtonType.YES,
-				ButtonType.NO);
-		alert.setTitle("Exit");
-		alert.setHeaderText(null);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.YES) {
-			Platform.exit();
-			System.exit(0);
-			return true;
-		} else {
-			return false;
+	
+	public static View getView() {
+		if(view == null) {
+			throw new IllegalStateException("View not initialized! ERROR");
 		}
+		return view;
 	}
->>>>>>> other
 
 	@Override
 	public void render(List<Body> b, String time, int fps) {
