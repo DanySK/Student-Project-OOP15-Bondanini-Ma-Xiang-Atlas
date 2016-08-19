@@ -8,11 +8,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 
-public class LoadScreen extends TabPane{
+public class InputFilePane extends TabPane{
 	
 	private String selected;
 	
-	public LoadScreen(Map<String, List<String>> files) {
+	public InputFilePane(Map<String, List<String>> files) {
 		files.entrySet().forEach(i -> {
 			Tab tab = new Tab(i.getKey());
 			VBox content = new VBox();

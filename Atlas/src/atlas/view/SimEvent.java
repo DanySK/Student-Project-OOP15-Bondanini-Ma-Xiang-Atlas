@@ -9,6 +9,7 @@ public enum SimEvent {
 	CENTER,
 	LOCK,
 	SPEED_CHANGED,
+	NEWSIM,
 	SAVE,
 	LOAD,
 	MOUSE_CLICKED,

@@ -1,6 +1,7 @@
 package atlas.view;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +31,18 @@ public class InputDialog extends Application {
 	}
 
 	// prototype
-	public static Optional<String> getLoadName(Map<String, List<String>> files) {
+	public static Optional<String> getNameFromList(String title, String action, Map<String, List<String>> files) {
 		Dialog<String> d = new Dialog<>();
 
-		d.setTitle("Load configuration");
-		ButtonType loadBtn = new ButtonType("Load", ButtonData.OK_DONE);
-		d.getDialogPane().getButtonTypes().addAll(loadBtn, ButtonType.CANCEL);
+		d.setTitle(title);
+		ButtonType btn = new ButtonType(action, ButtonData.OK_DONE);
+		d.getDialogPane().getButtonTypes().addAll(btn, ButtonType.CANCEL);
 
-		LoadScreen ls = new LoadScreen(files);
-		d.getDialogPane().setContent(ls);
+		InputFilePane pane = new InputFilePane(files);
+		d.getDialogPane().setContent(pane);
 
 		d.setResultConverter(b -> {
-			return b.equals(loadBtn) ? ls.getSelected() : null;
+			return b.equals(btn) ? pane.getSelected() : null;
 		});
 		return d.showAndWait();
 	}
@@ -56,16 +57,16 @@ public class InputDialog extends Application {
 //			Map<String, List<String>> map = new HashMap<>();
 //			map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
 //			map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
-//			Optional<String> result = getLoadName(map);
+//			Optional<String> result = getNameFromList("Load configuration", "load", map);
 //			System.out.println(result);
 //		});
 		
-//		/*Test SAVE*/
-//		btn.setText("Save");
-//		btn.setOnAction(e -> {
-//			Optional<String> result = getSaveName("Save " + new Date());
-//			System.out.println(result);
-//		});
+		/*Test SAVE*/
+		btn.setText("Save");
+		btn.setOnAction(e -> {
+			Optional<String> result = getSaveName("Save " + new Date());
+			System.out.println(result);
+		});
 
 		StackPane root = new StackPane();
 		root.getChildren().add(btn);

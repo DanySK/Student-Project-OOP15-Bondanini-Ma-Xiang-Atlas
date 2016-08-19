@@ -46,6 +46,13 @@ public class OptionMenu extends BorderPane {
 		this.setStyle("-fx-background-color: grey;");
 		
 		this.setCenter(root);
+		
+		//actions
+		View view = ViewImpl.getView();
+		this.newSim.setOnAction(e -> view.notifyObservers(SimEvent.NEWSIM));
+		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE));
+		this.load.setOnAction(e -> view.notifyObservers(SimEvent.LOAD));
+		this.exit.setOnAction(e -> view.notifyObservers(SimEvent.EXIT));
 	}
 	
 	public boolean isShown() {
