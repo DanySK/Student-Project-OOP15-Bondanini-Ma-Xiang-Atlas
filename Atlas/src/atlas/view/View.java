@@ -24,6 +24,10 @@ public interface View {
     
     public void setNextBodyToAdd(Body body);
     
+    public void deleteNextBody();
+    
+    public Pair<Double, Double> getWindow();
+    
     public Optional<MouseEvent> getLastMouseEvent();
     
     public Pair<Integer, Units> getSpeedInfo();

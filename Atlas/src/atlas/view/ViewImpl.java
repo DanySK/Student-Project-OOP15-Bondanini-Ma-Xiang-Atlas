@@ -25,10 +25,10 @@ public class ViewImpl implements View {
 	private Optional<Body> selectedBody;
 	private Optional<MouseEvent> lastMouseEvent;
 	private List<Body> bodyList;
-	
+
 	private Controller ctrl;
 	private Stage stage;
-	
+
 	public ViewImpl(Controller c, Stage primaryStage) {
 		this.ctrl = c;
 		this.stage = primaryStage;
@@ -36,21 +36,43 @@ public class ViewImpl implements View {
 		this.loadingScene = new SceneLoading();
 		this.stage.setScene(loadingScene);
 		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
-		
+
 		primaryStage.setOnCloseRequest(e -> {
+<<<<<<< local
 			View.onClose();
 			e.consume();
+=======
+			Platform.exit();
+			System.exit(0);
+>>>>>>> other
 		});
 	}
+<<<<<<< local
+=======
+
+	static boolean onClose() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to exit?", ButtonType.YES,
+				ButtonType.NO);
+		alert.setTitle("Exit");
+		alert.setHeaderText(null);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			Platform.exit();
+			System.exit(0);
+			return true;
+		} else {
+			return false;
+		}
+	}
+>>>>>>> other
 
 	@Override
 	public void render(List<Body> b, String time, int fps) {
-//		System.out.println(b);
 		this.bodyList = b;
 		if (mainScene != null) {
 			Platform.runLater(() -> {
 				mainScene.draw(b, scale, translate, time, fps);
-				if(!isMainScene()) {
+				if (!isMainScene()) {
 					this.switchToMainScene();
 				}
 			});
@@ -64,7 +86,7 @@ public class ViewImpl implements View {
 
 	@Override
 	public Controller getController() {
-		if(this.ctrl == null) {
+		if (this.ctrl == null) {
 			throw new IllegalStateException();
 		}
 		return this.ctrl;
@@ -83,8 +105,7 @@ public class ViewImpl implements View {
 	@Override
 	public Pair<Integer, Units> getSpeedInfo() {
 		CruiseControl c = mainScene.cruise;
-		Pair<Integer, Units> p = new Pair<>(Integer.parseInt(c.textSpeed.getText()),
-				c.choiceSpeedUnit.getValue());
+		Pair<Integer, Units> p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
 		return p;
 	}
 
@@ -118,22 +139,33 @@ public class ViewImpl implements View {
 
 	@Override
 	public void switchToMainScene() {
-		this.stage.setScene(mainScene);		
+		this.stage.setScene(mainScene);
 	}
 
 	@Override
 	public void switchToLoadingScene() {
-		this.stage.setScene(loadingScene);		
+		this.stage.setScene(loadingScene);
 	}
 
-    @Override
-    public void setNextBodyToAdd(Body body) { //ToChangeName
-        this.selectedBody = Optional.of(body);
-        
-    }
+	@Override
+	public void setNextBodyToAdd(Body body) { // ToChangeName
+		this.selectedBody = Optional.of(body);
+
+	}
 
 	@Override
 	public List<Body> getBodies() {
 		return this.bodyList;
+	}
+
+	@Override
+	public void deleteNextBody() {
+		this.selectedBody = Optional.empty();
+
+	}
+
+	@Override
+	public Pair<Double, Double> getWindow() {
+		return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
 	}
 }
