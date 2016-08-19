@@ -53,7 +53,7 @@ public class InputManagerImpl implements InputManager {
     public void mouseClicked() {
         if (this.status.equals(Status.ADDING)) {
             this.view.getSelectedBody().get().setPosX(
-                    (MouseInfo.getPointerInfo().getLocation().getX() - this.view.getWindow().getX() - this.reference.getX() - 25) / this.scale);
+                    (MouseInfo.getPointerInfo().getLocation().getX() - this.view.getWindow().getX() - this.reference.getX() - 100) / this.scale);
             this.view.getSelectedBody().get().setPosY(
                     (MouseInfo.getPointerInfo().getLocation().getY() - this.view.getWindow().getY() - this.reference.getY() - 25) / -this.scale);
             this.gLoop.setNextBodyToAdd(this.view.getSelectedBody().get());
@@ -111,6 +111,7 @@ public class InputManagerImpl implements InputManager {
         this.checkLocked();
         this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
         this.view.updateReferce(this.reference, this.scale);
+        this.setDefault();
     }
 
     @Override
@@ -118,6 +119,7 @@ public class InputManagerImpl implements InputManager {
         this.checkLocked();
         this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
         this.view.updateReferce(this.reference, this.scale);
+        this.setDefault();
     }
 
     @Override
@@ -125,6 +127,7 @@ public class InputManagerImpl implements InputManager {
         this.checkLocked();
         this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
         this.view.updateReferce(this.reference, this.scale);
+        this.setDefault();
     }
 
     @Override
@@ -132,6 +135,8 @@ public class InputManagerImpl implements InputManager {
         this.checkLocked();
         this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
         this.view.updateReferce(this.reference, this.scale);
+        this.setDefault();
+        
     }
 
     @Override
@@ -205,13 +210,19 @@ public class InputManagerImpl implements InputManager {
 
     @Override
     public void lockVenuse() {
+        if(!this.status.equals(Status.LOCK)) {
         this.threadLock = new LockPosition(this.view, this.scale);
         this.threadLock.start();
+        }
     }
 
     private void checkLocked() {
         if (this.status.equals(Status.LOCK)) {
             this.threadLock.stopLock();
         }
+    }
+    
+    private void setDefault() {
+        this.status = Status.DEFAULT;
     }
 }
