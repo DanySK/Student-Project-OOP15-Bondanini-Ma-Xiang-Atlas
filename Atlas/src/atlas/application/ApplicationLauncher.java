@@ -15,8 +15,8 @@ import javafx.stage.Stage;
  */
 public class ApplicationLauncher extends Application{
 	
-	private static int HEIGHT = 600;
-	private static int WIDTH = 1024;
+	private static int HEIGHT = 700;
+	private static int WIDTH = 1200;
 
     public static void main(String[] args) {
         //this method must create the controller and the view
@@ -39,6 +39,5 @@ public class ApplicationLauncher extends Application{
         System.out.println("view = " + v);
         c.setView(v);
         c.startSim();
-		primaryStage.show();
 	}
 }

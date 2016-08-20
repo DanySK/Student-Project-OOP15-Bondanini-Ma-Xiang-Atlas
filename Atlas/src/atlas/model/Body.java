@@ -123,6 +123,13 @@ public interface Body {
      * @param velocity
      */
     public void setVelocity(Pair<Double, Double> velocity);
+    
+    /**
+     * Gets the total velocity of the body, regardless of the direction.
+     * 
+     * @return total velocity of the body
+     */
+    public double getTotalVelocity();
 
     /**
      * Sets the total velocity of the body, maintaining the same direction.

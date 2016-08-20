@@ -8,42 +8,41 @@ import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
+	
+	private static View view; 
+	// Visualization fields
+	private double scale = 1.4000000000000000E-9;
+	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
+	private SceneMain mainScene;
+	private SceneLoading loadingScene;
 
-    private static View view;
-    // Visualization fields
-    private double scale = 1.4000000000000000E-9;
-    private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
-    private SceneMain mainScene;
-    private SceneLoading loadingScene;
+	// inputs fields
+	private Optional<Body> selectedBody;
+	private Optional<MouseEvent> lastMouseEvent;
+	private List<Body> bodyList;
 
-    // inputs fields
-    private Optional<Body> selectedBody;
-    private Optional<MouseEvent> lastMouseEvent;
-    private List<Body> bodyList;
+	private Controller ctrl;
+	private Stage stage;
 
-    private Controller ctrl;
-    private Stage stage;
+	public ViewImpl(Controller c, Stage primaryStage) {
+		view = this;
+		this.ctrl = c;
+		this.stage = primaryStage;
+		this.mainScene = new SceneMain();
+		this.loadingScene = new SceneLoading();
+		this.stage.setScene(loadingScene);
+		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
 
-    public ViewImpl(Controller c, Stage primaryStage) {
-        view = this;
-        this.ctrl = c;
-        this.stage = primaryStage;
-        this.mainScene = new SceneMain(this);
-        this.loadingScene = new SceneLoading();
-        this.stage.setScene(loadingScene);
-        this.stage.getIcons().add(SceneLoading.LOGO.getImage());
-
-        primaryStage.setOnCloseRequest(e -> {
-            View.onClose();
-            e.consume();
-        });
-    }
+		primaryStage.setOnCloseRequest(e -> {
+			View.onClose();
+			e.consume();
+		});
+		primaryStage.show();
+	}
 
     public static View getView() {
         if (view == null) {

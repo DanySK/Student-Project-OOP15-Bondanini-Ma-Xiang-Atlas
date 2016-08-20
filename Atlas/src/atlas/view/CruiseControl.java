@@ -40,8 +40,8 @@ public class CruiseControl extends HBox {
 
 	private View view;
 
-	public CruiseControl(View v) {
-		this.view = v;
+	public CruiseControl() {
+		this.view = ViewImpl.getView();
 		this.getChildren().add(0, buttonStop);
 		this.getChildren().add(1, labelTime);
 		this.getChildren().add(2, textSpeed);

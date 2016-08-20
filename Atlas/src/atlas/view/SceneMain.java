@@ -5,61 +5,46 @@ import java.util.List;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class SceneMain extends Scene {
+	
+	protected BorderPane root = new BorderPane();
+	protected CruiseControl cruise;
+	protected RenderScreen renderPanel;
+	protected MenuOption optionMenu;
+	protected MenuInfo infoMenu;
+	protected Image background;
+	
+	private View view;
+	
+	public SceneMain() {
+		super(new Pane());
+		this.view = ViewImpl.getView();
+		this.renderPanel = new RenderScreen();
+		this.cruise = new CruiseControl();
+		this.optionMenu = new MenuOption();
+		this.infoMenu = new MenuInfo();
+		
+		this.root.setMinSize(0, 0);
+		this.root.setCenter(renderPanel);
+		this.root.setBottom(cruise);
+		this.root.setLeft(optionMenu);
+		this.root.setRight(infoMenu);
+		this.root.setStyle("-fx-border-color: aqua;");
+		
+		this.setRoot(root);
+		
+		this.setCommands();
+	}
 
-    protected BorderPane root = new BorderPane();
-    protected CruiseControl cruise;
-    protected RenderScreen renderPanel;
-    protected Button left, right;
-    protected OptionMenu optionMenu;
-    protected Image background;
-
-    private View view;
-
-    public SceneMain(View v) {
-        super(new Pane());
-        this.view = v;
-        this.renderPanel = new RenderScreen();
-        this.cruise = new CruiseControl(v);
-        this.left = new Button("|||");
-        this.right = new Button("|||");
-        this.optionMenu = new OptionMenu();
-        this.optionMenu.setRight(left);
-
-        this.root.setMinSize(0, 0);
-        this.root.setCenter(renderPanel);
-        this.root.setBottom(cruise);
-        this.root.setLeft(optionMenu);
-        this.root.setStyle("-fx-border-color: aqua;");
-
-        left.setMaxHeight(Double.MAX_VALUE);
-        right.setMaxHeight(Double.MAX_VALUE);
-
-        this.setRoot(root);
-
-        this.setCommands();
-    }
 
     private void setCommands() {
         this.setKeyboardCommands();
         this.setScrollCommands();
         this.setMouseCommands();
-        this.showLateral();
-    }
-
-    private void showLateral() {
-        this.left.setOnAction(e -> {
-            if (this.optionMenu.isShown()) {
-                this.optionMenu.hideContent();
-            } else {
-                this.optionMenu.showContent();
-            }
-        });
     }
 
     private void setScrollCommands() {
