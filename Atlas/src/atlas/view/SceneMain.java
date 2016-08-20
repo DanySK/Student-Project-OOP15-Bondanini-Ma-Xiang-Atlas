@@ -15,8 +15,8 @@ public class SceneMain extends Scene {
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
 	protected RenderScreen renderPanel;
-	protected Button left,right;
-	protected OptionMenu optionMenu;
+	protected MenuOption optionMenu;
+	protected MenuInfo infoMenu;
 	protected Image background;
 	
 	private View view;
@@ -26,19 +26,15 @@ public class SceneMain extends Scene {
 		this.view = v;
 		this.renderPanel = new RenderScreen();
 		this.cruise = new CruiseControl(v);
-		this.left = new Button("|||");
-		this.right = new Button("|||");
-		this.optionMenu = new OptionMenu();
-		this.optionMenu.setRight(left);
+		this.optionMenu = new MenuOption();
+		this.infoMenu = new MenuInfo();
 		
 		this.root.setMinSize(0, 0);
 		this.root.setCenter(renderPanel);
 		this.root.setBottom(cruise);
 		this.root.setLeft(optionMenu);
+		this.root.setRight(infoMenu);
 		this.root.setStyle("-fx-border-color: aqua;");
-		
-		left.setMaxHeight(Double.MAX_VALUE);
-		right.setMaxHeight(Double.MAX_VALUE);
 		
 		this.setRoot(root);
 		
@@ -49,17 +45,6 @@ public class SceneMain extends Scene {
 		this.setKeyboardCommands();
 		this.setScrollCommands();
 		this.setMouseCommands();
-		this.showLateral();
-	}
-	
-	private void showLateral() {
-		this.left.setOnAction(e -> {
-			if(this.optionMenu.isShown()) {
-				this.optionMenu.hideContent();
-			} else {
-				this.optionMenu.showContent();
-			}
-		});
 	}
 	
 	private void setScrollCommands() {
