@@ -23,7 +23,7 @@ public class InputFilePane extends TabPane{
 			});
 			tab.setContent(content);
 			this.getTabs().add(tab);
-		});		
+		});
 		this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 	}
 	

@@ -55,6 +55,23 @@ public class ModelImpl implements Model, java.io.Serializable {
         	this.bodies.add(b.getBody());
             }
         }
+//        double AU = BodyType.AU;
+//        int t = 86400;
+//        double sunpx = -7.139143380212696E-03 * AU;
+//        double sunpy = -2.792019770161695E-03 * AU;
+//        double sunvx = 5.374260940168565E-06 * AU / t;
+//        double sunvy = -7.410965396701423E-06 * AU / t;
+//        //EARTH
+//        double px = -1.756637922977121E-01 * AU;
+//        double py = 9.659912850526894E-01 * AU;
+//
+//        double vx = (-1.722857156974861E-02 * AU) / t;
+//        double vy = (-3.015071224668472E-03 * AU) / t;
+//        final double earthmass = 5.972e24;
+//        //epoch 2000-01-01
+//        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS));
+//        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
+//        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
     }
 
     // private static double circlev(double rx, double ry) {

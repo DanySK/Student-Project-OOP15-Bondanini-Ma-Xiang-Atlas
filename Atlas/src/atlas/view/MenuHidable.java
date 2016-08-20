@@ -8,8 +8,10 @@ import javafx.scene.layout.BorderPane;
  */
 public abstract class MenuHidable extends BorderPane {
 	
-	protected Button btn;
+	protected static final double TOP_WIDTH = 300;
+	protected static final double TOP_HEIGHT = 200;
 	
+	protected Button btn;	
 	
 	public MenuHidable() {
 		btn = new Button("|||");
