@@ -159,6 +159,11 @@ public class BodyImpl implements Body, java.io.Serializable {
     	this.vely = vel.getY();
     }
 
+    @Override
+    public double getTotalVelocity() {
+    	return Math.sqrt(velx * velx + vely * vely);
+    }
+    
     // Algoritmo da sistemare... angolo non va bene ?? I think it's good,
     // waiting for tests
     @Override
@@ -166,7 +171,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         if (vt < 0) {
             throw new IllegalStateException();
         }
-        double velocity = Math.sqrt(velx * velx + vely * vely);
+        double velocity = this.getTotalVelocity();
         // using angle
         // double angle = Math.acos(this.velx / velocity);
         // this.velx = vt * Math.cos(angle);
@@ -175,21 +180,6 @@ public class BodyImpl implements Body, java.io.Serializable {
         double change = vt / velocity;
         this.velx = change * this.velx;
         this.vely = change * this.vely;
-    }
-
-    @Override
-    public String toString() {
-        NumberFormat formatter = new DecimalFormat("0.### ### ### ### ###E0");
-        double AU = 149597870.700 * 1000;
-
-        return "[Name: " + this.getName() + ", posX/AU = " + formatter.format(this.posx / AU) + ", posY/AU = "
-                + formatter.format(this.posy / AU) + "]" + "\n"
-                /*
-                 * + "| forceX =" + formatter.format(this.fx) + " forceY =" +
-                 * formatter.format(this.fy)
-                 */
-                + "|| velX =" + formatter.format(this.velx / AU * 86400) + " velY ="
-                + formatter.format(this.vely / AU * 86400);
     }
 
     @Override
@@ -223,6 +213,21 @@ public class BodyImpl implements Body, java.io.Serializable {
     @Override
 	public void setAttracting(boolean attracting) {
 		this.attracting = attracting;
+	}
+
+	@Override
+	public String toString() {
+	    NumberFormat formatter = new DecimalFormat("0.### ### ### ### ###E0");
+	    double AU = 149597870.700 * 1000;
+	
+	    return "[Name: " + this.getName() + ", posX/AU = " + formatter.format(this.posx / AU) + ", posY/AU = "
+	            + formatter.format(this.posy / AU) + "]" + "\n"
+	            /*
+	             * + "| forceX =" + formatter.format(this.fx) + " forceY =" +
+	             * formatter.format(this.fy)
+	             */
+	            + "|| velX =" + formatter.format(this.velx / AU * 86400) + " velY ="
+	            + formatter.format(this.vely / AU * 86400);
 	}
 
 	/**

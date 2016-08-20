@@ -52,21 +52,21 @@ public class InputDialog extends Application {
 		primaryStage.setTitle("Hello World!");
 		Button btn = new Button();
 		/*Test LOAD*/
-//		btn.setText("Load");
-//		btn.setOnAction(e -> {
-//			Map<String, List<String>> map = new HashMap<>();
-//			map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
-//			map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
-//			Optional<String> result = getNameFromList("Load configuration", "load", map);
-//			System.out.println(result);
-//		});
-		
-		/*Test SAVE*/
-		btn.setText("Save");
+		btn.setText("Load");
 		btn.setOnAction(e -> {
-			Optional<String> result = getSaveName("Save " + new Date());
+			Map<String, List<String>> map = new HashMap<>();
+			map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
+			map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
+			Optional<String> result = getNameFromList("Load configuration", "load", map);
 			System.out.println(result);
 		});
+		
+		/*Test SAVE*/
+//		btn.setText("Save");
+//		btn.setOnAction(e -> {
+//			Optional<String> result = getSaveName("Save " + new Date());
+//			System.out.println(result);
+//		});
 
 		StackPane root = new StackPane();
 		root.getChildren().add(btn);
