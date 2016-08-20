@@ -4,6 +4,7 @@ import java.io.IOException;
 import atlas.model.*;
 import atlas.view.SimEvent;
 import atlas.view.View;
+import atlas.view.ViewImpl;
 
 /**
  * Implementation of ControllerInterface
@@ -47,7 +48,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exit() {
-        gLoop.setExit();
+        gLoop.setExit();    
     }
 
     public void setView(View v) {
@@ -75,9 +76,9 @@ public class ControllerImpl implements Controller {
             this.inputManager.addMode();
             break;
 
-        case EDIT:
+        case EDIT:  
+            this.inputManager.mouseMultiClick();
             this.inputManager.changeStatus(Status.EDIT);
-            
             break;
 
         case CENTER:

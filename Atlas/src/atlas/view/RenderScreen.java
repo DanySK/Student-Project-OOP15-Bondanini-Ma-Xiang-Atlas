@@ -203,7 +203,8 @@ public class RenderScreen extends StackPane {
         lab.setOnMouseClicked(e -> {
             if (e.getClickCount() > 1) {
                 ViewImpl.getView().setNextBodyToAdd(body);
-                System.out.println(ViewImpl.getView().getSelectedBody());
+                ViewImpl.getView().notifyObservers(SimEvent.EDIT);
+                System.out.println("Step1");
             }
         });
     }

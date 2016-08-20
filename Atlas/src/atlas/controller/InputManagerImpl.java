@@ -40,6 +40,7 @@ public class InputManagerImpl implements InputManager {
         this.initialReference = reference;
         this.reference = reference;
         this.threadLock = new LockPosition(this.view, this.scale);
+        this.threadDrag = new DragPositions(this.scale, this.reference);
     }
 
     @Override
@@ -52,27 +53,30 @@ public class InputManagerImpl implements InputManager {
     @Override
     public void mouseClicked() {
         if (this.status.equals(Status.ADDING)) {
-            this.view.getSelectedBody().get().setPosX(
-                    (MouseInfo.getPointerInfo().getLocation().getX() - this.view.getWindow().getX() - this.reference.getX() - 100) / this.scale);
-            this.view.getSelectedBody().get().setPosY(
-                    (MouseInfo.getPointerInfo().getLocation().getY() - this.view.getWindow().getY() - this.reference.getY() - 25) / -this.scale);
+            this.view.getSelectedBody().get().setPosX((MouseInfo.getPointerInfo().getLocation().getX()
+                    - this.view.getWindow().getX() - this.reference.getX() - 100) / this.scale);
+            this.view.getSelectedBody().get().setPosY((MouseInfo.getPointerInfo().getLocation().getY()
+                    - this.view.getWindow().getY() - this.reference.getY() - 25) / -this.scale);
             this.gLoop.setNextBodyToAdd(this.view.getSelectedBody().get());
         }
         this.status = Status.DEFAULT;
     }
 
     @Override
-    public void mousePressed() {
-        if (this.status.equals(Status.EDIT)) {
+    public void mouseMultiClick() {
+        if (!this.status.equals(Status.EDIT)) {
+            this.threadDrag.start();
         }
+
+    }
+
+    @Override
+    public void mousePressed() {
+
     }
 
     @Override
     public void mouseReleased() {
-        if (this.status.equals(Status.EDIT)) {
-            this.threadDrag.interrupt();
-        }
-        this.status = Status.DEFAULT;
     }
 
     @Override
@@ -87,10 +91,14 @@ public class InputManagerImpl implements InputManager {
     }
 
     @Override
-    public void zoomUp() {
+    public void zoomUp() { // Da cambiare in un metodo solo per non ripetere il
+                           // codice
         this.scale *= 1.05;
         if (this.threadLock.isAlive()) {
             this.threadLock.setScale(this.scale);
+        } else if (this.threadDrag.isAlive()) {
+            this.threadDrag.setScale(this.scale);
+            this.view.updateReferce(this.reference, this.scale);
         } else {
             this.view.updateReferce(this.reference, this.scale);
         }
@@ -101,6 +109,9 @@ public class InputManagerImpl implements InputManager {
         this.scale *= 0.95;
         if (this.threadLock.isAlive()) {
             this.threadLock.setScale(this.scale);
+        } else if (this.threadDrag.isAlive()) {
+            this.threadDrag.setScale(this.scale);
+            this.view.updateReferce(this.reference, this.scale);
         } else {
             this.view.updateReferce(this.reference, this.scale);
         }
@@ -136,7 +147,7 @@ public class InputManagerImpl implements InputManager {
         this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
         this.view.updateReferce(this.reference, this.scale);
         this.setDefault();
-        
+
     }
 
     @Override
@@ -210,9 +221,9 @@ public class InputManagerImpl implements InputManager {
 
     @Override
     public void lockVenuse() {
-        if(!this.status.equals(Status.LOCK)) {
-        this.threadLock = new LockPosition(this.view, this.scale);
-        this.threadLock.start();
+        if (!this.status.equals(Status.LOCK)) {
+            this.threadLock = new LockPosition(this.view, this.scale);
+            this.threadLock.start();
         }
     }
 
@@ -221,8 +232,9 @@ public class InputManagerImpl implements InputManager {
             this.threadLock.stopLock();
         }
     }
-    
+
     private void setDefault() {
         this.status = Status.DEFAULT;
     }
+
 }
