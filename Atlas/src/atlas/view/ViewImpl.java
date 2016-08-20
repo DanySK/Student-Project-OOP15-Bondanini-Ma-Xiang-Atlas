@@ -43,6 +43,7 @@ public class ViewImpl implements View {
 			View.onClose();
 			e.consume();
 		});
+		primaryStage.show();
 	}
 	
 	public static View getView() {

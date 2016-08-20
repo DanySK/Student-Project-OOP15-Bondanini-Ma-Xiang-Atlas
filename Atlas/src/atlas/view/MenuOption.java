@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-public class OptionMenu extends BorderPane {
+public class MenuOption extends MenuHidable {
 
 	private static final int BORDER = 10;
 	private static final int VGAP = 15;
@@ -20,10 +20,12 @@ public class OptionMenu extends BorderPane {
 	private Button credits = new Button("Credits");
 	private Button exit = new Button("Exit");
 	
-	private Alert creditsDialog = new Alert(AlertType.INFORMATION);
+//	private Alert creditsDialog = new Alert(AlertType.INFORMATION);
 
-	public OptionMenu() { //try tilepane
+	public MenuOption() { //try tilepane
 		super();
+		super.setRight(super.btn);
+
 		Insets in = new Insets(BORDER, BORDER, BORDER, BORDER);
 		root.setPadding(in);
 		root.setVgap(VGAP);
@@ -45,25 +47,17 @@ public class OptionMenu extends BorderPane {
 		
 		this.setStyle("-fx-background-color: grey;");
 		
-		this.setCenter(root);
-		
 		//actions
 		View view = ViewImpl.getView();
 		this.newSim.setOnAction(e -> view.notifyObservers(SimEvent.NEWSIM));
 		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE));
 		this.load.setOnAction(e -> view.notifyObservers(SimEvent.LOAD));
 		this.exit.setOnAction(e -> view.notifyObservers(SimEvent.EXIT));
+		
 	}
 	
-	public boolean isShown() {
-		return this.getChildren().contains(root);
-	}
 	public void showContent() {
 		this.setCenter(root);
-	}
-	
-	public void hideContent() {
-		this.getChildren().remove(root);
 	}
 
 }
