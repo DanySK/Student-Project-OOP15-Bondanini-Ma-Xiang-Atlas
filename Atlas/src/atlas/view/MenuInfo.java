@@ -20,8 +20,6 @@ public class MenuInfo extends MenuHidable {
 
 	private static final ImageView ERROR_IMAGE = new ImageView(new Image("images/image404.png"));
 	private static final String DEFAULT_INFO = "Unknown";
-	private static final double TOP_WIDTH = 300;
-	private static final double TOP_HEIGHT = 200;
 	private static final int GAP = 10;
 	private ScrollPane center;
 	private GridPane contentPane;
@@ -50,6 +48,7 @@ public class MenuInfo extends MenuHidable {
 	public MenuInfo() {
 		super();
 		super.setLeft(super.btn);
+		this.setStyle("-fx-background-color: black;");
 
 		this.center = new ScrollPane();
 		this.contentPane = new GridPane();
