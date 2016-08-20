@@ -10,6 +10,11 @@ public interface InputManager {
      * This method is invocated when left mouse button is clicked
      */
     public void mouseClicked();
+    
+    /**
+     * This method is invocated when left mouse button is clicked > 2
+     */
+    public void mouseMultiClick();
 
     /**
      * This method is invocated when left mouse button is pressed
