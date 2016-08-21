@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.Random;
 
 import atlas.utils.Pair;
 
@@ -13,6 +13,8 @@ public class BodyImpl implements Body, java.io.Serializable {
     private static final long serialVersionUID = 3305253121341825047L;
     
     private BodyType type;
+    private final Long id;
+    private String imagePath;
     private String name = null;
     private double posx, posy;
     private double velx, vely;
@@ -25,18 +27,32 @@ public class BodyImpl implements Body, java.io.Serializable {
     
     @Deprecated
     public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
-        this.name = name;
-        this.posx = posx;
-        this.posy = posy;
-        this.velx = velx;
-        this.vely = vely;
-        this.mass = mass;
-        properties = new Properties();
+        this(null, 0, null, name, posx, posy, velx, vely, mass, null);
     }
-
-    public BodyImpl(BodyType type, String name, double posx, double posy, double velx, double vely,
+    
+    public BodyImpl(Body b) {
+    	this(b.getType(), b.getId(), b.getImagePath(), b.getName(), b.getPosX(), b.getPosY(), 
+    			b.getVelX(), b.getVelY(), b.getMass(), b.getProperties());
+    }
+    
+    /**
+     * Complete Constructor.
+     * @param type
+     * @param id
+     * @param imagePath
+     * @param name
+     * @param posx
+     * @param posy
+     * @param velx
+     * @param vely
+     * @param mass
+     * @param properties
+     */
+    public BodyImpl(BodyType type, long id, String imagePath, String name, double posx, double posy, double velx, double vely,
             double mass, Properties properties) {
         this.type = type;
+        this.id = id != 0 ? id : new Random().nextLong();
+        this.imagePath = imagePath;
         this.name = name;
         this.posx = posx;
         this.posy = posy;
@@ -46,20 +62,34 @@ public class BodyImpl implements Body, java.io.Serializable {
         this.properties = properties;
     }
     
-    public BodyImpl(Body b) {
-    	this(b.getType(), b.getName(), b.getPosX(), b.getPosY(), 
-    			b.getVelX(), b.getVelY(), b.getMass(), b.getProperties());
-    }
 
     @Override
     public BodyType getType() {
         return this.type;
     }
 
+    
     @Override
 	public void setType(BodyType type) {
 		this.type = type;
 	}
+    
+    @Override
+    public long getId() {
+        return this.id;
+    }
+    
+    @Override
+    public String getImagePath() {
+        if(this.imagePath == null || !this.imagePath.startsWith(IMAGE_FOLDER)) {
+            this.imagePath = chooseImage();
+        }  
+        return this.imagePath; 
+    }
+    
+    private String chooseImage() {
+        return IMAGE_FOLDER + "mars.png";
+    }
 
 	@Override
     public String getName() {
@@ -236,6 +266,8 @@ public class BodyImpl implements Body, java.io.Serializable {
      */
     public static class Builder {
         private BodyType type;
+        private long id;
+        private String imagePath;
         private String name = null;
         private double posx, posy;
         private double velx, vely;
@@ -246,7 +278,17 @@ public class BodyImpl implements Body, java.io.Serializable {
             this.type = type;
             return this;
         }
-
+        
+        public Builder id(long id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder imagePath(String path) {
+            this.imagePath = path;
+            return this;
+        }
+        
         public Builder name(String name) {
             this.name = name;
             return this;
@@ -286,7 +328,7 @@ public class BodyImpl implements Body, java.io.Serializable {
             if (this.type == null || this.mass == 0) {
                 throw new IllegalStateException();
             }
-            BodyImpl b = new BodyImpl(this.type, this.name, this.posx, this.posy, this.velx, this.vely, this.mass,
+            BodyImpl b = new BodyImpl(this.type, this.id, this.imagePath, this.name, this.posx, this.posy, this.velx, this.vely, this.mass,
                     this.properties);
             return b;
         }

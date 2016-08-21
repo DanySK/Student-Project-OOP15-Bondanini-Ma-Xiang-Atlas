@@ -10,6 +10,8 @@ import atlas.utils.Pair;
  *
  */
 public interface Body {
+    
+    public static final String IMAGE_FOLDER = "planet_images/";
 
     /**
      * 
@@ -22,6 +24,18 @@ public interface Body {
      * @param type the new type
      */
     public void setType(BodyType type);
+    
+    /**
+     * Gets the unique id of the body, it cannot be changed.
+     * @return the unique id of the body
+     */
+    public long getId();
+    
+    /**
+     * Gets the body's image path.
+     * @return the path to the body's image
+     */
+    public String getImagePath();
 
     /**
      * 

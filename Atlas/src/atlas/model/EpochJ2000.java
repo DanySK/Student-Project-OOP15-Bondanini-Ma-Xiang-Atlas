@@ -1,8 +1,29 @@
 package atlas.model;
 
-import static atlas.model.BodyType.*;
 import static atlas.model.Body.Properties.celsiusToKelvin;
-import static atlas.model.Body.Properties.KelvinToCelsius;
+import static atlas.model.BodyType.AU;
+import static atlas.model.BodyType.DWARF_PLANET;
+import static atlas.model.BodyType.EARTH_DAY;
+import static atlas.model.BodyType.EARTH_MASS;
+import static atlas.model.BodyType.JUPITER_DAY;
+import static atlas.model.BodyType.JUPITER_MASS;
+import static atlas.model.BodyType.MARS_DAY;
+import static atlas.model.BodyType.MARS_MASS;
+import static atlas.model.BodyType.MERCURY_DAY;
+import static atlas.model.BodyType.MERCURY_MASS;
+import static atlas.model.BodyType.NEPTUNE_DAY;
+import static atlas.model.BodyType.NEPTUNE_MASS;
+import static atlas.model.BodyType.PLANET;
+import static atlas.model.BodyType.PLUTO_DAY;
+import static atlas.model.BodyType.PLUTO_MASS;
+import static atlas.model.BodyType.SATURN_DAY;
+import static atlas.model.BodyType.SATURN_MASS;
+import static atlas.model.BodyType.SOLAR_MASS;
+import static atlas.model.BodyType.STAR;
+import static atlas.model.BodyType.URANUS_DAY;
+import static atlas.model.BodyType.URANUS_MASS;
+import static atlas.model.BodyType.VENUS_DAY;
+import static atlas.model.BodyType.VENUS_MASS;
 
 import java.util.Calendar;
 
@@ -11,6 +32,7 @@ public enum EpochJ2000 {
 
     SUN(new BodyImpl.Builder().name("Sun")
                                 .type(STAR)
+                                .imagePath(Body.IMAGE_FOLDER + "sun.png")
                                 .mass(SOLAR_MASS)
                                 .posX(0)
                                 .posY(0)
@@ -21,6 +43,7 @@ public enum EpochJ2000 {
     
     MERCURY(new BodyImpl.Builder().name("Mercury")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "mercury.png")
             .mass(MERCURY_MASS)
             .posX(-1.478672233442572E-01 * AU)
             .posY(-4.466929775364947E-01 * AU)
@@ -31,6 +54,7 @@ public enum EpochJ2000 {
     
     VENUS(new BodyImpl.Builder().name("Venus")
     		.type(PLANET)
+    		.imagePath(Body.IMAGE_FOLDER + "venus.png")
     		.mass(VENUS_MASS)
     		.posX(-7.257693602841776E-01 * AU)
     		.posY(-2.529582082587794E-02 * AU)
@@ -41,6 +65,7 @@ public enum EpochJ2000 {
     
     EARTH(new BodyImpl.Builder().name("Earth")
                                 .type(PLANET)
+                                .imagePath(Body.IMAGE_FOLDER + "earth.png")
                                 .mass(EARTH_MASS)
                                 .posX(-1.756637922977121E-01 * AU)
                                 .posY(9.659912850526894E-01 * AU)
@@ -51,6 +76,7 @@ public enum EpochJ2000 {
     
     MARS(new BodyImpl.Builder().name("Mars")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "mars.png")
             .mass(MARS_MASS)
             .posX(1.383221922520998E+00 * AU)
             .posY(-2.380174081741852E-02 * AU)
@@ -61,6 +87,7 @@ public enum EpochJ2000 {
     
     JUPITER(new BodyImpl.Builder().name("Jupiter")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "jupiter.png")
             .mass(JUPITER_MASS)
             .posX(3.996321311604079E+00 * AU)
             .posY(2.932561211517849E+00 * AU)
@@ -71,6 +98,7 @@ public enum EpochJ2000 {
     
     SATURN(new BodyImpl.Builder().name("Saturn")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "saturn.png")
             .mass(SATURN_MASS)
             .posX(6.401416890663500E+00 * AU)
             .posY(6.565250734685103E+00 * AU)
@@ -81,6 +109,7 @@ public enum EpochJ2000 {
     
     URANUS(new BodyImpl.Builder().name("Uranus")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "uranus.png")
             .mass(URANUS_MASS)
             .posX(1.442337843936191E+01 * AU)
             .posY(-1.373845030140273E+01 * AU)
@@ -91,6 +120,7 @@ public enum EpochJ2000 {
     
     NEPTUNE(new BodyImpl.Builder().name("Neptune")
             .type(PLANET)
+            .imagePath(Body.IMAGE_FOLDER + "neptune.png")
             .mass(NEPTUNE_MASS)
             .posX(1.680361764335729E+01 * AU)
             .posY(-2.499544328458694E+01 * AU)

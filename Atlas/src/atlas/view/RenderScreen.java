@@ -1,6 +1,5 @@
 package atlas.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +42,7 @@ public class RenderScreen extends StackPane {
     private Pane lTop = new Pane(); // the top layer -> labels
     private Label fpsCounter = new Label();
 
-    private Map<String, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
+    private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
 
     private double currentScale;
     private Pair<Double, Double> currentTranlate;
@@ -94,21 +93,25 @@ public class RenderScreen extends StackPane {
 
         /* Drawing the new frame */
         bodies.forEach(b -> {
-            final ImageView img = this.getOrCreateBodyImage(b, scale);
+            final ImageView img = this.getBodyImage(b, scale);
 
             // If not present, create new entry
-            if (!this.bMap.keySet().contains(b.getName())) {
+            if (!this.bMap.keySet().contains(b.getId())) {
                 Label lab = new Label(b.getName());
                 this.setLableOnMultiClick(lab, b);
                 lab.setTextFill(Color.WHITESMOKE);
-                bMap.put(b.getName(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
+                bMap.put(b.getId(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
 
                 lMid2.getChildren().add(img);
                 lTop.getChildren().add(lab);
             }
-
-            Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getName());
+            
+            Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getId());
+            
             this.drawTrail(b, scale, entry.getY());
+            
+            /*updates the label name if it has been changed*/
+            entry.getX().getY().setText(b.getName());
 
             /*
              * Place the image centered to the body point. Labels are placed
@@ -166,22 +169,22 @@ public class RenderScreen extends StackPane {
         gc.strokePolyline(pointsX, pointsY, arraySize);
     }
 
-    private ImageView getOrCreateBodyImage(Body b, double scale) {
-        String path = "/planet_images/";
+    private ImageView getBodyImage(Body b, double scale) {
         ImageView img = null;
         try {
-            if (bMap.containsKey(b.getName())) {
-                img = bMap.get(b.getName()).getX().getX();
+            if (bMap.containsKey(b.getId())) {
+                img = bMap.get(b.getId()).getX().getX();
             } else {
-                img = new ImageView(new Image(path.concat(b.getName().toLowerCase() + ".png")));
+                img = new ImageView(new Image(b.getImagePath()));
             }
         } catch (Exception e) {
-            img = new ImageView(new Image(path.concat("mars.png")));
+            throw new IllegalStateException("body image path can't be found : " + b.getImagePath());
         }
-        double radiusScaled = b.getProperties().getRadius() * scale;
-        radiusScaled *= 2;
-        img.setFitHeight(radiusScaled >= MIN_IMAGE_SIZE ? radiusScaled : MIN_IMAGE_SIZE);
-        img.setFitWidth(radiusScaled >= MIN_IMAGE_SIZE ? radiusScaled : MIN_IMAGE_SIZE);
+        double diamScaled = b.getProperties().getRadius() * 2 * scale;
+        img.setPreserveRatio(true);
+        img.setFitHeight(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
+        img.setFitWidth(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
+        img.setRotate(b.getProperties().getRotationAngle());
 
         return img;
     }
