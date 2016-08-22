@@ -61,6 +61,16 @@ public interface InputManager {
      *             if the file doesn't exits
      */
     public void saveConfig() throws IOException, IllegalArgumentException;
+    
+    /**
+     * Saves a body into a file.
+     * 
+     * @throws IOException
+     *             any IOException
+     * @throws IllegalArgumentException
+     *             if the file doesn't exits
+     */
+    public void saveBody() throws IOException, IllegalArgumentException;
 
     /**
      * Loads a configuration from a file.

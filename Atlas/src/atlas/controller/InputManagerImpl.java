@@ -195,18 +195,13 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void saveConfig() throws IOException, IllegalArgumentException {
-		Optional<String> saveName = this.view.getSaveName();
-		if(!saveName.isPresent()) {
-			System.out.println("Operation CANCELED");
-			return;
-		}
-		String dir = SAVE_LOCATION + FILE_SEP + saveName.get();
-		File f = new File(dir);
-		if (this.checkFileExists(f)) {
-			throw new IllegalArgumentException("Cannot save, file name already exits!");
-		}
+	    Optional<File> f = getSaveFile(SAVE_LOCATION);
+        //do nothing if user cancels the operation
+        if(!f.isPresent() ) {
+            return;
+        }
 
-		try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f));
+		try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f.get()));
 				ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
 			ostream.writeObject(this.model);
 			ostream.writeDouble(this.scale);
@@ -214,8 +209,37 @@ public class InputManagerImpl implements InputManager {
 			ostream.writeInt(this.gLoop.getSpeed());
 		}
 	}
-
+	
 	@Override
+    public void saveBody() throws IOException, IllegalArgumentException {
+	    Optional<File> f = getSaveFile(ADD_DIR);
+	    //do nothing if user cancels the operation
+	    if(!f.isPresent() ) {
+	        return;
+	    }
+
+        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f.get()));
+                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+            ostream.writeObject(ViewImpl.getView().getSelectedBody());
+        }        
+    }
+	
+	/*Gets the file to save to, asking the user to provide a name*/
+	private Optional<File> getSaveFile(String path) {
+	    Optional<String> saveName = this.view.getSaveName();
+        if(!saveName.isPresent() || saveName.isPresent() && saveName.get().length() <= 0) {
+            System.out.println("Operation CANCELED");
+            return Optional.empty();
+        }
+        String dir = path + FILE_SEP + saveName.get();
+        File f = new File(dir);
+        if (this.checkFileExists(f)) {
+            throw new IllegalArgumentException("Cannot save, file name already exits!");
+        }
+        return Optional.ofNullable(f);
+	}
+
+    @Override
 	public void loadConfig() throws IOException, IllegalArgumentException {
 		Optional<File> f = this.view.getLoadFile("Load configuration", "LOAD", this.getFiles(SAVE_DIR));
 		if(!f.isPresent()) {
@@ -226,7 +250,6 @@ public class InputManagerImpl implements InputManager {
 		if (!this.checkFileExists(f.get())) {
 			throw new IllegalArgumentException("Cannot load, file doesn't exits!");
 		}
-		this.model = new ModelImpl();
 		try (InputStream bstream = new BufferedInputStream(new FileInputStream(f.get()));
 				ObjectInputStream ostream = new ObjectInputStream(bstream);) {
 			this.model = (Model) ostream.readObject();

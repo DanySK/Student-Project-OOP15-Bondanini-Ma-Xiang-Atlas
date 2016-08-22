@@ -32,7 +32,7 @@ public class MenuOption extends MenuHidable {
 	public MenuOption() { // try tilepane
 		super();
 		super.setRight(super.btn);
-		// this.setStyle("-fx-background-color: black;");
+//		 this.setStyle("-fx-background-color: black;");
 //		root.setGridLinesVisible(true);
 
 		this.logo = new ImageView(SceneLoading.LOGO.getImage());
@@ -44,8 +44,8 @@ public class MenuOption extends MenuHidable {
 
 		// actions
 		View view = ViewImpl.getView();
-		this.newSim.setOnAction(e -> view.notifyObservers(SimEvent.NEWSIM));
-		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE));
+		this.newSim.setOnAction(e -> view.notifyObservers(SimEvent.NEW_SIM));
+		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE_SIM));
 		this.load.setOnAction(e -> view.notifyObservers(SimEvent.LOAD));
 		this.exit.setOnAction(e -> view.notifyObservers(SimEvent.EXIT));
 

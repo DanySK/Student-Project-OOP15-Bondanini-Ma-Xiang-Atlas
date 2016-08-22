@@ -7,7 +7,9 @@ import java.util.Optional;
 import atlas.model.Body;
 import atlas.model.BodyImpl;
 import atlas.utils.Units;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,14 +20,19 @@ import javafx.scene.layout.GridPane;
 
 public class MenuInfo extends MenuHidable {
 
-	private static final ImageView ERROR_IMAGE = new ImageView(new Image("images/image404.png"));
+	private static final ImageView IMAGE_404 = new ImageView(new Image("images/image404.png"));
 	private static final String DEFAULT_INFO = "Unknown";
 	private static final int GAP = 10;
+	private static final double BUTTON_HEIGHT = 50;
+    private static final double BUTTON_WIDTH = 100;
+    
 	private ScrollPane center;
 	private GridPane contentPane;
 
-	private ImageView bodyImage = ERROR_IMAGE;
+	private Optional<Long> bodyId = Optional.empty();
+	private ImageView bodyImage = IMAGE_404;
 	private Button updateBtn = new Button("Update");
+	private Button saveBtn = new Button("Save body");
 
 	private Label lName = new Label("Name");
 	private Label lMass = new Label("Mass");
@@ -48,21 +55,20 @@ public class MenuInfo extends MenuHidable {
 	public MenuInfo() {
 		super();
 		super.setLeft(super.btn);
-		this.setStyle("-fx-background-color: black;");
 
 		this.center = new ScrollPane();
 		this.contentPane = new GridPane();
 
-		// contentPane.setGridLinesVisible(true);
+//		 contentPane.setGridLinesVisible(true);
 		Insets in = new Insets(GAP, GAP, GAP, GAP);
 		contentPane.setPadding(in);
 		contentPane.setVgap(GAP);
 		contentPane.setHgap(GAP);
 
-		this.setStyle("-fx-background-color: grey;");
+		this.setStyle("-fx-background-color: black;");
 		this.center.setContent(contentPane);
 		this.setupGrid();
-		this.update(Optional.empty(), Optional.empty());
+		this.update(Optional.empty());;
 	}
 
 	private void setupGrid() {
@@ -81,35 +87,74 @@ public class MenuInfo extends MenuHidable {
 			GridPane.setConstraints(labList.get(i), labelColumn, i + offset);
 			GridPane.setConstraints(tfList.get(i), textColumn, i + offset);
 		}
-		GridPane.setConstraints(this.updateBtn, textColumn, maxSize + offset);
-
-		GridPane.setConstraints(this.bodyImage, 0, 0);
-		GridPane.setColumnSpan(this.bodyImage, textColumn + offset);
+		/*Adding buttons*/
+		int lastRow = maxSize + offset;
+		GridPane.setConstraints(this.saveBtn, labelColumn, lastRow);
+		GridPane.setConstraints(this.updateBtn, textColumn, lastRow++);
+		this.saveBtn.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		this.updateBtn.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		
+		/*Adding image*/
+		this.swapImage(IMAGE_404);
 
 		contentPane.getChildren().addAll(labList);
 		contentPane.getChildren().addAll(tfList);
-		contentPane.getChildren().add(this.updateBtn);
-		contentPane.getChildren().add(this.bodyImage);
+		contentPane.getChildren().addAll(this.updateBtn, this.saveBtn);
 	}
 
-	public void update(Optional<Body> b, Optional<ImageView> img) {
-		this.bodyImage = !img.isPresent() ? ERROR_IMAGE : new ImageView(img.get().getImage());
-		this.bodyImage.setFitHeight(TOP_HEIGHT);
-		this.bodyImage.setFitWidth(TOP_WIDTH);
+	/**
+	 * 
+	 * @param b
+	 * @param img
+	 */
+	public void update(Optional<Body> b) {
 
 		if (!b.isPresent()) {
-			List<TextField> tfList = Arrays.asList(this.tName, this.tMass, this.tRadius, this.tTemperature,
-					this.tTotVel, this.tRotPer, this.tRotAng, this.tOrbParent);
-			tfList.forEach(i -> {
-				i.setText(DEFAULT_INFO);
-				i.setDisable(true);
-			});
-			updateBtn.setDisable(true);
+		    this.bodyId = Optional.empty();
+		    this.swapImage(IMAGE_404);
+            this.setDisableAll(true);
 		} else {
+		    /*Setting the image*/		    
+		    //if new body, I need to reload the image
+		    if(!this.bodyId.isPresent() || (this.bodyId.isPresent() && this.bodyId.get().longValue() != b.get().getId()) ) {
+		        this.bodyId = Optional.ofNullable(b.get().getId());
+		        this.swapImage(new ImageView(new Image(b.get().getImagePath())));
+		        this.setDisableAll(false);
+		    }
+		    this.bodyImage.setRotate(b.get().getProperties().getRotationAngle());
+		    /*updating info*/
 			this.insertInfo(b.get());
 		}
 	}
 	
+	private void setDisableAll(boolean b) {
+        List<TextField> tf = Arrays.asList(this.tName, this.tMass, this.tRadius, this.tTemperature, this.tTotVel,
+                this.tRotPer, this.tRotAng, this.tOrbParent);
+        List<Button> btn = Arrays.asList(this.saveBtn, this.updateBtn);
+        tf.forEach(i -> {
+            if(b) {
+                i.setText(DEFAULT_INFO);
+            }
+            i.setDisable(b);
+        });
+        btn.forEach(i -> i.setDisable(b));
+	}
+	
+	private void swapImage(ImageView img) {
+        if (!contentPane.getChildren().contains(img)) {
+            contentPane.getChildren().remove(this.bodyImage);
+            img.setPreserveRatio(true);
+            GridPane.setConstraints(img, 0, 0);
+            GridPane.setColumnSpan(img, 2);
+            GridPane.setHalignment(img, HPos.CENTER);
+            this.bodyImage = img;
+            this.bodyImage.setFitHeight(TOP_HEIGHT);
+            this.bodyImage.setFitWidth(TOP_WIDTH);
+            contentPane.getChildren().add(this.bodyImage);
+	    }
+	}
+	
+	/*Updates the panel info of the selected body*/
 	private void insertInfo(Body target) {
 		this.tName.setText(target.getName());
 		this.tMass.setText("" + target.getMass());
@@ -120,7 +165,7 @@ public class MenuInfo extends MenuHidable {
 		this.tRotPer.setText(target.getProperties().getRotationPeriod() / Units.DAY_SEC.getValue() + " days");
 		this.tRotAng.setText(target.getProperties().getRotationAngle() + "°");
 		this.tOrbParent.setText(target.getProperties().getParent().isPresent()
-				? target.getProperties().getParent().get().getName() : DEFAULT_INFO);	
+				? target.getProperties().getParent().get().getName() : DEFAULT_INFO);
 	}
 	
 	private Body extractInfo() {

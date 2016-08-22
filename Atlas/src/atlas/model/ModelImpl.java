@@ -49,12 +49,8 @@ public class ModelImpl implements Model, java.io.Serializable {
 //        c.setPosY(0);
 //        c.setVelocity(new Pair<>(new Double(+4000), new Double(0)));
 //        this.bodies.addAll(Arrays.asList(b,c));
-        this.clock.setEpoch(EpochJ2000.TIME_MILLS);
-        for(EpochJ2000 b : EpochJ2000.values()) {
-            if(!b.equals(EpochJ2000.EARTH)) {
-        	this.bodies.add(b.getBody());
-            }
-        }
+
+        
 //        double AU = BodyType.AU;
 //        int t = 86400;
 //        double sunpx = -7.139143380212696E-03 * AU;
@@ -73,6 +69,16 @@ public class ModelImpl implements Model, java.io.Serializable {
 //        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
 //        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
     }
+	
+	public ModelImpl(EpochJ2000[] epoch) {
+	    this();
+	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
+	    for(EpochJ2000 b : epoch) {
+	        if(!b.equals(EpochJ2000.EARTH)) {
+	            this.bodies.add(b.getBody());
+	        }
+	    }
+	}
 
     // private static double circlev(double rx, double ry) {
     // double solarmass = 1.98892e30;

@@ -219,11 +219,13 @@ public class RenderScreen extends StackPane {
 		this.lMid1.getGraphicsContext2D().clearRect(0, 0, lMid1.getWidth(), lMid1.getHeight());
 		this.lMid3.getChildren().removeAll(this.lMid3.getChildren());
 	}
-
+	
 	private void setLableOnMultiClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
+            ViewImpl.getView().setSelectedBody(body);
+            System.out.println("Selected body");
 			if (e.getClickCount() > 1) {
-				ViewImpl.getView().setNextBodyToAdd(body);
+			    ViewImpl.getView().setSelectedBody(body);
 				ViewImpl.getView().notifyObservers(SimEvent.EDIT);
 				System.out.println("Step1");
 			}
