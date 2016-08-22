@@ -57,47 +57,47 @@ public class CruiseControl extends HBox {
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 
 		/* Setting actions */
-		EventHandler<ActionEvent> stopPlayHandler = new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				switchPlayStop();
-				if (e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
-					CruiseControl.this.view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
-				} else {
-					new IllegalAccessException("Button unknow(not play nor stop)");
-				}
-			}
-		};
-		this.buttonPlay.setOnAction(stopPlayHandler);
-		this.buttonStop.setOnAction(stopPlayHandler);
-
-		this.buttonAdd.setOnAction(e -> {
-			view.setNextBodyToAdd(new BodyImpl(EpochJ2000.EARTH.getBody()));
-			view.notifyObservers(SimEvent.ADD);
-
-		});
-		
-		this.buttonCenter.setOnAction(e -> {
-			view.notifyObservers(SimEvent.CENTER);
-		});
-
-		this.buttonSpeed.setOnAction(e -> {
-			view.notifyObservers(SimEvent.SPEED_CHANGED);
-		});
-		
-		this.buttonLockMars.setOnAction(e -> {
-			view.setNextBodyToAdd(view.getBodies().get(2));
-			view.notifyObservers(SimEvent.LOCK);
-		});
-		
-		this.buttonESC.setOnAction(e -> {
-			this.view.notifyObservers(SimEvent.ESC);
-		});
+		this.setActions();
 	}
-
+	
 	private void switchPlayStop() {
 		this.getChildren().remove(this.play ? this.buttonPlay : this.buttonStop);
 		this.getChildren().add(0, this.play ? this.buttonStop : this.buttonPlay);
 		this.play = !this.play;
+	}
+	
+	/*Sets node actions*/
+	private void setActions() {
+	    EventHandler<ActionEvent> stopPlayHandler = new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent e) {
+	            switchPlayStop();
+	            if (e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
+	                CruiseControl.this.view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
+	            } else {
+	                new IllegalAccessException("Button unknow(not play nor stop)");
+	            }
+	        }
+	    };
+	    
+	    this.buttonPlay.setOnAction(stopPlayHandler);
+	    this.buttonStop.setOnAction(stopPlayHandler);
+	    
+	    this.buttonAdd.setOnAction(e -> ViewImpl.getView().notifyObservers(SimEvent.ADD) );
+	    
+	    this.buttonCenter.setOnAction(e -> ViewImpl.getView().notifyObservers(SimEvent.CENTER));
+	    
+	    this.buttonSpeed.setOnAction(e -> {
+	        view.notifyObservers(SimEvent.SPEED_CHANGED);
+	    });
+	    
+	    this.buttonLockMars.setOnAction(e -> {
+	        view.setNextBodyToAdd(view.getBodies().get(2));
+	        view.notifyObservers(SimEvent.LOCK);
+	    });
+	    
+	    this.buttonESC.setOnAction(e -> {
+	        this.view.notifyObservers(SimEvent.ESC);
+	    });
 	}
 }

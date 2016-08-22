@@ -45,7 +45,7 @@ public class RenderScreen extends StackPane {
 	private Label fpsCounter = new Label();
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
-	private Map<Long, Boolean> secondChanceMap = new HashMap<>();
+	private Map<Long, Boolean> secondChanceMap = new HashMap<>();//second chance
 
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
@@ -78,7 +78,7 @@ public class RenderScreen extends StackPane {
 		this.getChildren().addAll(this.lBottom, this.lMid1);
 		this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
 
-		/* Default tranlate */
+		/* Default translate */
 		Double defTran = new Double(0);
 		this.currentTranlate = new Pair<>(defTran, defTran);
 	}
@@ -94,7 +94,7 @@ public class RenderScreen extends StackPane {
 		this.clearScreen();
 		this.fpsCounter.setText("FPS: " + fps);
 
-		this.secondChanceMap.forEach((k, v) -> v = false);
+		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
 		/* Drawing the new frame */
 		bodies.forEach(b -> {
 			final ImageView img = this.getBodyImage(b, scale);
@@ -129,7 +129,7 @@ public class RenderScreen extends StackPane {
 					this.calcPosY(b.getPosY()));
 		});
 		//remove all non used bodies
-		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue().booleanValue()).forEach(i -> {
+		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
 			System.out.println("Removing " + i.getKey());
 			//remove image
 			this.lMid2.getChildren().remove(bMap.get(i.getKey()).getX().getX());
@@ -138,7 +138,7 @@ public class RenderScreen extends StackPane {
 			bMap.remove(i.getKey());
 		});
 		this.secondChanceMap = this.secondChanceMap.entrySet().stream()
-															.filter(i -> !i.getValue().booleanValue())
+															.filter(i -> i.getValue())
 															.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
