@@ -31,22 +31,24 @@ public class InputDialog extends Application {
         input.initStyle(StageStyle.UTILITY);
         input.setHeaderText(null);
         input.setGraphic(null);
-        return input.showAndWait();
+        Optional<String> result = input.showAndWait();
+        return result.isPresent() ? Optional.ofNullable(result.get().trim()) : Optional.empty();
     }
 
-    public static Optional<String> loadBody(String loadDir) {
+    public static Optional<File> loadFile(String title, String action, Map<File, List<File>> files) {
         Dialog<String> d = new Dialog<>();
-        d.setTitle("Load Configuration");
-        ButtonType btn = new ButtonType("Load", ButtonData.OK_DONE);
+        d.setTitle(title);
+        ButtonType btn = new ButtonType(action, ButtonData.OK_DONE);
         d.getDialogPane().getButtonTypes().addAll(btn, ButtonType.CANCEL);
 
-        InputFilePane pane = new InputFilePane(LOAD_DIR);
+        InputFilePane pane = new InputFilePane(files);
         d.getDialogPane().setContent(pane);
 
         d.setResultConverter(b -> {
             return b.equals(btn) ? pane.getSelectedPath() : null;
         });
-        return d.showAndWait();
+        Optional<String> result = d.showAndWait();
+        return result.isPresent() ? Optional.ofNullable(new File(result.get())) : Optional.empty();
     }
 
     @Override
@@ -59,8 +61,8 @@ public class InputDialog extends Application {
             Map<String, List<String>> map = new HashMap<>();
             map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
             map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
-            Optional<String> result = loadBody(LOAD_DIR);
-            System.out.println(result);
+//            Optional<File> result = loadBody(LOAD_DIR);
+//            System.out.println(result);
         });
 
         /* Test SAVE */

@@ -48,7 +48,8 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exit() {
-        gLoop.setExit();    
+    	View.onClose();
+//        gLoop.setExit();    
     }
 
     public void setView(View v) {
@@ -95,7 +96,7 @@ public class ControllerImpl implements Controller {
             try {
                 this.inputManager.saveConfig();
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
