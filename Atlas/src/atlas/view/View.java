@@ -38,6 +38,8 @@ public interface View {
     
     public Pair<Integer, Units> getSpeedInfo();
     
+    public Optional<Body> getBodyUpdateInfo();
+    
     public Optional<String> getSaveName();
     
     public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files);

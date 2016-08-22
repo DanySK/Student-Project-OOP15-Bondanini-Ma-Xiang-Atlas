@@ -241,6 +241,16 @@ public class BodyImpl implements Body, java.io.Serializable {
 	public void setAttracting(boolean attracting) {
 		this.attracting = attracting;
 	}
+    
+	@Override
+	public void updateInfo(Body b) {
+		this.name = b.getName();
+		this.type = b.getType();
+		this.setTotalVelocity(b.getTotalVelocity());
+		this.mass = b.getMass();
+		this.imagePath = b.getImagePath();
+		this.properties.updateInfo(b.getProperties());
+	}
 
 	@Override
 	public String toString() {

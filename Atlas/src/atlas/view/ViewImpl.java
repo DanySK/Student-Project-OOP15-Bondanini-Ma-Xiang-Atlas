@@ -118,6 +118,11 @@ public class ViewImpl implements View {
     }
 
     @Override
+	public Optional<Body> getBodyUpdateInfo() {
+		return this.mainScene.infoMenu.extractInfo();
+	}
+
+	@Override
     public Optional<String> getSaveName() {
         return InputDialog.getSaveName("Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
     }
