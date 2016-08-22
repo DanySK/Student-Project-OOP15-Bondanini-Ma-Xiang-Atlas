@@ -157,13 +157,13 @@ public class MenuInfo extends MenuHidable {
 	/*Updates the panel info of the selected body*/
 	private void insertInfo(Body target) {
 		this.tName.setText(target.getName());
-		this.tMass.setText("" + target.getMass());
-		this.tRadius.setText("" + target.getProperties().getRadius());
+		this.tMass.setText(target.getMass() + " kg");
+		this.tRadius.setText(target.getProperties().getRadius()/1000 + " km");
 		this.tTemperature.setText(target.getProperties().getTemperature().isPresent()
-				? target.getProperties().getTemperature().get().toString() : DEFAULT_INFO);
-		this.tTotVel.setText("" + target.getTotalVelocity());
-		this.tRotPer.setText(target.getProperties().getRotationPeriod() / Units.DAY_SEC.getValue() + " days");
-		this.tRotAng.setText(target.getProperties().getRotationAngle() + "°");
+				? target.getProperties().getTemperature().get().toString().concat(" K") : DEFAULT_INFO);
+		this.tTotVel.setText((int)target.getTotalVelocity() + " m/2");
+		this.tRotPer.setText(target.getProperties().getRotationPeriod() / Units.HOUR_SEC.getValue() + " hours");
+		this.tRotAng.setText((int)target.getProperties().getRotationAngle() + " /360 deg");
 		this.tOrbParent.setText(target.getProperties().getParent().isPresent()
 				? target.getProperties().getParent().get().getName() : DEFAULT_INFO);
 	}
@@ -172,7 +172,7 @@ public class MenuInfo extends MenuHidable {
 		
 		return null;
 	}
-
+	
 	@Override
 	public void showContent() {
 		this.setCenter(center);

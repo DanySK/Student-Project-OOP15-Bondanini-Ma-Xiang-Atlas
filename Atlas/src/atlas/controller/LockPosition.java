@@ -2,13 +2,14 @@ package atlas.controller;
 
 import atlas.utils.Pair;
 import atlas.view.View;
+import atlas.view.ViewImpl;
 
 public class LockPosition extends Thread {
 
     private View view;
     private static final int step = 33;
     private double scale;
-    private boolean bool = true;
+    private volatile boolean running = true;
 
     public LockPosition(View view, double scale) {
         this.view = view;
@@ -16,10 +17,13 @@ public class LockPosition extends Thread {
     }
 
     public void run() {
-        while (bool) {
+        while (running) {
+        	if(!ViewImpl.getView().getSelectedBody().isPresent()) {
+        		running = false;
+        	}
             double actualScale = this.scale;
             long last = System.currentTimeMillis();
-            Pair<Double, Double> coordinate = new Pair<>(this.view.getSelectedBody().get().getPosX() * -actualScale,
+            Pair<Double, Double> coordinate = new Pair<>(ViewImpl.getView().getSelectedBody().get().getPosX() * -actualScale,
                     this.view.getSelectedBody().get().getPosY() * actualScale);
 
             this.view.updateReferce(coordinate, actualScale);
@@ -38,7 +42,7 @@ public class LockPosition extends Thread {
     }
 
     public void stopLock() {
-        this.bool = false;
+        this.running = false;
     }
 
 }

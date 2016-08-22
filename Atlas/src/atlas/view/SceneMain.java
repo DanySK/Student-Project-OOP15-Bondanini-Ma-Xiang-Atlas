@@ -6,6 +6,7 @@ import atlas.model.Body;
 import atlas.utils.Pair;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -95,12 +96,21 @@ public class SceneMain extends Scene {
             // lastEv = e;
             view.notifyObservers(SimEvent.MOUSE_CLICKED);
         });
+        
+        this.setOnMouseClicked(e -> {
+        	if(e.getButton() == MouseButton.SECONDARY) {
+        		ViewImpl.getView().setSelectedBody(null);
+        		ViewImpl.getView().notifyObservers(SimEvent.ESC);
+        	}
+        });
 
     }
 
     protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
         this.cruise.labelTime.setText(time);
-        this.infoMenu.update(ViewImpl.getView().getSelectedBody());
+        if(this.infoMenu.isShown()) {
+        	this.infoMenu.update(ViewImpl.getView().getSelectedBody());
+        }
         this.renderPanel.render(bodies, scale, translate, fps);
     }
 }

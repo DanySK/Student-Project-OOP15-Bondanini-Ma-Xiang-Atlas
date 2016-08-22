@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -46,6 +47,8 @@ public class RenderScreen extends StackPane {
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
 	private Map<Long, Boolean> secondChanceMap = new HashMap<>();//second chance
+	
+//	private Optional<Long> lock = Optional.empty();
 
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
@@ -226,7 +229,7 @@ public class RenderScreen extends StackPane {
             System.out.println("Selected body");
 			if (e.getClickCount() > 1) {
 			    ViewImpl.getView().setSelectedBody(body);
-				ViewImpl.getView().notifyObservers(SimEvent.EDIT);
+				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
 				System.out.println("Step1");
 			}
 		});

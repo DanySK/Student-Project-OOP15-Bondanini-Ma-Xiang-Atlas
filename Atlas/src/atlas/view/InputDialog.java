@@ -18,11 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class InputDialog extends Application {
-
-    private static final String RES_DIR = System.getProperty("user.dir") + System.getProperty("file.separator") + "res";
-    private static final String LOAD_DIR = RES_DIR + System.getProperty("file.separator") + "bodies";
-    
+public class InputDialog extends Application {    
 
     public static Optional<String> getSaveName(String defaultName) {
         TextInputDialog input = new TextInputDialog(defaultName);
@@ -56,14 +52,14 @@ public class InputDialog extends Application {
         primaryStage.setTitle("Hello World!");
         Button btn = new Button();
         /* Test LOAD */
-        btn.setText("Load");
-        btn.setOnAction(e -> {
-            Map<String, List<String>> map = new HashMap<>();
-            map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
-            map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
+//        btn.setText("Load");
+//        btn.setOnAction(e -> {
+//            Map<String, List<String>> map = new HashMap<>();
+//            map.put("Presets", Arrays.asList("Solar System", "Alpha centauri", "Andromeda"));
+//            map.put("Custom", Arrays.asList("Save #1", "Save #2", "Save #3"));
 //            Optional<File> result = loadBody(LOAD_DIR);
 //            System.out.println(result);
-        });
+//        });
 
         /* Test SAVE */
         // btn.setText("Save");
