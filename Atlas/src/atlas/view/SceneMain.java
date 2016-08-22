@@ -94,13 +94,13 @@ public class SceneMain extends Scene {
             // view.getLastMouseEvent().orElseGet(null);
             // lastEv = e;
             view.notifyObservers(SimEvent.MOUSE_CLICKED);
-
         });
 
     }
 
     protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
         this.cruise.labelTime.setText(time);
+        this.infoMenu.update(ViewImpl.getView().getSelectedBody());
         this.renderPanel.render(bodies, scale, translate, fps);
     }
 }

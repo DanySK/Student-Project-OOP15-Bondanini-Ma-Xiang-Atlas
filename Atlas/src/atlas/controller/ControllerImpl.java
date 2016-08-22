@@ -27,7 +27,7 @@ public class ControllerImpl implements Controller {
      *            ViewInterface Object
      */
     private ControllerImpl() {
-        this.model = new ModelImpl();
+        this.model = new ModelImpl(EpochJ2000.values());
         gLoop = new GameLoop(model);
     }
 
@@ -91,8 +91,23 @@ public class ControllerImpl implements Controller {
             this.inputManager.changeStatus(Status.LOCK);
 
             break;
+            
+        case NEW_SIM:
+            this.model = new ModelImpl();
+            this.gLoop.setModel(model);
+            break;
 
-        case SAVE:
+        case SAVE_SIM:
+            try {
+                this.inputManager.saveConfig();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
+            
+        case SAVE_BODY:
             try {
                 this.inputManager.saveConfig();
             } catch (IllegalArgumentException e) {

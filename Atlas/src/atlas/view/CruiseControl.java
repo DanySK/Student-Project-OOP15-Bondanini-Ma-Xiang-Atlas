@@ -92,11 +92,12 @@ public class CruiseControl extends HBox {
 	    });
 	    
 	    this.buttonLockMars.setOnAction(e -> {
-	        view.setNextBodyToAdd(view.getBodies().get(2));
+	        view.setSelectedBody(view.getBodies().get(2));
 	        view.notifyObservers(SimEvent.LOCK);
 	    });
 	    
 	    this.buttonESC.setOnAction(e -> {
+	        ViewImpl.getView().setSelectedBody(null);
 	        this.view.notifyObservers(SimEvent.ESC);
 	    });
 	}

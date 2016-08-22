@@ -25,29 +25,6 @@ public class InputFilePane extends TabPane{
 	 */
 	public InputFilePane(Map<File, List<File>> files) {
 	    
-//	    File root = new File( path ); 
-//	    if(root == null || !root.exists()) {
-//	        throw new IllegalStateException("root file does not exits!");
-//	    }
-//	    
-//        File[] list = root.listFiles(); 
-//
-//        //populates the map with files
-//        for ( File f : list ) { 
-//            if ( f.isDirectory() ) {
-//                System.out.println( "Dir:" + f.getAbsoluteFile() );
-//                for(File fs : f.listFiles()) {
-//                    if(fs.isFile()) {
-//                        files.merge(f.getName(), Arrays.asList(fs), (o,n) -> {
-//                            o.addAll(n);
-//                            return o;
-//                        });
-//                        System.out.println( "File:" + fs.getAbsoluteFile() );
-//                    }
-//                }
-//            }
-//        } 
-        
         //creates the tabs and buttons
 		files.entrySet().forEach(i -> {
 			Tab tab = new Tab(i.getKey().getName());

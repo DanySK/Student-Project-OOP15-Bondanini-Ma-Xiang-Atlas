@@ -10,29 +10,34 @@ import atlas.utils.Pair;
  *
  */
 public interface Body {
-    
-    public static final String IMAGE_FOLDER = "planet_images/";
+
+    public static final String IMAGE_FOLDER = /*System.getProperty("user.dir") + System.getProperty("file.separator")
+            + "res" + System.getProperty("file.separator") + */"planet_images" + System.getProperty("file.separator");
 
     /**
      * 
      * @return the body's type
      */
     public BodyType getType();
-    
+
     /**
      * Changes body type.
-     * @param type the new type
+     * 
+     * @param type
+     *            the new type
      */
     public void setType(BodyType type);
-    
+
     /**
      * Gets the unique id of the body, it cannot be changed.
+     * 
      * @return the unique id of the body
      */
     public long getId();
-    
+
     /**
-     * Gets the body's image path.
+     * Gets the body's image path, it's always available
+     * 
      * @return the path to the body's image
      */
     public String getImagePath();
@@ -42,10 +47,12 @@ public interface Body {
      * @return the body's name
      */
     public String getName();
-    
+
     /**
      * Assigns the given name to the body.
-     * @param name the new name
+     * 
+     * @param name
+     *            the new name
      */
     public void setName(String name);
 
@@ -54,10 +61,12 @@ public interface Body {
      * @return the body's mass in kilograms
      */
     public double getMass();
-    
+
     /**
      * Sets the body's mass.
-     * @param mass the new mass
+     * 
+     * @param mass
+     *            the new mass
      */
     public void setMass(double mass);
 
@@ -98,10 +107,12 @@ public interface Body {
      * @return the x coordinates in meters
      */
     public double getPosX();
-    
+
     /**
      * Sets the horizontal position.
-     * @param x the x coordinate to set
+     * 
+     * @param x
+     *            the x coordinate to set
      */
     public void setPosX(double x);
 
@@ -111,10 +122,12 @@ public interface Body {
      * @return the y coordinates in meters
      */
     public double getPosY();
-    
+
     /**
      * Sets the vertical position.
-     * @param y the y coordinate to set
+     * 
+     * @param y
+     *            the y coordinate to set
      */
     public void setPosY(double y);
 
@@ -124,20 +137,22 @@ public interface Body {
      * @return the horizontal velocity x
      */
     public double getVelX();
-    
+
     /**
      * Returns the velocity in the y-axis
      * 
      * @return the vertical velocity y
      */
     public double getVelY();
-    
+
     /**
-     * Sets the velocity with a pair, this methods also changes the direction of the body.
+     * Sets the velocity with a pair, this methods also changes the direction of
+     * the body.
+     * 
      * @param velocity
      */
     public void setVelocity(Pair<Double, Double> velocity);
-    
+
     /**
      * Gets the total velocity of the body, regardless of the direction.
      * 
@@ -166,13 +181,14 @@ public interface Body {
      * @return the collection of the trail points
      */
     public Collection<Pair<Double, Double>> getTrail();
-    
+
     /**
      * Checks if the body attracts other bodies.
+     * 
      * @return whether this body attracts others
      */
     public boolean isAttracting();
-    
+
     /**
      * Set whether the body attracts other bodies.
      */
@@ -183,9 +199,9 @@ public interface Body {
      *
      */
     public static class Properties implements java.io.Serializable {
-        
-		private static final long serialVersionUID = -689182940096161486L;
-		private double radius;
+
+        private static final long serialVersionUID = -689182940096161486L;
+        private double radius;
         // Rotazione sul proprio asse
         private long rotationPeriod;
         private double rotationAngle = 0;
@@ -205,14 +221,13 @@ public interface Body {
 
         public Properties() {
         }
-        
+
         public Properties(double radius, long rotationPeriod) {
-        	this.radius = radius;
-        	this.rotationPeriod = rotationPeriod;
+            this.radius = radius;
+            this.rotationPeriod = rotationPeriod;
         }
-        
-        public Properties(double radius, long rotationPeriod, 
-        		Double orbitalPeriod, Body parent, Double temperature) {
+
+        public Properties(double radius, long rotationPeriod, Double orbitalPeriod, Body parent, Double temperature) {
             super();
             this.radius = radius;
             this.rotationPeriod = rotationPeriod;
@@ -264,14 +279,15 @@ public interface Body {
                 this.rotationAngle = currentAngle >= 360 ? currentAngle - 360 : currentAngle;
             }
         }
-        
-        public Optional<Double> getOrbitalPeriod(){
+
+        public Optional<Double> getOrbitalPeriod() {
             return Optional.ofNullable(this.orbitalPeriod);
         }
-        
-        public void setOrbitalPeriod(Double time){
+
+        public void setOrbitalPeriod(Double time) {
             this.orbitalPeriod = time;
         }
+
         public Optional<Body> getParent() {
             return Optional.ofNullable(parent);
         }
@@ -291,8 +307,9 @@ public interface Body {
         @Override
         public String toString() {
             return "Properties [radius=" + radius + ", rotation period=" + rotationPeriod + ", rotation angle="
-                    + rotationAngle + ", parent=" + (this.getParent().isPresent() ? this.getParent().get().getName() : "none")
-                    + ", temperature=" + temperature + "]";
+                    + rotationAngle + ", parent="
+                    + (this.getParent().isPresent() ? this.getParent().get().getName() : "none") + ", temperature="
+                    + temperature + "]";
         }
     }
 

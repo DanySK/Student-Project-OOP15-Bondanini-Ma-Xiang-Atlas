@@ -25,7 +25,7 @@ public class ViewImpl implements View {
 	private SceneLoading loadingScene;
 
 	// inputs fields
-	private Optional<Body> selectedBody;
+	private Optional<Body> selectedBody = Optional.empty();
 	private Optional<MouseEvent> lastMouseEvent;
 	private List<Body> bodyList;
 
@@ -87,6 +87,13 @@ public class ViewImpl implements View {
     }
 
     @Override
+    public void setSelectedBody(Body body) { // ToChangeName
+        System.out.println("Step 2 nextbody toadd");
+        this.selectedBody = Optional.ofNullable(body);
+    
+    }
+
+    @Override
     public Optional<MouseEvent> getLastMouseEvent() {
         return this.lastMouseEvent;
     }
@@ -138,13 +145,6 @@ public class ViewImpl implements View {
     @Override
     public void switchToLoadingScene() {
         this.stage.setScene(loadingScene);
-    }
-
-    @Override
-    public void setNextBodyToAdd(Body body) { // ToChangeName
-        System.out.println("Step 2 nextbody toadd");
-        this.selectedBody = Optional.of(body);
-
     }
 
     @Override

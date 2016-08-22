@@ -24,7 +24,7 @@ public interface View {
     
     public Optional<Body> getSelectedBody();
     
-    public void setNextBodyToAdd(Body body); //To changeName
+    public void setSelectedBody(Body body); //To changeName
     
     public void deleteNextBody();
     
