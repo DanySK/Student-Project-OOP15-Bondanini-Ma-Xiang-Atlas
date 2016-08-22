@@ -26,6 +26,10 @@ public interface View {
     
     public void setSelectedBody(Body body); //To changeName
     
+    public boolean isCameraLocked();
+    
+    public void setCameraLocked(boolean b);  
+    
     public void deleteNextBody();
     
     public Pair<Double, Double> getWindow();

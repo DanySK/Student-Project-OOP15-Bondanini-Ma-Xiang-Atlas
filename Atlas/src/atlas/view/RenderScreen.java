@@ -48,8 +48,6 @@ public class RenderScreen extends StackPane {
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
 	private Map<Long, Boolean> secondChanceMap = new HashMap<>();//second chance
 	
-//	private Optional<Long> lock = Optional.empty();
-
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
 
@@ -211,7 +209,11 @@ public class RenderScreen extends StackPane {
 	}
 
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
-		if (this.currentScale != scale || !translate.equals(currentTranlate)) {
+		if(ViewImpl.getView().isCameraLocked()) {
+			this.currentTranlate = new Pair<>(ViewImpl.getView().getSelectedBody().get().getPosX() * -scale,
+                    ViewImpl.getView().getSelectedBody().get().getPosY() * scale);
+			this.currentScale = scale;
+		} else if (this.currentScale != scale || !translate.equals(currentTranlate)) {
 			this.currentScale = scale;
 			this.currentTranlate = translate;
 		}
@@ -228,9 +230,7 @@ public class RenderScreen extends StackPane {
             ViewImpl.getView().setSelectedBody(body);
             System.out.println("Selected body");
 			if (e.getClickCount() > 1) {
-			    ViewImpl.getView().setSelectedBody(body);
 				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
-				System.out.println("Step1");
 			}
 		});
 	}

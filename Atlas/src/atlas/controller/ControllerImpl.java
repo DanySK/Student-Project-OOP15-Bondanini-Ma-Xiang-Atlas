@@ -87,9 +87,9 @@ public class ControllerImpl implements Controller {
             break;
 
         case LOCK:
-            this.inputManager.lockVenuse();
-            this.inputManager.changeStatus(Status.LOCK);
-
+//            this.inputManager.lockVenuse();
+//            this.inputManager.changeStatus(Status.LOCK);
+        	ViewImpl.getView().setCameraLocked(true);
             break;
             
         case NEW_SIM:
@@ -156,7 +156,8 @@ public class ControllerImpl implements Controller {
             break;
 
         case ESC:
-            this.inputManager.ESC();
+//            this.inputManager.ESC();
+        	ViewImpl.getView().setCameraLocked(false);
             break;
 
         case W:
