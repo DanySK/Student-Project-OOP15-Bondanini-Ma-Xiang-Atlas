@@ -1,16 +1,18 @@
 package atlas.view;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseEvent;
 import atlas.controller.Controller;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseEvent;
 
 public interface View {
     
@@ -32,7 +34,9 @@ public interface View {
     
     public Pair<Integer, Units> getSpeedInfo();
     
-    public String getSaveName();
+    public Optional<String> getSaveName();
+    
+    public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files);
 
     public void resetViewLayout();
     

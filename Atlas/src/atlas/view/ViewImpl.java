@@ -1,6 +1,10 @@
 package atlas.view;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import atlas.controller.Controller;
@@ -95,12 +99,16 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public String getSaveName() {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<String> getSaveName() {
+        return InputDialog.getSaveName("Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
     }
-
+    
     @Override
+	public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files) {
+		return InputDialog.loadFile(title, action, files);
+	}
+
+	@Override
     public void resetViewLayout() {
         // TODO Auto-generated method stub
 
