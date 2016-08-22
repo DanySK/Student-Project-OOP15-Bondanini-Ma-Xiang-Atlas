@@ -26,6 +26,7 @@ public class ViewImpl implements View {
 
 	// inputs fields
 	private Optional<Body> selectedBody = Optional.empty();
+	private boolean lockedCamera = false;
 	private Optional<MouseEvent> lastMouseEvent;
 	private List<Body> bodyList;
 
@@ -92,8 +93,19 @@ public class ViewImpl implements View {
         this.selectedBody = Optional.ofNullable(body);
     
     }
-
+    
     @Override
+	public boolean isCameraLocked() {
+		return this.lockedCamera;
+	}
+
+	@Override
+	public void setCameraLocked(boolean b) {
+		this.lockedCamera = b;		
+	}
+    
+
+	@Override
     public Optional<MouseEvent> getLastMouseEvent() {
         return this.lastMouseEvent;
     }
