@@ -51,7 +51,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     public BodyImpl(BodyType type, long id, String imagePath, String name, double posx, double posy, double velx, double vely,
             double mass, Properties properties) {
         this.type = type;
-        this.id = id != 0 ? id : new Random().nextLong();
+        this.id = id != 0 ? id : System.currentTimeMillis() + new Random().nextLong();
         this.imagePath = imagePath;
         this.name = name;
         this.posx = posx;

@@ -59,8 +59,13 @@ public class InputManagerImpl implements InputManager {
 	@Override
 	public void addMode() {
 		Optional<File> f = this.view.getLoadFile("Add body", "ADD", this.getFiles(ADD_DIR));
+		
+		if(!f.isPresent()) {
+            System.out.println("Operation CANCELED");
+            return;
+        }
 
-		if (!f.isPresent() || !this.checkFileExists(f.get())) {
+		if (!this.checkFileExists(f.get())) {
 			throw new IllegalArgumentException();
 		}
 
@@ -219,7 +224,7 @@ public class InputManagerImpl implements InputManager {
 		}
 		
 		if (!this.checkFileExists(f.get())) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Cannot load, file doesn't exits!");
 		}
 		this.model = new ModelImpl();
 		try (InputStream bstream = new BufferedInputStream(new FileInputStream(f.get()));
