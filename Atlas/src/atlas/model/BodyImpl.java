@@ -14,7 +14,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     
     private BodyType type;
     private final Long id;
-    private String imagePath;
+    private String imagePath = null;
     private String name = null;
     private double posx, posy;
     private double velx, vely;
@@ -23,18 +23,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     private transient Trail trail = new Trail();
     private Properties properties;
     private boolean attracting = true;
-    
-    
-    @Deprecated
-    public BodyImpl(String name, double posx, double posy, double velx, double vely, double mass) {
-        this(null, 0, null, name, posx, posy, velx, vely, mass, null);
-    }
-    
-    public BodyImpl(Body b) {
-    	this(b.getType(), b.getId(), b.getImagePath(), b.getName(), b.getPosX(), b.getPosY(), 
-    			b.getVelX(), b.getVelY(), b.getMass(), b.getProperties());
-    }
-    
+     
     /**
      * Complete Constructor.
      * @param type
@@ -49,19 +38,27 @@ public class BodyImpl implements Body, java.io.Serializable {
      * @param properties
      */
     public BodyImpl(BodyType type, long id, String imagePath, String name, double posx, double posy, double velx, double vely,
-            double mass, Properties properties) {
-        this.type = type;
-        this.id = id != 0 ? id : System.currentTimeMillis() + new Random().nextLong();
-        this.imagePath = imagePath;
-        this.name = name;
-        this.posx = posx;
-        this.posy = posy;
-        this.velx = velx;
-        this.vely = vely;
-        this.mass = mass;
-        this.properties = properties;
+    		double mass, Properties properties) {
+    	this.type = type;
+    	this.id = (id != 0 ? id : generateId());
+    	this.imagePath = imagePath;
+    	this.name = name;
+    	this.posx = posx;
+    	this.posy = posy;
+    	this.velx = velx;
+    	this.vely = vely;
+    	this.mass = mass;
+    	this.properties = properties;
     }
     
+    public BodyImpl(Body b) {
+    	this(b.getType(), generateId(), b.getImagePath(), b.getName(), b.getPosX(), b.getPosY(), 
+    			b.getVelX(), b.getVelY(), b.getMass(), b.getProperties());
+    }
+    
+    private static long generateId() {
+    	return System.currentTimeMillis() + new Random().nextLong();
+    }
 
     @Override
     public BodyType getType() {
@@ -88,7 +85,7 @@ public class BodyImpl implements Body, java.io.Serializable {
     }
     
     private String chooseImage() {
-        return IMAGE_FOLDER + "mars.png";
+        return IMAGE_FOLDER + "jupiter.png";
     }
 
 	@Override
@@ -334,16 +331,16 @@ public class BodyImpl implements Body, java.io.Serializable {
         }
     }
 
-    public static void main(String s[]) {
-        BodyImpl b = new BodyImpl.Builder().mass(1.0).posX(1).posY(1).type(BodyType.STAR).build();
-
-        System.out.println("mass = " + b.getMass() + " adding properties....");
-        // BodyImpl a = new BodyImpl();
-        b.getProperties().setParent(b);
-        b.getProperties().setRadius(100);
-        b.getProperties().setTemperature(1000.00);
-        System.out.println(
-                "temp = " + b.getProperties().getTemperature() + " parent body = " + b.getProperties().getParent());
-
-    }
+//    public static void main(String s[]) {
+//        BodyImpl b = new BodyImpl.Builder().mass(1.0).posX(1).posY(1).type(BodyType.STAR).build();
+//
+//        System.out.println("mass = " + b.getMass() + " adding properties....");
+//        // BodyImpl a = new BodyImpl();
+//        b.getProperties().setParent(b);
+//        b.getProperties().setRadius(100);
+//        b.getProperties().setTemperature(1000.00);
+//        System.out.println(
+//                "temp = " + b.getProperties().getTemperature() + " parent body = " + b.getProperties().getParent());
+//
+//    }
 }

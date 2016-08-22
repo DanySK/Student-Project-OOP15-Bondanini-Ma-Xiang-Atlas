@@ -20,7 +20,7 @@ public class ApplicationLauncher extends Application{
 
     public static void main(String[] args) {
         //this method must create the controller and the view
-        System.out.println("fuck her right in the pussy!");
+        System.out.println("fhritp!");
         
         javafx.application.Application.launch();
     }

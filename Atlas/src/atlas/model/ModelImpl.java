@@ -74,9 +74,9 @@ public class ModelImpl implements Model, java.io.Serializable {
 	    this();
 	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
 	    for(EpochJ2000 b : epoch) {
-	        if(!b.equals(EpochJ2000.EARTH)) {
+//	        if(!b.equals(EpochJ2000.EARTH)) {
 	            this.bodies.add(b.getBody());
-	        }
+//	        }
 	    }
 	}
 
