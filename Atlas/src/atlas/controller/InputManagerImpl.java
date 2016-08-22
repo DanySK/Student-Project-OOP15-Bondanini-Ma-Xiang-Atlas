@@ -27,7 +27,7 @@ import atlas.view.View;
 import atlas.view.ViewImpl;
 
 public class InputManagerImpl implements InputManager {
-	
+
 	private static final String FILE_SEP = System.getProperty("file.separator");
 	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
 	private static final String SAVE_DIR = RES_DIR + FILE_SEP + "saves";
@@ -59,11 +59,11 @@ public class InputManagerImpl implements InputManager {
 	@Override
 	public void addMode() {
 		Optional<File> f = this.view.getLoadFile("Add body", "ADD", this.getFiles(ADD_DIR));
-		
-		if(!f.isPresent()) {
-            System.out.println("Operation CANCELED");
-            return;
-        }
+
+		if (!f.isPresent()) {
+			System.out.println("Operation CANCELED");
+			return;
+		}
 
 		if (!this.checkFileExists(f.get())) {
 			throw new IllegalArgumentException();
@@ -75,22 +75,22 @@ public class InputManagerImpl implements InputManager {
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Content of the file is not suitable.");
 		}
-		
+
 		if (this.bodyToAdd.isPresent()) {
 			this.status = Status.ADDING;
-		}		
+		}
 	}
 
 	@Override
 	public void mouseClicked() {
 		if (this.status.equals(Status.ADDING)) {
-			if(!this.bodyToAdd.isPresent()) {
+			if (!this.bodyToAdd.isPresent()) {
 				throw new IllegalStateException("Body to add is not present!");
 			}
-			this.bodyToAdd.get().setPosX((MouseInfo.getPointerInfo().getLocation().getX()
-					- this.view.getWindow().getX() - this.reference.getX() - 100) / this.scale);
-			this.bodyToAdd.get().setPosY((MouseInfo.getPointerInfo().getLocation().getY()
-					- this.view.getWindow().getY() - this.reference.getY() - 25) / -this.scale);
+			this.bodyToAdd.get().setPosX((MouseInfo.getPointerInfo().getLocation().getX() - this.view.getWindow().getX()
+					- this.reference.getX() - 100) / this.scale);
+			this.bodyToAdd.get().setPosY((MouseInfo.getPointerInfo().getLocation().getY() - this.view.getWindow().getY()
+					- this.reference.getY() - 25) / -this.scale);
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
 		}
 		this.status = Status.DEFAULT;
@@ -195,11 +195,11 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void saveConfig() throws IOException, IllegalArgumentException {
-	    Optional<File> f = getSaveFile(SAVE_LOCATION);
-        //do nothing if user cancels the operation
-        if(!f.isPresent() ) {
-            return;
-        }
+		Optional<File> f = getSaveFile(SAVE_LOCATION);
+		// do nothing if user cancels the operation
+		if (!f.isPresent()) {
+			return;
+		}
 
 		try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f.get()));
 				ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
@@ -209,44 +209,48 @@ public class InputManagerImpl implements InputManager {
 			ostream.writeInt(this.gLoop.getSpeed());
 		}
 	}
-	
-	@Override
-    public void saveBody() throws IOException, IllegalArgumentException {
-	    Optional<File> f = getSaveFile(ADD_DIR);
-	    //do nothing if user cancels the operation
-	    if(!f.isPresent() ) {
-	        return;
-	    }
 
-        try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f.get()));
-                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
-            ostream.writeObject(ViewImpl.getView().getSelectedBody());
-        }        
-    }
-	
-	/*Gets the file to save to, asking the user to provide a name*/
-	private Optional<File> getSaveFile(String path) {
-	    Optional<String> saveName = this.view.getSaveName();
-        if(!saveName.isPresent() || saveName.isPresent() && saveName.get().length() <= 0) {
-            System.out.println("Operation CANCELED");
-            return Optional.empty();
-        }
-        String dir = path + FILE_SEP + saveName.get();
-        File f = new File(dir);
-        if (this.checkFileExists(f)) {
-            throw new IllegalArgumentException("Cannot save, file name already exits!");
-        }
-        return Optional.ofNullable(f);
+	@Override
+	public void saveBody() throws IOException, IllegalArgumentException {
+		if(!ViewImpl.getView().getSelectedBody().isPresent()) {
+			throw new IllegalArgumentException();
+		}
+		Optional<File> f = getSaveFile(
+				ADD_DIR + FILE_SEP + ViewImpl.getView().getSelectedBody().get().getType().toString().toLowerCase());
+		// do nothing if user cancels the operation
+		if (!f.isPresent()) {
+			return;
+		}
+
+		try (OutputStream bstream = new BufferedOutputStream(new FileOutputStream(f.get()));
+				ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+			ostream.writeObject(ViewImpl.getView().getSelectedBody().get());
+		}
 	}
 
-    @Override
+	/* Gets the file to save to, asking the user to provide a name */
+	private Optional<File> getSaveFile(String path) {
+		Optional<String> saveName = this.view.getSaveName();
+		if (!saveName.isPresent() || saveName.isPresent() && saveName.get().length() <= 0) {
+			System.out.println("Operation CANCELED");
+			return Optional.empty();
+		}
+		String dir = path + FILE_SEP + saveName.get();
+		File f = new File(dir);
+		if (this.checkFileExists(f)) {
+			throw new IllegalArgumentException("Cannot save, file name already exits!");
+		}
+		return Optional.ofNullable(f);
+	}
+
+	@Override
 	public void loadConfig() throws IOException, IllegalArgumentException {
 		Optional<File> f = this.view.getLoadFile("Load configuration", "LOAD", this.getFiles(SAVE_DIR));
-		if(!f.isPresent()) {
+		if (!f.isPresent()) {
 			System.out.println("Operation CANCELED");
 			return;
 		}
-		
+
 		if (!this.checkFileExists(f.get())) {
 			throw new IllegalArgumentException("Cannot load, file doesn't exits!");
 		}
@@ -265,7 +269,8 @@ public class InputManagerImpl implements InputManager {
 
 	/**
 	 * Gets the files in the following way: from a root directory it adds only
-	 * the children directories as keys, and then it adds the latter's files as value.
+	 * the children directories as keys, and then it adds the latter's files as
+	 * value.
 	 * 
 	 * @param path
 	 * @return

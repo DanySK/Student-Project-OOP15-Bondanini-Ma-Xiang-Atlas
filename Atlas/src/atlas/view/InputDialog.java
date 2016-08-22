@@ -22,7 +22,7 @@ public class InputDialog extends Application {
 
     public static Optional<String> getSaveName(String defaultName) {
         TextInputDialog input = new TextInputDialog(defaultName);
-        input.setTitle("Save configuration");
+        input.setTitle("Save ");
         input.setContentText("File name");
         input.initStyle(StageStyle.UTILITY);
         input.setHeaderText(null);

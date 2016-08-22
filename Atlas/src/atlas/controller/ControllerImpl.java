@@ -109,13 +109,17 @@ public class ControllerImpl implements Controller {
             
         case SAVE_BODY:
             try {
-                this.inputManager.saveConfig();
+                this.inputManager.saveBody();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             break;
+            
+        case UPDATE_BODY:
+        	ViewImpl.getView().getSelectedBody().ifPresent(i -> i.updateInfo(ViewImpl.getView().getBodyUpdateInfo().get()));
+        	break;
 
         case LOAD:
             try {

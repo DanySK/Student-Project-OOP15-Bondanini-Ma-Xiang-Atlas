@@ -14,7 +14,8 @@ public enum BodyType {
 	SATELLITE("Satellite"),
 	COMET("Comet"),
 	ASTEROID("Asteroid"),
-	FRAGMENT("Fragment");
+	FRAGMENT("Fragment"),
+	OBJECT("Object");
     
     private String nameType;
     
