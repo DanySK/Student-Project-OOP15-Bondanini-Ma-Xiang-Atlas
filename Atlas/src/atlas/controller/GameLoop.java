@@ -57,9 +57,11 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 this.loop = 0;
                 this.copy = model.getBodiesToRender();
                 while ((System.currentTimeMillis() > this.next_game_tick) && (this.loop < MAX_FRAMESKIP)) {
-                    for (int i = 0; i < speed; i++) {
-                        this.model.updateSim(precision / FPS);
-                    }
+					synchronized (this.model.getBodiesToRender()) {
+						for (int i = 0; i < speed; i++) {
+							this.model.updateSim(precision / FPS);
+						}
+					}
                     this.next_game_tick += SKIP_TICKS;
                     this.loop++;
                 }
@@ -79,11 +81,13 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                 // rendering();
                 long FPS = 1000 / timeSLF;
                 
-                if(this.nextBodyToAdd.isPresent()) {
-                    this.model.addBody(this.nextBodyToAdd.get());
-                    this.copy = new ArrayList<>(this.model.getBodiesToRender());
-                    this.nextBodyToAdd = Optional.empty(); 
-                }
+                synchronized (this.model.getBodiesToRender()) {					
+                	if(this.nextBodyToAdd.isPresent()) {
+                		this.model.addBody(this.nextBodyToAdd.get());
+                		this.copy = new ArrayList<>(this.model.getBodiesToRender());
+                		this.nextBodyToAdd = Optional.empty(); 
+                	}
+				}
                 
                 this.view.render(this.copy, model.getTime(), (int)FPS);
 //                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);

@@ -197,11 +197,6 @@ public class MenuInfo extends MenuHidable {
 	
 	private String extractData(TextField tf) {
 		String text = tf.getText().length() > 0 ? tf.getText() : tf.getPromptText();
-		System.out.println("text = " + tf.getText());
-		System.out.println("promt text = " + tf.getPromptText());
-		if (tf == tMass) {
-			System.out.println(Double.parseDouble(tMass.getPromptText().split(" ")[0] + 1E23));
-		}
 		return text.split(" ")[0];
 	}
 	

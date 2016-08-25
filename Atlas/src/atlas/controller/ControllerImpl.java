@@ -118,7 +118,9 @@ public class ControllerImpl implements Controller {
             break;
             
         case UPDATE_BODY:
-        	ViewImpl.getView().getSelectedBody().ifPresent(i -> i.updateInfo(ViewImpl.getView().getBodyUpdateInfo().get()));
+        	synchronized(model.getBodiesToRender()) {
+        		ViewImpl.getView().getSelectedBody().ifPresent(i -> i.updateInfo(ViewImpl.getView().getBodyUpdateInfo().get()));
+        	}
         	break;
 
         case LOAD:
