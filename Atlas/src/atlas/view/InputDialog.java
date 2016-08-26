@@ -41,7 +41,7 @@ public class InputDialog extends Application {
         d.getDialogPane().setContent(pane);
 
         d.setResultConverter(b -> {
-            return b.equals(btn) ? pane.getSelectedPath() : null;
+            return b.equals(btn) && pane.getSelectedPath().isPresent() ? pane.getSelectedPath().get() : null;
         });
         Optional<String> result = d.showAndWait();
         return result.isPresent() ? Optional.ofNullable(new File(result.get())) : Optional.empty();
