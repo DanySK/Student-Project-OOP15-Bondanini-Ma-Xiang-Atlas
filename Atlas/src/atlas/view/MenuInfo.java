@@ -1,5 +1,6 @@
 package atlas.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +8,15 @@ import java.util.Optional;
 import atlas.model.Body;
 import atlas.model.BodyImpl;
 import atlas.model.BodyType;
+import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -24,6 +28,7 @@ public class MenuInfo extends MenuHidable {
 
 	private static final ImageView IMAGE_404 = new ImageView(new Image("images/image404.png"));
 	private static final String DEFAULT_INFO = "Unknown";
+	private static final String NON_EDITABLE_INFO = "[non-editable]";
 	private static final int GAP = 10;
 	private static final double BUTTON_HEIGHT = 50;
 	private static final double BUTTON_WIDTH = 100;
@@ -36,25 +41,19 @@ public class MenuInfo extends MenuHidable {
 	private Button updateBtn = new Button("Update");
 	private Button saveBtn = new Button("Save body");
 
-	private Label lName = new Label("Name");
-	private Label lType = new Label("Type");
-	private Label lMass = new Label("Mass");
-	private Label lRadius = new Label("Radius");
-	private Label lTemperature = new Label("Temperature");
-	private Label lTotVel = new Label("Total velocity");
-	private Label lRotPer = new Label("Rotation period");
-	private Label lRotAng = new Label("Rotation angle");
-	private Label lOrbParent = new Label("Orbital perent");
+	private Pair<Label, TextField> name;
+	private Pair<Label, ChoiceBox<BodyType>> type;
+	private Pair<Label, TextField> mass;
+	private Pair<Label, TextField> radius;
+	private Pair<Label, TextField> temperature;
+	private Pair<Label, TextField> totVelocity;
+	private Pair<Label, TextField> rotPeriod;
+	private Pair<Label, TextField> rotAng;
+	private Pair<Label, TextField> orbPeriod;
+	private Pair<Label, TextField> orbParent;
 
-	private TextField tName = new TextField();
-	private ChoiceBox<BodyType> tType = new ChoiceBox<>();
-	private TextField tMass = new TextField();
-	private TextField tRadius = new TextField();
-	private TextField tTemperature = new TextField();
-	private TextField tTotVel = new TextField();
-	private TextField tRotPer = new TextField();
-	private TextField tRotAng = new TextField();
-	private TextField tOrbParent = new TextField();
+	Double masss;
+	private Body currentBody;
 
 	public MenuInfo() {
 		super();
@@ -71,29 +70,39 @@ public class MenuInfo extends MenuHidable {
 
 		this.setStyle("-fx-background-color: black;");
 		this.center.setContent(contentPane);
-		
-		this.tType.getItems().addAll(BodyType.values());
+
 		this.setupGrid();
 		this.update(Optional.empty());
 		this.setButtonAction();
 	}
 
 	private void setupGrid() {
-		List<Label> labList = Arrays.asList(this.lName, this.lType, this.lMass, this.lRadius, this.lTemperature, this.lTotVel,
-				this.lRotPer, this.lRotAng, this.lOrbParent);
+		/* Initialing */
+		this.name = new Pair<>(new Label("Name"), new TextField());
+		this.type = new Pair<>(new Label("Type"), new ChoiceBox<>());
+		this.mass = new Pair<>(new Label("Mass"), new TextField());
+		this.radius = new Pair<>(new Label("Radius"), new TextField());
+		this.temperature = new Pair<>(new Label("Temperature"), new TextField());
+		this.totVelocity = new Pair<>(new Label("Total velocity"), new TextField());
+		this.rotPeriod = new Pair<>(new Label("Rotation perdiod"), new TextField());
+		this.rotAng = new Pair<>(new Label("Rotation angle"), new TextField());
+		this.orbPeriod = new Pair<>(new Label("Orbital perdiod"), new TextField());
+		this.orbParent = new Pair<>(new Label("Orbital parent"), new TextField());
 
-		List<Node> tfList = Arrays.asList(this.tName, this.tType, this.tMass, this.tRadius, this.tTemperature, this.tTotVel,
-				this.tRotPer, this.tRotAng, this.tOrbParent);
+		this.type.getY().getItems().addAll(BodyType.values());
+		/* Adding node into the gridpane */
+		List<Pair<Label, ? extends Control>> nodes = Arrays.asList(name, type, mass, radius, temperature, totVelocity,
+				rotPeriod, rotAng, orbPeriod, orbParent);
 
 		int labelColumn = 0;
 		int textColumn = 1;
-		int offset = 1;
-		int maxSize = labList.size() < tfList.size() ? labList.size() : tfList.size();
-
+		int offset = 1; // image on the 1st row
+		int maxSize = nodes.size();
 		for (int i = 0; i < maxSize; i++) {
-			GridPane.setConstraints(labList.get(i), labelColumn, i + offset);
-			GridPane.setConstraints(tfList.get(i), textColumn, i + offset);
+			contentPane.add(nodes.get(i).getX(), labelColumn, i + offset);
+			contentPane.add(nodes.get(i).getY(), textColumn, i + offset);
 		}
+
 		/* Adding buttons */
 		int lastRow = maxSize + offset;
 		GridPane.setConstraints(this.saveBtn, labelColumn, lastRow);
@@ -104,8 +113,6 @@ public class MenuInfo extends MenuHidable {
 		/* Adding image */
 		this.swapImage(IMAGE_404);
 
-		contentPane.getChildren().addAll(labList);
-		contentPane.getChildren().addAll(tfList);
 		contentPane.getChildren().addAll(this.updateBtn, this.saveBtn);
 	}
 
@@ -125,9 +132,12 @@ public class MenuInfo extends MenuHidable {
 			// if new body, I need to reload the image
 			if (!this.bodyId.isPresent()
 					|| (this.bodyId.isPresent() && this.bodyId.get().longValue() != b.get().getId())) {
+				this.currentBody = new BodyImpl(b.get());
 				this.bodyId = Optional.ofNullable(b.get().getId());
 				this.swapImage(new ImageView(new Image(b.get().getImagePath())));
 				this.setDisableAll(false);
+
+				this.type.getY().getSelectionModel().select(b.get().getType());
 			}
 			this.bodyImage.setRotate(b.get().getProperties().getRotationAngle());
 			/* updating info */
@@ -135,19 +145,32 @@ public class MenuInfo extends MenuHidable {
 		}
 	}
 
+	private List<TextField> getAllTextField() {
+		return Arrays.asList(name.getY(), mass.getY(), radius.getY(), temperature.getY(), totVelocity.getY(),
+				rotPeriod.getY(), rotAng.getY(), orbPeriod.getY(), orbParent.getY());
+	}
+
 	private void setDisableAll(boolean b) {
-		List<TextField> tf = Arrays.asList(this.tName, this.tMass, this.tRadius, this.tTemperature, this.tTotVel,
-				this.tRotPer, this.tRotAng, this.tOrbParent);
 		List<Button> btn = Arrays.asList(this.saveBtn, this.updateBtn);
-		tf.forEach(i -> {
+		this.getAllTextField().forEach(i -> {
 			if (b) {
 				i.setPromptText(DEFAULT_INFO);
 			}
-			i.setDisable(b);
+			if(i == orbParent.getY() || i == orbPeriod.getY()) {
+				i.setDisable(true);
+			} else {
+				i.setDisable(b);
+			}
 		});
-		this.tType.setDisable(b);
-		
+		this.type.getY().setDisable(b);
+
 		btn.forEach(i -> i.setDisable(b));
+	}
+
+	private void resetAllTextField() {
+		this.getAllTextField().forEach(i -> {
+			i.setText("");
+		});
 	}
 
 	private void swapImage(ImageView img) {
@@ -165,49 +188,83 @@ public class MenuInfo extends MenuHidable {
 	}
 
 	/* Updates the panel info of the selected body */
-	private void insertInfo(Body target) {
-		this.tName.setPromptText(target.getName());
-//		this.tName.setText(target.getName());
-		this.tType.getSelectionModel().select(target.getType());
-		this.tMass.setPromptText(target.getMass() + " kg");
-		this.tRadius.setPromptText(target.getProperties().getRadius() / 1000 + " km");
-		this.tTemperature.setPromptText(target.getProperties().getTemperature().isPresent()
-				? target.getProperties().getTemperature().get().toString().concat(" K") : DEFAULT_INFO);
-		this.tTotVel.setPromptText((int) target.getTotalVelocity() + " m/2");
-		this.tRotPer.setPromptText(target.getProperties().getRotationPeriod() / Units.HOUR_SEC.getValue() + " hours");
-		this.tRotAng.setPromptText((int) target.getProperties().getRotationAngle() + " /360 deg");
-		this.tOrbParent.setPromptText(target.getProperties().getParent().isPresent()
-				? target.getProperties().getParent().get().getName() : DEFAULT_INFO);
+	private void insertInfo(Body b) {
+		this.currentBody.updateInfo(b);
+		this.name.getY().setPromptText(currentBody.getName());
+		this.mass.getY().setPromptText(currentBody.getMass() + " kg");
+		this.radius.getY().setPromptText(currentBody.getProperties().getRadius() / 1000 + " km");
+		this.temperature.getY().setPromptText(currentBody.getProperties().getTemperature().isPresent()
+				? currentBody.getProperties().getTemperature().get().toString().concat(" K") : DEFAULT_INFO);
+		this.totVelocity.getY().setPromptText(currentBody.getTotalVelocity() + " m/2");
+		this.rotPeriod.getY()
+				.setPromptText(currentBody.getProperties().getRotationPeriod() / Units.HOUR_SEC.getValue() + " hours");
+		this.rotAng.getY().setPromptText(currentBody.getProperties().getRotationAngle() + " /360 deg");
+		this.orbParent.getY().setText(currentBody.getProperties().getParent().isPresent()
+				? currentBody.getProperties().getParent().get().getName() + " ".concat(NON_EDITABLE_INFO): DEFAULT_INFO);
+		this.orbPeriod.getY()
+				.setText(currentBody.getProperties().getOrbitalPeriod().isPresent()
+						? currentBody.getProperties().getOrbitalPeriod().get() / Units.DAY_SEC.getValue() + " days " + NON_EDITABLE_INFO
+						: DEFAULT_INFO);
+	}
+
+	private Optional<Double> getNumber(String text) {
+		if (text == null || text.length() < 1) {
+			return Optional.empty();
+		} else {
+			double number;
+			try {
+				number = Double.parseDouble(text);
+			} catch (NumberFormatException e) {
+				Alert alert = new Alert(Alert.AlertType.ERROR,
+						"Format invalid!\nOnly numeric and exponetial formats are accepted.", ButtonType.OK);
+				alert.setHeaderText(null);
+				alert.showAndWait();
+				return Optional.empty();
+			}
+			return Optional.ofNullable(number);
+		}
 	}
 
 	public Optional<Body> extractInfo() {
 		if (ViewImpl.getView().getSelectedBody().isPresent()) {
-			return Optional.ofNullable(new BodyImpl.Builder().name(this.extractData(tName))
-					.mass(Double.parseDouble(this.extractData(tMass)))
-					.type(this.tType.getSelectionModel().getSelectedItem())
-					.properties(new Body.Properties(Double.parseDouble(this.extractData(tRadius)),
-							Long.parseLong(this.extractData(tRotPer)),
-							Double.parseDouble(this.extractData(tRotAng)), null, null,
-							Double.parseDouble(this.extractData(tTemperature))))
-					.build());
+			if (name.getY().getText().length() >= 1) {
+				this.currentBody.setName(name.getY().getText());
+			}
+			this.currentBody.setType(type.getY().getValue());
+
+			this.getNumber(mass.getY().getText()).ifPresent(i -> this.currentBody.setMass(i));
+
+			this.getNumber(totVelocity.getY().getText()).ifPresent(i -> this.currentBody.setTotalVelocity(i));
+
+			this.getNumber(radius.getY().getText()).ifPresent(i -> this.currentBody.getProperties().setRadius(i));
+
+			this.getNumber(temperature.getY().getText())
+					.ifPresent(i -> this.currentBody.getProperties().setTemperature(i));
+
+			this.getNumber(rotPeriod.getY().getText()).ifPresent(
+					i -> this.currentBody.getProperties().setRotationPeriod(i.longValue() * Units.HOUR_SEC.getValue()));
+
+			this.getNumber(rotAng.getY().getText())
+					.ifPresent(i -> this.currentBody.getProperties().setRotationAngle(i));
+
+			this.getNumber(orbPeriod.getY().getText()).ifPresent(
+					i -> this.currentBody.getProperties().setOrbitalPeriod(i.longValue() * Units.DAY_SEC.getValue()));
+
+			return Optional.ofNullable(this.currentBody);
 		} else {
 			return Optional.empty();
 		}
 	}
-	
-	private String extractData(TextField tf) {
-		String text = tf.getText().length() > 0 ? tf.getText() : tf.getPromptText();
-		return text.split(" ")[0];
-	}
-	
+
 	private void setButtonAction() {
-		this.saveBtn.setOnAction( e -> {
+		this.saveBtn.setOnAction(e -> {
 			ViewImpl.getView().notifyObservers(SimEvent.SAVE_BODY);
-		});;
-		
-		this.updateBtn.setOnAction( e -> {
+		});
+		;
+
+		this.updateBtn.setOnAction(e -> {
 			ViewImpl.getView().notifyObservers(SimEvent.UPDATE_BODY);
-			this.setDisableAll(true);
+			this.resetAllTextField();
 		});
 	}
 

@@ -139,7 +139,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         if (this.properties.getParent().isPresent()) {
             Body parent = this.properties.getParent().get();
             this.properties.setOrbitalPeriod(
-                    (2 * Math.PI) / Math.sqrt((BodyType.G * parent.getMass())) * Math.pow(distanceTo(parent), 1.5));
+                    (long)((2 * Math.PI) / Math.sqrt((BodyType.G * parent.getMass())) * Math.pow(distanceTo(parent), 1.5)));
         }
     }
 
