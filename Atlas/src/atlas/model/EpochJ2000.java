@@ -5,6 +5,8 @@ import static atlas.model.BodyType.AU;
 import static atlas.model.BodyType.DWARF_PLANET;
 import static atlas.model.BodyType.EARTH_DAY;
 import static atlas.model.BodyType.EARTH_MASS;
+import static atlas.model.BodyType.MOON_DAY;
+import static atlas.model.BodyType.MOON_MASS;
 import static atlas.model.BodyType.JUPITER_DAY;
 import static atlas.model.BodyType.JUPITER_MASS;
 import static atlas.model.BodyType.MARS_DAY;
@@ -16,6 +18,7 @@ import static atlas.model.BodyType.NEPTUNE_MASS;
 import static atlas.model.BodyType.PLANET;
 import static atlas.model.BodyType.PLUTO_DAY;
 import static atlas.model.BodyType.PLUTO_MASS;
+import static atlas.model.BodyType.SATELLITE;
 import static atlas.model.BodyType.SATURN_DAY;
 import static atlas.model.BodyType.SATURN_MASS;
 import static atlas.model.BodyType.SOLAR_MASS;
@@ -73,6 +76,17 @@ public enum EpochJ2000 {
                                 .velY((-3.015071224668472E-03 * AU) / EARTH_DAY)
                                 .properties(new Body.Properties(6371*1000, EARTH_DAY, null, SUN.getBody(), celsiusToKelvin(14.00) ))
                                 .build()),
+    
+    MOON(new BodyImpl.Builder().name("Moon")
+            .type(SATELLITE)
+            .imagePath(Body.IMAGE_FOLDER + "moon.png")
+            .mass(MOON_MASS)
+            .posX(-1.777871530146587E-01 * AU)
+            .posY(9.643743958957228E-01 * AU)
+            .velX((-1.690468993933486E-02 * AU) / EARTH_DAY)
+            .velY((-3.477070764654480E-03 * AU) / EARTH_DAY)
+            .properties(new Body.Properties(1737.4*1000, MOON_DAY, null, EARTH.getBody(), 250.00 ))
+            .build()),
     
     MARS(new BodyImpl.Builder().name("Mars")
             .type(PLANET)

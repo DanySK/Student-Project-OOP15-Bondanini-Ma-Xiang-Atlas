@@ -45,6 +45,7 @@ public enum BodyType {
     public static final double MERCURY_MASS = 0.330104e24;
     public static final double VENUS_MASS = 4.86732e24;
     public static final double EARTH_MASS = 5.97219e24;
+    public static final double MOON_MASS = 734.9e20;
     public static final double MARS_MASS = 0.641693e24;
     public static final double JUPITER_MASS = 1898.13e24;
     public static final double SATURN_MASS = 568.319e24;
@@ -59,6 +60,7 @@ public enum BodyType {
     public static final long MERCURY_DAY = (long)(58.6462 * Units.DAY_SEC.getValue());
     public static final long VENUS_DAY = (long)(-243.0185 * Units.DAY_SEC.getValue());
     public static final long EARTH_DAY = (long)(1.002738 * Units.DAY_SEC.getValue());
+    public static final long MOON_DAY = (long)(27.321582 * Units.DAY_SEC.getValue());
     public static final long MARS_DAY = (long)(24.622962 * Units.HOUR_SEC.getValue());
     public static final long JUPITER_DAY = (long)(0.413538021 * Units.DAY_SEC.getValue());
     public static final long SATURN_DAY = (long)(0.449375 * Units.DAY_SEC.getValue());
