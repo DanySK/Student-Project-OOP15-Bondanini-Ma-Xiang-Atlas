@@ -96,42 +96,39 @@ public class RenderScreen extends StackPane {
 		this.fpsCounter.setText("FPS: " + fps);
 
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
-		/* Drawing the new frame */
-		synchronized(bodies) {
-			
-			bodies.forEach(b -> {
-				final ImageView img = this.getBodyImage(b, scale);
-				
-				// If not present, create new entry
-				if (!this.bMap.keySet().contains(b.getId())) {
-					Label lab = new Label(b.getName());
-					this.setLableOnMultiClick(lab, b);
-					lab.setTextFill(Color.WHITESMOKE);
-					bMap.put(b.getId(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
-					secondChanceMap.put(b.getId(), true);
-					
-					lMid2.getChildren().add(img);
-					lTop.getChildren().add(lab);
-				}
-				
-				Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getId());
-				this.secondChanceMap.put(b.getId(), true);
-				
-				this.drawTrail(b, scale, entry.getY());
-				
-				/* updates the label name if it has been changed */
-				entry.getX().getY().setText(b.getName());
-				
-				/*
-				 * Place the image centered to the body point. Labels are placed
-				 * next to the image
-				 */
-				entry.getX().getX().relocate(this.calcPosX(b.getPosX()) - entry.getX().getX().getFitWidth() / 2,
-						this.calcPosY(b.getPosY()) - entry.getX().getX().getFitHeight() / 2);
-				entry.getX().getY().relocate(this.calcPosX(b.getPosX() + b.getProperties().getRadius()),
-						this.calcPosY(b.getPosY()));
-			});
-		}
+		/* Drawing the new frame */			
+		bodies.forEach(b -> {
+			final ImageView img = this.getBodyImage(b, scale);
+
+			// If not present, create new entry
+			if (!this.bMap.keySet().contains(b.getId())) {
+				Label lab = new Label(b.getName());
+				this.setLableOnMultiClick(lab, b);
+				lab.setTextFill(Color.WHITESMOKE);
+				bMap.put(b.getId(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
+				secondChanceMap.put(b.getId(), true);
+
+				lMid2.getChildren().add(img);
+				lTop.getChildren().add(lab);
+			}
+
+			Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getId());
+			this.secondChanceMap.put(b.getId(), true);
+
+			this.drawTrail(b, scale, entry.getY());
+
+			/* updates the label name if it has been changed */
+			entry.getX().getY().setText(b.getName());
+
+			/*
+			 * Place the image centered to the body point. Labels are placed
+			 * next to the image
+			 */
+			entry.getX().getX().relocate(this.calcPosX(b.getPosX()) - entry.getX().getX().getFitWidth() / 2,
+					this.calcPosY(b.getPosY()) - entry.getX().getX().getFitHeight() / 2);
+			entry.getX().getY().relocate(this.calcPosX(b.getPosX() + b.getProperties().getRadius()),
+					this.calcPosY(b.getPosY()));
+		});
 		//remove all non used bodies
 		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
 			System.out.println("Removing " + i.getKey());

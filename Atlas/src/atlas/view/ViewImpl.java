@@ -16,8 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
-	
-	private static View view; 
+
+	private static View view;
 	// Visualization fields
 	private double scale = 1.4000000000000000E-9;
 	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
@@ -49,134 +49,136 @@ public class ViewImpl implements View {
 		primaryStage.show();
 	}
 
-    public static View getView() {
-        if (view == null) {
-            throw new IllegalStateException("View not initialized! ERROR");
-        }
-        return view;
-    }
+	public static View getView() {
+		if (view == null) {
+			throw new IllegalStateException("View not initialized! ERROR");
+		}
+		return view;
+	}
 
-    @Override
-    public void render(List<Body> b, String time, int fps) {
-        this.bodyList = b;
-        if (mainScene != null) {
-            Platform.runLater(() -> {
-                mainScene.draw(b, scale, translate, time, fps);
-                if (!isMainScene()) {
-                    this.switchToMainScene();
-                }
-            });
-        }
-    }
+	@Override
+	public void render(List<Body> b, String time, int fps) {
+		this.bodyList = b;
+		if (mainScene != null) {
+			Platform.runLater(() -> {
 
-    @Override
-    public void notifyObservers(SimEvent event) {
-        this.ctrl.update(event);
-    }
+				synchronized (b) {
+					mainScene.draw(b, scale, translate, time, fps);
+				}
+				if (!isMainScene()) {
+					this.switchToMainScene();
+				}
+			});
+		}
+	}
 
-    @Override
-    public Controller getController() {
-        if (this.ctrl == null) {
-            throw new IllegalStateException();
-        }
-        return this.ctrl;
-    }
+	@Override
+	public void notifyObservers(SimEvent event) {
+		this.ctrl.update(event);
+	}
 
-    @Override
-    public Optional<Body> getSelectedBody() {
-        return this.selectedBody;
-    }
+	@Override
+	public Controller getController() {
+		if (this.ctrl == null) {
+			throw new IllegalStateException();
+		}
+		return this.ctrl;
+	}
 
-    @Override
-    public void setSelectedBody(Body body) { // ToChangeName
-        System.out.println("Step 2 nextbody toadd");
-        this.selectedBody = Optional.ofNullable(body);
-    
-    }
-    
-    @Override
+	@Override
+	public Optional<Body> getSelectedBody() {
+		return this.selectedBody;
+	}
+
+	@Override
+	public void setSelectedBody(Body body) { // ToChangeName
+		System.out.println("Step 2 nextbody toadd");
+		this.selectedBody = Optional.ofNullable(body);
+
+	}
+
+	@Override
 	public boolean isCameraLocked() {
 		return this.lockedCamera;
 	}
 
 	@Override
 	public void setCameraLocked(boolean b) {
-		this.lockedCamera = b;		
+		this.lockedCamera = b;
 	}
-    
 
 	@Override
-    public Optional<MouseEvent> getLastMouseEvent() {
-        return this.lastMouseEvent;
-    }
+	public Optional<MouseEvent> getLastMouseEvent() {
+		return this.lastMouseEvent;
+	}
 
-    @Override
-    public Pair<Integer, Units> getSpeedInfo() {
-        CruiseControl c = mainScene.cruise;
-        Pair<Integer, Units> p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
-        return p;
-    }
+	@Override
+	public Pair<Integer, Units> getSpeedInfo() {
+		CruiseControl c = mainScene.cruise;
+		Pair<Integer, Units> p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
+		return p;
+	}
 
-    @Override
+	@Override
 	public Optional<Body> getBodyUpdateInfo() {
 		return this.mainScene.infoMenu.extractInfo();
 	}
 
 	@Override
-    public Optional<String> getSaveName() {
-        return InputDialog.getSaveName("Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
-    }
-    
-    @Override
+	public Optional<String> getSaveName() {
+		return InputDialog.getSaveName("Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
+	}
+
+	@Override
 	public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files) {
 		return InputDialog.loadFile(title, action, files);
 	}
 
 	@Override
-    public void resetViewLayout() {
-        // TODO Auto-generated method stub
+	public void resetViewLayout() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Override
-    public synchronized void updateReferce(Pair<Double, Double> translate, double scale) {
-        this.scale = scale;
-        this.translate = translate;
-    }
+	@Override
+	public synchronized void updateReferce(Pair<Double, Double> translate, double scale) {
+		this.scale = scale;
+		this.translate = translate;
+	}
 
-    @Override
-    public Pair<Double, Double> getReference() {
-        return this.translate;
-    }
+	@Override
+	public Pair<Double, Double> getReference() {
+		return this.translate;
+	}
 
-    @Override
-    public boolean isMainScene() {
-        return this.stage.getScene().equals(mainScene);
-    }
+	@Override
+	public boolean isMainScene() {
+		return this.stage.getScene().equals(mainScene);
+	}
 
-    @Override
-    public void switchToMainScene() {
-        this.stage.setScene(mainScene);
-    }
+	@Override
+	public void switchToMainScene() {
+		this.stage.setScene(mainScene);
+	}
 
-    @Override
-    public void switchToLoadingScene() {
-        this.stage.setScene(loadingScene);
-    }
+	@Override
+	public void switchToLoadingScene() {
+		this.stage.setScene(loadingScene);
+	}
 
-    @Override
-    public List<Body> getBodies() {
-        return this.bodyList;
-    }
+	@Override
+	public List<Body> getBodies() {
+		return this.bodyList;
+	}
 
-    @Override
-    public void deleteNextBody() {
-        this.selectedBody = Optional.empty();
+	@Override
+	public void deleteNextBody() {
+		this.selectedBody = Optional.empty();
 
-    }
+	}
 
-    @Override
-    public Pair<Double, Double> getWindow() {
-        return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
-    }
+	@Override
+	public Pair<Double, Double> getWindow() {
+		return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
+	}
 }

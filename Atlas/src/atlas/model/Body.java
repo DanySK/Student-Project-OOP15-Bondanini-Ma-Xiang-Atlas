@@ -222,7 +222,7 @@ public interface Body {
 		private double rotationAngle = 0;
 
 		/* Optional properties */
-		private Double orbitalPeriod = null;
+		private Long orbitalPeriod = null;
 		private Body parent = null;
 		private Double temperature = null;
 
@@ -242,14 +242,14 @@ public interface Body {
 			this.rotationPeriod = rotationPeriod;
 		}
 
-		public Properties(double radius, long rotationPeriod, Double orbitalPeriod, Body parent, Double temperature) {
+		public Properties(double radius, long rotationPeriod, Long orbitalPeriod, Body parent, Double temperature) {
 			this(radius, rotationPeriod);
 			this.orbitalPeriod = orbitalPeriod;
 			this.parent = parent;
 			this.temperature = temperature;
 		}
 		
-		public Properties(double radius, long rotationPeriod, double rotationAngle, Double orbitalPeriod, Body parent, Double temperature) {
+		public Properties(double radius, long rotationPeriod, double rotationAngle, Long orbitalPeriod, Body parent, Double temperature) {
 			this(radius, rotationPeriod, orbitalPeriod, parent, temperature);
 			this.rotationAngle = rotationAngle;
 		}
@@ -298,11 +298,11 @@ public interface Body {
 			}
 		}
 
-		public Optional<Double> getOrbitalPeriod() {
+		public Optional<Long> getOrbitalPeriod() {
 			return Optional.ofNullable(this.orbitalPeriod);
 		}
 
-		public void setOrbitalPeriod(Double time) {
+		public void setOrbitalPeriod(Long time) {
 			this.orbitalPeriod = time;
 		}
 
