@@ -3,6 +3,7 @@ package atlas.view;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -16,7 +17,7 @@ import javafx.scene.layout.VBox;
  */
 public class InputFilePane extends TabPane{
 	
-	private File selectedPath;
+	private Optional<String> selectedPath = Optional.empty();
 //	private Map<String, List<File>> files = new HashMap<>();
 	
 	/**
@@ -32,7 +33,7 @@ public class InputFilePane extends TabPane{
 			i.getValue().forEach(j -> {
 				Button btn = new Button(j.getName());
 				btn.setOnAction(e -> {
-					selectedPath = j;
+					selectedPath = Optional.ofNullable(j.getAbsolutePath());
 					//Create lateral pane
 				});
 				content.getChildren().add(btn);
@@ -43,7 +44,7 @@ public class InputFilePane extends TabPane{
 		this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 	}
 	
-	public String getSelectedPath() {
-		return selectedPath.getAbsolutePath();
+	public Optional<String> getSelectedPath() {
+		return selectedPath;
 	}
 }

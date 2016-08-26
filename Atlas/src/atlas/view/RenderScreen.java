@@ -98,12 +98,11 @@ public class RenderScreen extends StackPane {
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
 		/* Drawing the new frame */			
 		bodies.forEach(b -> {
-			final ImageView img = this.getBodyImage(b, scale);
+			ImageView img = this.getBodyImage(b, scale);
 
 			// If not present, create new entry
 			if (!this.bMap.keySet().contains(b.getId())) {
 				Label lab = new Label(b.getName());
-				this.setLableOnMultiClick(lab, b);
 				lab.setTextFill(Color.WHITESMOKE);
 				bMap.put(b.getId(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
 				secondChanceMap.put(b.getId(), true);
@@ -119,6 +118,7 @@ public class RenderScreen extends StackPane {
 
 			/* updates the label name if it has been changed */
 			entry.getX().getY().setText(b.getName());
+			this.setLableOnMultiClick(entry.getX().getY(), b); //for loading issue
 
 			/*
 			 * Place the image centered to the body point. Labels are placed
@@ -196,7 +196,7 @@ public class RenderScreen extends StackPane {
 			} else {
 				img = new ImageView(new Image(b.getImagePath()));
 			}
-		} catch (Exception e) {
+		} catch (IllegalArgumentException ie) {
 			throw new IllegalStateException("body image path can't be found : " + b.getImagePath());
 		}
 		double diamScaled = b.getProperties().getRadius() * 2 * scale;
@@ -228,7 +228,6 @@ public class RenderScreen extends StackPane {
 	private void setLableOnMultiClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
             ViewImpl.getView().setSelectedBody(body);
-            System.out.println("Selected body");
 			if (e.getClickCount() > 1) {
 				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
 			}

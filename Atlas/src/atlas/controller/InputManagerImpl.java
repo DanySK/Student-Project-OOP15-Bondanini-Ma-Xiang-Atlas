@@ -31,7 +31,7 @@ public class InputManagerImpl implements InputManager {
 	private static final String FILE_SEP = System.getProperty("file.separator");
 	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
 	private static final String SAVE_DIR = RES_DIR + FILE_SEP + "saves";
-	private static final String SAVE_LOCATION = SAVE_DIR + FILE_SEP + "custom";
+	private static final String SAVE_LOCATION = SAVE_DIR + FILE_SEP + "presets";
 	private static final String ADD_DIR = RES_DIR + FILE_SEP + "bodies";
 
 	private View view;
@@ -262,6 +262,7 @@ public class InputManagerImpl implements InputManager {
 			int speed = ostream.readInt();
 			this.gLoop.setModel(model);
 			gLoop.setValue(unit, speed);
+			ViewImpl.getView().setSelectedBody(null);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Content of the file is not suitable.");
 		}
