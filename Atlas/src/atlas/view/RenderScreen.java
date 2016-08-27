@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import atlas.model.Body;
+import atlas.model.BodyType;
 import atlas.utils.Pair;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.canvas.Canvas;
@@ -46,8 +47,9 @@ public class RenderScreen extends StackPane {
 	private Label fpsCounter = new Label();
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
-	private Map<Long, Boolean> secondChanceMap = new HashMap<>();//second chance
-	
+	private Map<Long, Boolean> secondChanceMap = new HashMap<>();// second
+																	// chance
+
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
 
@@ -96,7 +98,7 @@ public class RenderScreen extends StackPane {
 		this.fpsCounter.setText("FPS: " + fps);
 
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
-		/* Drawing the new frame */			
+		/* Drawing the new frame */
 		bodies.forEach(b -> {
 			ImageView img = this.getBodyImage(b, scale);
 
@@ -118,7 +120,12 @@ public class RenderScreen extends StackPane {
 
 			/* updates the label name if it has been changed */
 			entry.getX().getY().setText(b.getName());
-			this.setLableOnMultiClick(entry.getX().getY(), b); //for loading issue
+
+			if (b.getType() == BodyType.SATELLITE) {
+				entry.getX().getY().setVisible(entry.getX().getX().getFitHeight() > MIN_IMAGE_SIZE);
+			}
+			this.setLableOnMultiClick(entry.getX().getY(), b); // for loading
+																// issue
 
 			/*
 			 * Place the image centered to the body point. Labels are placed
@@ -129,18 +136,17 @@ public class RenderScreen extends StackPane {
 			entry.getX().getY().relocate(this.calcPosX(b.getPosX() + b.getProperties().getRadius()),
 					this.calcPosY(b.getPosY()));
 		});
-		//remove all non used bodies
+		// remove all non used bodies
 		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
 			System.out.println("Removing " + i.getKey());
-			//remove image
+			// remove image
 			this.lMid2.getChildren().remove(bMap.get(i.getKey()).getX().getX());
-			//remove label
+			// remove label
 			this.lTop.getChildren().remove(bMap.get(i.getKey()).getX().getY());
 			bMap.remove(i.getKey());
 		});
-		this.secondChanceMap = this.secondChanceMap.entrySet().stream()
-															.filter(i -> i.getValue())
-															.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		this.secondChanceMap = this.secondChanceMap.entrySet().stream().filter(i -> i.getValue())
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
 	private double calcPosX(double realX) {
@@ -209,9 +215,9 @@ public class RenderScreen extends StackPane {
 	}
 
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
-		if(ViewImpl.getView().isCameraLocked()) {
+		if (ViewImpl.getView().isCameraLocked() && ViewImpl.getView().getSelectedBody().isPresent()) {
 			this.currentTranlate = new Pair<>(ViewImpl.getView().getSelectedBody().get().getPosX() * -scale,
-                    ViewImpl.getView().getSelectedBody().get().getPosY() * scale);
+					ViewImpl.getView().getSelectedBody().get().getPosY() * scale);
 			this.currentScale = scale;
 		} else if (this.currentScale != scale || !translate.equals(currentTranlate)) {
 			this.currentScale = scale;
@@ -224,10 +230,10 @@ public class RenderScreen extends StackPane {
 		this.lMid1.getGraphicsContext2D().clearRect(0, 0, lMid1.getWidth(), lMid1.getHeight());
 		this.lMid3.getChildren().removeAll(this.lMid3.getChildren());
 	}
-	
+
 	private void setLableOnMultiClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
-            ViewImpl.getView().setSelectedBody(body);
+			ViewImpl.getView().setSelectedBody(body);
 			if (e.getClickCount() > 1) {
 				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
 			}

@@ -13,7 +13,7 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 
 	private static final long serialVersionUID = -1811886471163319254L;
 
-	private static double ATTRACTING_FRAGMENTS_PERCENTAGE = 0.9;
+	private static double ATTRACTING_FRAGMENTS_PERCENTAGE = 1;
 
 	private int numFragments;
 
@@ -71,7 +71,7 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 									body.getProperties().getRotationPeriod() * (long) reduction,
 							null, parent, temp))
 					.build();
-			fragment.setAttracting(numAttract > 0);
+			fragment.setAttracting(true);
 			numAttract = numAttract > 0 ? numAttract - 1 : 0;
 
 			fragments.add(fragment);

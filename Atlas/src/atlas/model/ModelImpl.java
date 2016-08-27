@@ -1,11 +1,14 @@
 package atlas.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import atlas.model.algorithms.Algorithm;
 import atlas.model.algorithms.AlgorithmBruteForce;
 import atlas.model.algorithms.CollisionStrategyFragments;
+import atlas.utils.Pair;
+
 
 /**
  * Brute force N-body implementation
@@ -35,39 +38,23 @@ public class ModelImpl implements Model, java.io.Serializable {
 
 	public ModelImpl() {
 
-        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(5));
-//        Body b = EpochJ2000.EARTH.getBody();
-//        b.setName("sun");
-//        b.setMass(EpochJ2000.EARTH.getBody().getMass()+1000);
-//        b.setPosX(-b.getPosX());
-//        b.setPosY(0);
-//        b.setVelocity(new Pair<>(new Double(-4000), new Double(0)));
-//        
-//        Body c = new BodyImpl(EpochJ2000.EARTH.getBody());
-//        c.setName("earth");
-//        c.setPosX(0);
-//        c.setPosY(0);
-//        c.setVelocity(new Pair<>(new Double(+4000), new Double(0)));
-//        this.bodies.addAll(Arrays.asList(b,c));
-
+        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(1));
         
-//        double AU = BodyType.AU;
-//        int t = 86400;
-//        double sunpx = -7.139143380212696E-03 * AU;
-//        double sunpy = -2.792019770161695E-03 * AU;
-//        double sunvx = 5.374260940168565E-06 * AU / t;
-//        double sunvy = -7.410965396701423E-06 * AU / t;
-//        //EARTH
-//        double px = -1.756637922977121E-01 * AU;
-//        double py = 9.659912850526894E-01 * AU;
-//
-//        double vx = (-1.722857156974861E-02 * AU) / t;
-//        double vy = (-3.015071224668472E-03 * AU) / t;
-//        final double earthmass = 5.972e24;
-//        //epoch 2000-01-01
-//        this.bodies.add(new BodyImpl("sun", 0, 0, sunvx, sunvy, BodyType.SOLAR_MASS));
-//        this.bodies.add(new BodyImpl("earth",px, py, vx, vy-vy, earthmass*100000));
-//        this.bodies.add(new BodyImpl("mars",-px/2, -py*2, vx/100, vy/100, earthmass*100000));
+//        double radius = EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
+//        
+//        Body x = EpochJ2000.JUPITER.getBody();
+//        Body y = EpochJ2000.EARTH.getBody();
+//        
+//        this.bodies.addAll(Arrays.asList(x,y));
+//        
+//        x.setPosX(0);
+//        x.setPosY(0);
+//        x.getProperties().setRadius(radius*3);
+//        x.setVelocity(new Pair<Double,Double>(new Double(1000), new Double(5000)));
+//        
+//        y.setPosY(0);
+//        y.getProperties().setRadius(radius);
+//        y.setVelocity(new Pair<Double,Double>(new Double(-y.getPosX()/1000), new Double(2000)));
     }
 	
 	public ModelImpl(EpochJ2000[] epoch) {
