@@ -34,7 +34,7 @@ import javafx.scene.text.FontWeight;
  */
 public class RenderScreen extends StackPane {
 
-	private final static String DEFAULT_BACKGROUND = "/images/" + "star.png";
+	private final static String DEFAULT_BACKGROUND = "/images/" + "b2.jpg";
 	private final static float TRAIL_OPACITY = 0.4f;
 	private final static int TRAIL_WIDTH = 5;
 	private final static int MIN_IMAGE_SIZE = 1;
@@ -88,7 +88,7 @@ public class RenderScreen extends StackPane {
 
 	public void setBackgroundImage(String imageUrl) {
 		this.setStyle("-fx-background-image: url('" + imageUrl + "'); " + "-fx-background-position: center center; "
-				+ "-fx-background-repeat: stretch;");
+				+ "-fx-background-repeat: stretch;" + "-fx-background-size: inherit;");
 	}
 
 	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
