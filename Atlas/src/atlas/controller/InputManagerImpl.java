@@ -127,7 +127,7 @@ public class InputManagerImpl implements InputManager {
 	@Override
 	public void zoomUp() { // Da cambiare in un metodo solo per non ripetere il
 							// codice
-		this.scale *= 1.05;
+		this.scale *= 1.10;
 		if (this.threadLock.isAlive()) {
 			this.threadLock.setScale(this.scale);
 		} else if (this.threadDrag.isAlive()) {
@@ -140,7 +140,7 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void zoomDown() {
-		this.scale *= 0.95;
+		this.scale *= 0.90;
 		if (this.threadLock.isAlive()) {
 			this.threadLock.setScale(this.scale);
 		} else if (this.threadDrag.isAlive()) {
