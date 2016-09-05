@@ -37,23 +37,25 @@ public class CruiseControl extends BorderPane {
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
 	protected Button buttonSearch = new Button();
+	private HBox left = new HBox();
+	private HBox center = new HBox();
+	private HBox right = new HBox();
 
 	private View view;
 
 	public CruiseControl() {
 		this.view = ViewImpl.getView();
-		HBox left = new HBox();
 		left.getChildren().add(0, buttonStop);
 		left.getChildren().add(1, labelTime);
+		left.setAlignment(Pos.CENTER);
+		left.setSpacing(10);
 		left.getChildren().add(2, textSpeed);
 		left.getChildren().add(3, choiceSpeedUnit);
 		left.getChildren().add(4, buttonSpeed);
-		HBox center = new HBox();
 		center.getChildren().add(buttonEdit);
 		center.getChildren().add(buttonAdd);
 		center.setAlignment(Pos.CENTER);
 		
-		HBox right = new HBox();
 		right.getChildren().add(buttonSearch);
 		right.getChildren().add(buttonCenter);
 		right.getChildren().add(buttonLockMars);
@@ -70,8 +72,8 @@ public class CruiseControl extends BorderPane {
 	}
 	
 	private void switchPlayStop() {
-		this.getChildren().remove(this.play ? this.buttonPlay : this.buttonStop);
-		this.getChildren().add(0, this.play ? this.buttonStop : this.buttonPlay);
+		left.getChildren().remove(this.play ? this.buttonPlay : this.buttonStop);
+		left.getChildren().add(0, this.play ? this.buttonStop : this.buttonPlay);
 		this.play = !this.play;
 	}
 	
