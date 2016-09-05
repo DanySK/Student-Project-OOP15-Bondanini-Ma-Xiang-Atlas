@@ -1,14 +1,14 @@
 package atlas.view;
 
-import atlas.model.BodyImpl;
-import atlas.model.EpochJ2000;
 import atlas.utils.Units;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 /**
@@ -20,7 +20,7 @@ import javafx.scene.layout.HBox;
  * @author MaXX
  *
  */
-public class CruiseControl extends HBox {
+public class CruiseControl extends BorderPane {
 	protected Button buttonPlay = new Button("PLAY");// setGraphic
 	protected Button buttonStop = new Button("STOP");
 	protected Button buttonSpeed = new Button("SPEED");
@@ -42,17 +42,26 @@ public class CruiseControl extends HBox {
 
 	public CruiseControl() {
 		this.view = ViewImpl.getView();
-		this.getChildren().add(0, buttonStop);
-		this.getChildren().add(1, labelTime);
-		this.getChildren().add(2, textSpeed);
-		this.getChildren().add(3, choiceSpeedUnit);
-		this.getChildren().add(4, buttonSpeed);
-		this.getChildren().add(5, buttonEdit);
-		this.getChildren().add(6, buttonAdd);
-		this.getChildren().add(7, buttonSearch);
-		this.getChildren().add(8, buttonCenter);
-		this.getChildren().add(9, buttonLockMars);
-		this.getChildren().add(10, buttonESC);
+		HBox left = new HBox();
+		left.getChildren().add(0, buttonStop);
+		left.getChildren().add(1, labelTime);
+		left.getChildren().add(2, textSpeed);
+		left.getChildren().add(3, choiceSpeedUnit);
+		left.getChildren().add(4, buttonSpeed);
+		HBox center = new HBox();
+		center.getChildren().add(buttonEdit);
+		center.getChildren().add(buttonAdd);
+		center.setAlignment(Pos.CENTER);
+		
+		HBox right = new HBox();
+		right.getChildren().add(buttonSearch);
+		right.getChildren().add(buttonCenter);
+		right.getChildren().add(buttonLockMars);
+		right.getChildren().add(buttonESC);
+		
+		this.setLeft(left);
+		this.setCenter(center);
+		this.setRight(right);
 		this.play = false;
 		this.choiceSpeedUnit.getItems().addAll(Units.values());
 
