@@ -13,6 +13,7 @@ public class Trail {
 	private Deque<Pair<Double, Double>> points;
 	private int length;
 	private int timesCalled = 0;
+	private boolean enable = true;
 	
 	/**
 	 * Default constructor, it construct a trail made of n points.
@@ -27,7 +28,7 @@ public class Trail {
 	}
 	
 	public synchronized void addPoint(double x, double y){
-	    if(this.shouldAdd()){
+	    if(this.shouldAdd() && this.enable){
 	        this.points.addFirst(new Pair<Double, Double>(x,y));
 	        if(this.points.size() - 1 == length){
 	            this.points.removeLast();
@@ -49,6 +50,19 @@ public class Trail {
 	
 	public long getLength(){
 		return this.length;
+	}
+	
+	public void reset() {
+		this.points = new ArrayDeque<>();
+	}
+	
+	public boolean isEnabled() {
+		return this.enable;
+	}
+	
+	public void setEnable(boolean b) {
+		this.reset();
+		this.enable = b;
 	}
 	
 	public String toString(){

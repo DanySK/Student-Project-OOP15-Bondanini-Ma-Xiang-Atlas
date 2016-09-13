@@ -38,23 +38,25 @@ public class ModelImpl implements Model, java.io.Serializable {
 
 	public ModelImpl() {
 
-        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(1));
+        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
         
-//        double radius = EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
-//        
-//        Body x = EpochJ2000.JUPITER.getBody();
-//        Body y = EpochJ2000.EARTH.getBody();
+        double radius = EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
+        
+//        Body x = EpochJ2000.URANUS.getBody();
+//        Body y = EpochJ2000.VENUS.getBody();
 //        
 //        this.bodies.addAll(Arrays.asList(x,y));
 //        
 //        x.setPosX(0);
 //        x.setPosY(0);
 //        x.getProperties().setRadius(radius*3);
-//        x.setVelocity(new Pair<Double,Double>(new Double(1000), new Double(5000)));
+//        x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
+//        x.getProperties().setRotationPeriod(60000000L);;
 //        
 //        y.setPosY(0);
+//        y.setPosX(y.getPosX()/3);
 //        y.getProperties().setRadius(radius);
-//        y.setVelocity(new Pair<Double,Double>(new Double(-y.getPosX()/1000), new Double(2000)));
+//        y.setVelocity(new Pair<Double,Double>(new Double(5000), new Double(0)));
     }
 	
 	public ModelImpl(EpochJ2000[] epoch) {
