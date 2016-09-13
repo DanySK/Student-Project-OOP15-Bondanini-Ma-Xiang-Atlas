@@ -5,10 +5,10 @@ import java.util.List;
 
 import atlas.model.Body;
 /**
- * Alan add detail!
+ * Alan add detail! STILL WAINTING ALAN DAMN IT
  *
  */
-public class AlgorithmTwoBody implements Algorithm, java.io.Serializable {
+public class AlgorithmTwoBody extends Algorithm {
 
 	private static final long serialVersionUID = -7785821713075379790L;
 
