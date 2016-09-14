@@ -13,6 +13,7 @@ public class Trail {
 	private Deque<Pair<Double, Double>> points;
 	private int length;
 	private int timesCalled = 0;
+	@Deprecated
 	private boolean enable = true;
 	
 	/**
@@ -55,11 +56,11 @@ public class Trail {
 	public void reset() {
 		this.points = new ArrayDeque<>();
 	}
-	
+	@Deprecated
 	public boolean isEnabled() {
 		return this.enable;
 	}
-	
+	@Deprecated
 	public void setEnable(boolean b) {
 		this.reset();
 		this.enable = b;

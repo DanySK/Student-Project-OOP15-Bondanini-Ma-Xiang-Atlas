@@ -1,5 +1,7 @@
 package atlas.view;
 
+import javax.swing.text.AbstractDocument.BranchElement;
+
 import atlas.utils.Units;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -36,6 +40,7 @@ public class CruiseControl extends BorderPane {
 	protected TextField textSpeed = new TextField();
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
+	private ViewMenuOption viewMenu = new ViewMenuOption();
 	protected Button buttonSearch = new Button();
 	private HBox left = new HBox();
 	private HBox center = new HBox();
@@ -56,6 +61,7 @@ public class CruiseControl extends BorderPane {
 		center.getChildren().add(buttonAdd);
 		center.setAlignment(Pos.CENTER);
 		
+		right.getChildren().add(viewMenu);
 		right.getChildren().add(buttonSearch);
 		right.getChildren().add(buttonCenter);
 		right.getChildren().add(buttonLockMars);
