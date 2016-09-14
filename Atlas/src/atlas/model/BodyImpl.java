@@ -134,9 +134,6 @@ public class BodyImpl implements Body, java.io.Serializable {
 		// updates the rotation angle
 		this.properties.updateRotation(dt);
 		this.checkTrail();
-		if (this.trail.isEnabled() && (this.type == BodyType.FRAGMENT && this.trail.getPoints().size() > this.trail.getLength() / 10)) {
-			this.trail.setEnable(false);
-		}
 		this.trail.addPoint(this.posx, this.posy);
 		// updates orbital period with the 3rd keplar law... don't update every
 		// time
