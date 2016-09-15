@@ -16,12 +16,20 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 	// number of times to shrink mass
 	private final static int MAX_REDUCTION = 5000; // smallest fragment
 	private final static int MIN_REDUCTION = 10; // largest fragment
-	
+
 	private final static double MAX_ANGLE = 120;
 	private final static double ANG_OFFSET = 5;
-	private final static int MAX_FRAGMENTS = (int)(MAX_ANGLE / ANG_OFFSET);
+	private final static int MAX_FRAGMENTS = (int) (MAX_ANGLE / ANG_OFFSET);
 
 	private int numFragments;
+
+	/**
+	 * Default constructor, it spawns the maximum amount of fragments within the
+	 * parameters.
+	 */
+	public CollisionStrategyFragments() {
+		this.numFragments = MAX_FRAGMENTS;
+	}
 
 	/**
 	 * Construct the class with the specified number of fragments.
@@ -32,7 +40,6 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 	 */
 	public CollisionStrategyFragments(int fragments) {
 		this.numFragments = fragments > MAX_FRAGMENTS ? MAX_FRAGMENTS : fragments;
-//		this.numFragments = MAX_FRAGMENTS;
 	}
 
 	@Override
@@ -44,9 +51,9 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 			switch (target.getType()) {
 			case FRAGMENT:
 				break;
-			/*Black holes takes priority*/
+			/* Black holes takes priority */
 			case BLACKHOLE:
-				if(targeted.getType() != BodyType.BLACKHOLE) {
+				if (targeted.getType() != BodyType.BLACKHOLE) {
 					targeted = target;
 					target = targeted.equals(a) ? b : a;
 				}
@@ -54,47 +61,47 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 			case STAR:
 			case PLANET:
 			case DWARF_PLANET:
-			case SATELLITE:			
+			case SATELLITE:
 			default:
-				sim.addAll(this.spawnFragments(target, targeted));				
+				sim.addAll(this.spawnFragments(target, targeted));
 				break;
 			}
 
-			//The larger body gains about 90% of the smaller body
+			// The larger body gains about 90% of the smaller body
 			double massGain = 0.9 * target.getMass() + 1;
-			//Radius increases according to the masses ratio
-			double radiusGain = target.getProperties().getRadius() * (massGain/targeted.getMass());
-			targeted.getProperties().setRadius(radiusGain + targeted.getProperties().getRadius());
+			// Radius increases according to the masses ratio
+			double radiusGain = target.getProperties().getRadius() * (massGain / targeted.getMass());
+			targeted.getProperties().setRadius(radiusGain * 2 + targeted.getProperties().getRadius());
 			targeted.setMass(massGain + targeted.getMass());
-			//The smaller body is removed
+			// The smaller body is removed
 			sim.remove(target);
 		}
 		return sim;
 	}
 
-	/*It spawns numFragments, using the parameters*/
+	/* It spawns numFragments, using the parameters */
 	private List<Body> spawnFragments(Body body, Body parent) {
 		List<Body> fragments = new ArrayList<>();
-		
+
 		int numAttract = (int) (numFragments * ATTRACTING_FRAGMENTS_PERCENTAGE);
 		Random rand = new Random();
 
 		for (int i = 0; i < numFragments; i++, numAttract--) {
-			//reduction = how big is the fragment 
+			// reduction = how big is the fragment
 			double reduction = rand.nextInt(MAX_REDUCTION - MIN_REDUCTION + 1) + MIN_REDUCTION;
-	
-			//the angle of the fragment's position vector
-			double rotAngle = Math.toRadians(i*ANG_OFFSET);
+
+			// the angle of the fragment's position vector
+			double rotAngle = Math.toRadians(i * ANG_OFFSET);
 			rotAngle = i % 2 == 0 ? rotAngle : -rotAngle;
 			double x = body.getPosX() * Math.cos(rotAngle) - body.getPosY() * Math.sin(rotAngle);
 			double y = body.getPosX() * Math.sin(rotAngle) + body.getPosY() * Math.cos(rotAngle);
 			double length = Math.sqrt(x * x + y * y);
-			//off set half of the body's radius from the center
-			double multiplier = (length + body.getProperties().getRadius()/2) / length;
+			// off set half of the body's radius from the center
+			double multiplier = (length + body.getProperties().getRadius() / 2) / length;
 			x = multiplier * x;
 			y = multiplier * y;
-			
-			/*Creating the fragment*/
+
+			/* Creating the fragment */
 			Double temp = null; // setting temperature
 			if (body.getProperties().getTemperature().isPresent()
 					&& parent.getProperties().getTemperature().isPresent()) {
@@ -103,11 +110,8 @@ public class CollisionStrategyFragments extends CollisionStrategy {
 			}
 			Long orbitalPeriod = null;
 			Body fragment = new BodyImpl.Builder().name(body.getName().concat("_FRAG").concat("" + i))
-					.type(BodyType.FRAGMENT).mass(body.getMass() / reduction)
-					.posX(x)
-					.posY(y)
-					.velX(body.getVelX() / ( numFragments - i + 1 ))
-					.velY(body.getVelY() / ( numFragments - i + 1 ))
+					.type(BodyType.FRAGMENT).mass(body.getMass() / reduction).posX(x).posY(y)
+					.velX(body.getVelX() / (numFragments - i + 1)).velY(body.getVelY() / (numFragments - i + 1))
 					.properties(new Body.Properties(body.getProperties().getRadius() / numFragments,
 							body.getProperties().getRotationPeriod() * (long) rand.nextDouble(), orbitalPeriod, parent,
 							temp))

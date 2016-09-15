@@ -14,6 +14,17 @@ public class AlgorithmBruteForce extends Algorithm {
 
 	private static final long serialVersionUID = -766146245161256993L;
 
+	/**
+	 * Default empty constructor.
+	 */
+	public AlgorithmBruteForce() {
+	}
+
+	/**
+	 * Construct the algorithm with the specified collision algorithm.
+	 * 
+	 * @param collisionStrategy
+	 */
 	public AlgorithmBruteForce(CollisionStrategy collisionStrategy) {
 		super();
 		super.collisionStrategy = collisionStrategy;
@@ -29,7 +40,7 @@ public class AlgorithmBruteForce extends Algorithm {
 				for (Body c : copy) {
 					if (b != null && !b.equals(c)) {
 						if (bodies.contains(b) && bodies.contains(c)) {
-							this.collisionStrategy.manageCollision(bodies, b, c);
+							super.collisionStrategy.manageCollision(bodies, b, c);
 						}
 						b.addForce(c);
 					}

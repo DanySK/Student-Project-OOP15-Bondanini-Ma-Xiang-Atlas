@@ -1,7 +1,14 @@
 package atlas.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import atlas.model.*;
+import atlas.model.algorithms.AlgorithmBernesHut;
+import atlas.model.algorithms.AlgorithmBruteForce;
+import atlas.model.algorithms.CollisionStrategy;
+import atlas.model.algorithms.CollisionStrategyAbsorb;
+import atlas.model.algorithms.CollisionStrategyFragments;
 import atlas.view.SimEvent;
 import atlas.view.View;
 import atlas.view.ViewImpl;
@@ -125,7 +132,7 @@ public class ControllerImpl implements Controller {
 
         case LOAD:
             try {
-                this.inputManager.loadConfig();
+                this.model = this.inputManager.loadConfig().orElse(this.model);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -185,7 +192,23 @@ public class ControllerImpl implements Controller {
         case SPACEBAR_PRESSED:
             this.inputManager.spaceBar();
             break;
-
+        
+        case COLLISION_ONE:
+        	this.model.setCollsion(new CollisionStrategyFragments());
+        	break;        	
+        case COLLISION_TWO:
+        	this.model.setCollsion(new CollisionStrategyAbsorb());
+        	System.out.println("Collision Absorb");
+        	break;
+        case NBODY_ONE:
+        	this.model.setAlgorithm(new AlgorithmBruteForce());
+        	break;
+        case NBODY_TWO:
+//        	this.model.setAlgorithm(new AlgorithmBernesHut());
+        	for(int i = 0; i < 10; i++ ) {
+        		System.out.println("Algorithm (Bernes Hut) not ready yet!!!!");
+        	}
+        	break;
         default:
             break;
         }
