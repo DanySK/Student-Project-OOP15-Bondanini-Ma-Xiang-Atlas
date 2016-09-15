@@ -1,8 +1,10 @@
 package atlas.view;
 
 import java.util.List;
+import java.util.Set;
 
 import atlas.model.Body;
+import atlas.model.BodyType;
 import atlas.utils.Pair;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,6 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class SceneMain extends Scene {
+	
+	private static final String FILE_SEP = System.getProperty("file.separator");
+	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
 	
 	protected BorderPane root = new BorderPane();
 	protected CruiseControl cruise;
@@ -39,6 +44,17 @@ public class SceneMain extends Scene {
 		this.setRoot(root);
 		
 		this.setCommands();
+		/*CSS*/
+//		File file = new File(RES_DIR+FILE_SEP + "css" + FILE_SEP + "testcss.css");
+//		URL url = null;
+//		try {
+//			url = file.toURI().toURL();
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		this.getStylesheets().clear();
+//		this.getStylesheets().add(url.toExternalForm());
 	}
 
 
@@ -107,10 +123,13 @@ public class SceneMain extends Scene {
     }
 
     protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
+    	RenderScale scaleType = this.cruise.viewMenu.getSelectedScale();
+    	Set<BodyType> disabledTrail = this.cruise.viewMenu.getDisableTrailTypes();
+    	
         this.cruise.labelTime.setText(time);
         if(this.infoMenu.isShown()) {
         	this.infoMenu.update(ViewImpl.getView().getSelectedBody());
         }
-        this.renderPanel.render(bodies, scale, translate, fps);
+        this.renderPanel.render(bodies, scaleType, scale, translate, fps, disabledTrail);
     }
 }
