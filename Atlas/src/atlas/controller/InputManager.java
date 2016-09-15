@@ -1,6 +1,9 @@
 package atlas.controller;
 
 import java.io.IOException;
+import java.util.Optional;
+
+import atlas.model.Model;
 
 public interface InputManager {
 	
@@ -80,7 +83,7 @@ public interface InputManager {
      * @throws IllegalArgumentException
      *             if file doesn't exits or cannot be deserialized
      */
-    public void loadConfig() throws IOException, IllegalArgumentException;
+    public Optional<Model> loadConfig() throws IOException, IllegalArgumentException;
 
     /**
      * This method increases zoom

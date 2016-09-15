@@ -244,11 +244,11 @@ public class InputManagerImpl implements InputManager {
 	}
 
 	@Override
-	public void loadConfig() throws IOException, IllegalArgumentException {
+	public Optional<Model> loadConfig() throws IOException, IllegalArgumentException {
 		Optional<File> f = this.view.getLoadFile("Load configuration", "LOAD", this.getFiles(SAVE_DIR));
 		if (!f.isPresent()) {
 			System.out.println("Operation CANCELED");
-			return;
+			return Optional.empty();
 		}
 
 		if (!this.checkFileExists(f.get())) {
@@ -266,6 +266,8 @@ public class InputManagerImpl implements InputManager {
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Content of the file is not suitable.");
 		}
+		
+		return Optional.ofNullable(this.model);
 	}
 
 	/**

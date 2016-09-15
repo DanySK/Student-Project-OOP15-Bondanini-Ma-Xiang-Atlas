@@ -6,6 +6,8 @@ import java.util.List;
 
 import atlas.model.algorithms.Algorithm;
 import atlas.model.algorithms.AlgorithmBruteForce;
+import atlas.model.algorithms.CollisionStrategy;
+import atlas.model.algorithms.CollisionStrategyAbsorb;
 import atlas.model.algorithms.CollisionStrategyFragments;
 import atlas.utils.Pair;
 
@@ -38,35 +40,35 @@ public class ModelImpl implements Model, java.io.Serializable {
 
 	public ModelImpl() {
 
-        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(20));
+        this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(50));
         
         double radius = EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
         
-//        Body x = EpochJ2000.URANUS.getBody();
-//        Body y = EpochJ2000.VENUS.getBody();
-//        
-//        this.bodies.addAll(Arrays.asList(x,y));
-//        
-//        x.setPosX(5e3);
-//        x.setPosY(5e3);
-//        x.getProperties().setRadius(radius*3);
-//        x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
-//        x.getProperties().setRotationPeriod(60000000L);;
-//        
-//        y.setPosY(5e3);
-//        y.setPosX(y.getPosX()/3);
-//        y.getProperties().setRadius(radius);
-//        y.setVelocity(new Pair<Double,Double>(new Double(5000), new Double(0)));
+        Body x = EpochJ2000.URANUS.getBody();
+        Body y = EpochJ2000.VENUS.getBody();
+        
+        this.bodies.addAll(Arrays.asList(x,y));
+        
+        x.setPosX(5e3);
+        x.setPosY(5e3);
+        x.getProperties().setRadius(radius*3);
+        x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
+        x.getProperties().setRotationPeriod(60000000L);;
+        
+        y.setPosY(5e3);
+        y.setPosX(y.getPosX()/3);
+        y.getProperties().setRadius(radius);
+        y.setVelocity(new Pair<Double,Double>(new Double(5000), new Double(0)));
     }
 	
 	public ModelImpl(EpochJ2000[] epoch) {
 	    this();
-	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
-	    for(EpochJ2000 b : epoch) {
-//	        if(!b.equals(EpochJ2000.EARTH)) {
-	            this.bodies.add(b.getBody());
-//	        }
-	    }
+//	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
+//	    for(EpochJ2000 b : epoch) {
+////	        if(!b.equals(EpochJ2000.EARTH)) {
+//	            this.bodies.add(b.getBody());
+////	        }
+//	    }
 	}
 
     // private static double circlev(double rx, double ry) {
@@ -91,10 +93,16 @@ public class ModelImpl implements Model, java.io.Serializable {
 
     @Override
     public void setAlgorithm(Algorithm algorithm) {
+        algorithm.setCollisionStrategy(alg.getCollisionStrategy());
         this.alg = algorithm;
     }
-
+    
     @Override
+	public void setCollsion(CollisionStrategy collision) {
+		this.alg.setCollisionStrategy(collision);		
+	}
+
+	@Override
     public void addBody(Body b) {
         this.bodies.add(b);
     }

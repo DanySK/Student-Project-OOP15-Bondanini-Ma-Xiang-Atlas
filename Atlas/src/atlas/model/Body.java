@@ -11,9 +11,10 @@ import atlas.utils.Pair;
  */
 public interface Body {
 
-	public static final String IMAGE_FOLDER = 
-//			System.getProperty("user.dir") + System.getProperty("file.separator")
-//			+ "res" + 
+	public static final String IMAGE_FOLDER =
+			// System.getProperty("user.dir") +
+			// System.getProperty("file.separator")
+			// + "res" +
 			System.getProperty("file.separator") + "planet_images" + System.getProperty("file.separator");
 
 	/**
@@ -152,6 +153,7 @@ public interface Body {
 	 * the body.
 	 * 
 	 * @param velocity
+	 *            a pair that represents the velocity, X and Y.
 	 */
 	public void setVelocity(Pair<Double, Double> velocity);
 
@@ -244,8 +246,9 @@ public interface Body {
 			this.parent = parent;
 			this.temperature = temperature;
 		}
-		
-		public Properties(double radius, long rotationPeriod, double rotationAngle, Long orbitalPeriod, Body parent, Double temperature) {
+
+		public Properties(double radius, long rotationPeriod, double rotationAngle, Long orbitalPeriod, Body parent,
+				Double temperature) {
 			this(radius, rotationPeriod, orbitalPeriod, parent, temperature);
 			this.rotationAngle = rotationAngle;
 		}
@@ -317,7 +320,7 @@ public interface Body {
 		public void setTemperature(double temperature) {
 			this.temperature = temperature;
 		}
-		
+
 		public void updateInfo(Properties p) {
 			this.radius = p.getRadius();
 			this.rotationPeriod = p.getRotationPeriod();
