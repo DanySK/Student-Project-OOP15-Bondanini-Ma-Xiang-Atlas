@@ -13,7 +13,7 @@ public class BodyImpl implements Body, java.io.Serializable {
 	private static final long serialVersionUID = 3305253121341825047L;
 
 	private BodyType type;
-	private final Long id;
+	private transient Long id;
 	private String imagePath = null;
 	private String name = null;
 	private double posx, posy;
@@ -73,6 +73,7 @@ public class BodyImpl implements Body, java.io.Serializable {
 
 	@Override
 	public long getId() {
+		this.id = id == null ? generateId() : id;
 		return this.id;
 	}
 

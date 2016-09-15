@@ -44,31 +44,31 @@ public class ModelImpl implements Model, java.io.Serializable {
         
         double radius = EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
         
-        Body x = EpochJ2000.URANUS.getBody();
-        Body y = EpochJ2000.VENUS.getBody();
-        
-        this.bodies.addAll(Arrays.asList(x,y));
-        
-        x.setPosX(5e3);
-        x.setPosY(5e3);
-        x.getProperties().setRadius(radius*3);
-        x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
-        x.getProperties().setRotationPeriod(60000000L);;
-        
-        y.setPosY(5e3);
-        y.setPosX(y.getPosX()/3);
-        y.getProperties().setRadius(radius);
-        y.setVelocity(new Pair<Double,Double>(new Double(5000), new Double(0)));
+//        Body x = EpochJ2000.URANUS.getBody();
+//        Body y = EpochJ2000.VENUS.getBody();
+//        
+//        this.bodies.addAll(Arrays.asList(x,y));
+//        
+//        x.setPosX(5e3);
+//        x.setPosY(5e3);
+//        x.getProperties().setRadius(radius*3);
+//        x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
+//        x.getProperties().setRotationPeriod(60000000L);;
+//        
+//        y.setPosY(5e3);
+//        y.setPosX(y.getPosX()/3);
+//        y.getProperties().setRadius(radius);
+//        y.setVelocity(new Pair<Double,Double>(new Double(5000), new Double(0)));
     }
 	
 	public ModelImpl(EpochJ2000[] epoch) {
 	    this();
-//	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
-//	    for(EpochJ2000 b : epoch) {
-////	        if(!b.equals(EpochJ2000.EARTH)) {
-//	            this.bodies.add(b.getBody());
-////	        }
-//	    }
+	    this.clock.setEpoch(EpochJ2000.TIME_MILLS);
+	    for(EpochJ2000 b : epoch) {
+//	        if(!b.equals(EpochJ2000.EARTH)) {
+	            this.bodies.add(b.getBody());
+//	        }
+	    }
 	}
 
     // private static double circlev(double rx, double ry) {
