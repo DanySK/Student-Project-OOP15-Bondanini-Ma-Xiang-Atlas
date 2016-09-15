@@ -40,8 +40,8 @@ public class CruiseControl extends BorderPane {
 	protected TextField textSpeed = new TextField();
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
-	private ViewMenuOption viewMenu = new ViewMenuOption();
-	protected Button buttonSearch = new Button();
+	protected ViewMenuOption viewMenu = new ViewMenuOption();
+	protected Button buttonSearch = new Button("Search");
 	private HBox left = new HBox();
 	private HBox center = new HBox();
 	private HBox right = new HBox();
@@ -61,6 +61,7 @@ public class CruiseControl extends BorderPane {
 		center.getChildren().add(buttonAdd);
 		center.setAlignment(Pos.CENTER);
 		
+		right.setAlignment(Pos.CENTER);
 		right.getChildren().add(viewMenu);
 		right.getChildren().add(buttonSearch);
 		right.getChildren().add(buttonCenter);

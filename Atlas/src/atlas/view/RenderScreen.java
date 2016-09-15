@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import atlas.model.Body;
@@ -41,7 +41,6 @@ public class RenderScreen extends StackPane {
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
 	private Canvas lMid1 = new Canvas(); // first intermediate layer
-	private Pane lMid3 = new Pane();// for now
 	private Pane lMid2 = new Pane();
 	private Pane lTop = new Pane(); // the top layer -> labels
 	private Label fpsCounter = new Label();
@@ -79,7 +78,7 @@ public class RenderScreen extends StackPane {
 
 		/* Adding children/layers */
 		this.getChildren().addAll(this.lBottom, this.lMid1);
-		this.getChildren().addAll(this.lMid2, this.lMid3, this.lTop);
+		this.getChildren().addAll(this.lMid2, this.lTop);
 
 		/* Default translate */
 		Double defTran = new Double(0);
@@ -91,16 +90,18 @@ public class RenderScreen extends StackPane {
 				+ "-fx-background-repeat: stretch;" + "-fx-background-size: inherit;");
 	}
 
-	public void render(List<Body> bodies, double scale, Pair<Double, Double> translate, int fps) {
+	public void render(List<Body> bodies, RenderScale scaleType, double scale, Pair<Double, Double> translate, int fps,
+			Set<BodyType> disabledTrail) {
 		/* Preliminary actions */
 		this.adjustScreen(scale, translate);
 		this.clearScreen();
 		this.fpsCounter.setText("FPS: " + fps);
 
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
+		
 		/* Drawing the new frame */
 		bodies.forEach(b -> {
-			ImageView img = this.getBodyImage(b, scale);
+			ImageView img = this.getScaledBodyImage(b, scaleType, scale);
 
 			// If not present, create new entry
 			if (!this.bMap.keySet().contains(b.getId())) {
@@ -116,7 +117,10 @@ public class RenderScreen extends StackPane {
 			Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getId());
 			this.secondChanceMap.put(b.getId(), true);
 
-			this.drawTrail(b, scale, entry.getY());
+			/*Draw the body's trail only if it's enabled*/
+			if(!disabledTrail.contains(b.getType())) {
+				this.drawTrail(b, scale, entry.getY());
+			}				
 
 			/* updates the label name if it has been changed */
 			entry.getX().getY().setText(b.getName());
@@ -136,6 +140,7 @@ public class RenderScreen extends StackPane {
 			entry.getX().getY().relocate(this.calcPosX(b.getPosX() + b.getProperties().getRadius()),
 					this.calcPosY(b.getPosY()));
 		});
+		
 		// remove all non used bodies
 		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
 			System.out.println("Removing " + i.getKey());
@@ -182,19 +187,15 @@ public class RenderScreen extends StackPane {
 			points[i++] = this.calcPosX(p.getX());
 			points[i++] = this.calcPosY(p.getY());
 		}
-		/* POLY MODE */
-		// Polyline pl = new Polyline(points);
-		// pl.setStroke(color);
-		// pl.setStrokeWidth(TSystem.out.println("Suca");RAIL_WIDTH);
-		// this.lMid3.getChildren().add(pl);
-		/* CANVAS MODE */
+		/* Stokes the trail on the canvas layer */
 		GraphicsContext gc = this.lMid1.getGraphicsContext2D();
 		gc.setStroke(color);
 		gc.setLineWidth(TRAIL_WIDTH);
 		gc.strokePolyline(pointsX, pointsY, arraySize);
 	}
 
-	private ImageView getBodyImage(Body b, double scale) {
+	private ImageView getScaledBodyImage(Body b, RenderScale scaleType, double scale) {
+		/* Getting or loading the image */
 		ImageView img = null;
 		try {
 			if (bMap.containsKey(b.getId())) {
@@ -205,10 +206,22 @@ public class RenderScreen extends StackPane {
 		} catch (IllegalArgumentException ie) {
 			throw new IllegalStateException("body image path can't be found : " + b.getImagePath());
 		}
-		double diamScaled = b.getProperties().getRadius() * 2 * scale;
-		img.setPreserveRatio(true);
+		
+		/* Scaling to appropriate scale */
+		double diamScaled = MIN_IMAGE_SIZE;
+		switch(scaleType) {
+		case REAL:
+			diamScaled = b.getProperties().getRadius() * 2 * scale;
+			break;
+			
+		default:
+			diamScaled = scaleType.getSize(b.getType());
+			break;			
+		}
+		
 		img.setFitHeight(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
 		img.setFitWidth(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
+		img.setPreserveRatio(true);
 		img.setRotate(b.getProperties().getRotationAngle());
 
 		return img;
@@ -228,7 +241,6 @@ public class RenderScreen extends StackPane {
 	private void clearScreen() {
 		this.lBottom.getGraphicsContext2D().clearRect(0, 0, lBottom.getWidth(), lBottom.getHeight());
 		this.lMid1.getGraphicsContext2D().clearRect(0, 0, lMid1.getWidth(), lMid1.getHeight());
-		this.lMid3.getChildren().removeAll(this.lMid3.getChildren());
 	}
 
 	private void setLableOnMultiClick(Label lab, Body body) {
