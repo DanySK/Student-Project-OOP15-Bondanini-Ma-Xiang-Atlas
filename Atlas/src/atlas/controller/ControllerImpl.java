@@ -1,12 +1,11 @@
 package atlas.controller;
 
 import java.io.IOException;
-import java.util.List;
 
-import atlas.model.*;
-import atlas.model.algorithms.AlgorithmBernesHut;
+import atlas.model.EpochJ2000;
+import atlas.model.Model;
+import atlas.model.ModelImpl;
 import atlas.model.algorithms.AlgorithmBruteForce;
-import atlas.model.algorithms.CollisionStrategy;
 import atlas.model.algorithms.CollisionStrategyAbsorb;
 import atlas.model.algorithms.CollisionStrategyFragments;
 import atlas.view.SimEvent;
