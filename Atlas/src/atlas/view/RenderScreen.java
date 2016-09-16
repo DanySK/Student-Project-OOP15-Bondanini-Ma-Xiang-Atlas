@@ -13,7 +13,6 @@ import atlas.model.Body;
 import atlas.model.BodyType;
 import atlas.utils.Pair;
 import javafx.beans.binding.DoubleBinding;
-import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -24,8 +23,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  * This pane serves as the render screen, which displays all the bodies for each
