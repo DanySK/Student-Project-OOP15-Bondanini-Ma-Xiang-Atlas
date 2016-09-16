@@ -1,11 +1,10 @@
 package atlas.application;
 
-import atlas.controller.ControllerImpl;
 import atlas.controller.Controller;
+import atlas.controller.ControllerImpl;
 import atlas.view.View;
 import atlas.view.ViewImpl;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 
 /**

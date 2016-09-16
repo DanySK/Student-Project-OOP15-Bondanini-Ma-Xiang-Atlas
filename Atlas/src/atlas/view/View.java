@@ -34,6 +34,10 @@ public interface View {
     
     public Pair<Double, Double> getWindow();
     
+    public void setMousePos(Pair<Double, Double> coordinates);
+    
+    public Pair<Double, Double> getMousePos();
+    
     public Optional<MouseEvent> getLastMouseEvent();
     
     public Optional<Pair<Integer, Units>> getSpeedInfo();
