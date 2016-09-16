@@ -58,6 +58,8 @@ public interface View {
     
     public List<Body> getBodies();
     
+    public void setFullScreen(boolean full);
+    
     static void onClose() {
 		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES,
 				ButtonType.NO);

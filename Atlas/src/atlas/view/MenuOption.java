@@ -42,6 +42,8 @@ public class MenuOption extends MenuHidable {
 
 	private CheckBox nBodyOne = new CheckBox("Brute force - n^2");
 	private CheckBox nBodyTwo = new CheckBox("Bernes Hut - nlogn");
+	
+	private CheckBox fullScreen = new CheckBox("Full screen mode");
 
 	// private Alert creditsDialog = new Alert(AlertType.INFORMATION);
 
@@ -54,7 +56,8 @@ public class MenuOption extends MenuHidable {
 		root.setPadding(in);
 		root.setSpacing(VGAP);
 
-		root.getChildren().addAll(new Text("ADDITIONAL SETTINGS"), new Text("Collision system: "), collisionOne,
+		root.getChildren().addAll(new Text("ADDITIONAL SETTINGS"), fullScreen);	
+		root.getChildren().addAll(new Text("Collision system: "), collisionOne,
 				collisionTwo);
 		root.getChildren().addAll(new Text("N-Body algorithm: "), nBodyOne, nBodyTwo);
 
@@ -74,6 +77,10 @@ public class MenuOption extends MenuHidable {
 		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE_SIM));
 		this.load.setOnAction(e -> view.notifyObservers(SimEvent.LOAD));
 		this.exit.setOnAction(e -> view.notifyObservers(SimEvent.EXIT));
+		
+		this.fullScreen.setOnAction(e -> {
+			view.setFullScreen(fullScreen.isSelected());
+		});
 
 		this.collisionOne.setOnAction(e -> {
 			view.notifyObservers(SimEvent.COLLISION_ONE);
