@@ -137,12 +137,12 @@ public class ViewImpl implements View {
 
 	@Override
 	public Optional<String> getSaveName() {
-		return InputDialog.getSaveName("Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
+		return InputDialog.getSaveName(this.stage, "Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
 	}
 
 	@Override
 	public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files) {
-		return InputDialog.loadFile(title, action, files);
+		return InputDialog.loadFile(this.stage, title, action, files);
 	}
 
 	@Override
