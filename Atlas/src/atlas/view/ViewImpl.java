@@ -192,4 +192,9 @@ public class ViewImpl implements View {
 	public Pair<Double, Double> getWindow() {
 		return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
 	}
+
+	@Override
+	public void setFullScreen(boolean full) {
+		this.stage.setFullScreen(full);		
+	}
 }
