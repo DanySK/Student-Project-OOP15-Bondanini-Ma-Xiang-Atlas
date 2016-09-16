@@ -17,11 +17,13 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 public class InputDialog extends Application {    
 
-    public static Optional<String> getSaveName(String defaultName) {
+    public static Optional<String> getSaveName(Stage owner, String defaultName) {
         TextInputDialog input = new TextInputDialog(defaultName);
+        input.initOwner(owner);
         input.setTitle("Save ");
         input.setContentText("File name");
         input.initStyle(StageStyle.UTILITY);
@@ -31,8 +33,9 @@ public class InputDialog extends Application {
         return result.isPresent() ? Optional.ofNullable(result.get().trim()) : Optional.empty();
     }
 
-    public static Optional<File> loadFile(String title, String action, Map<File, List<File>> files) {
+    public static Optional<File> loadFile(Stage owner, String title, String action, Map<File, List<File>> files) {
         Dialog<String> d = new Dialog<>();
+        d.initOwner(owner);
         d.setTitle(title);
         ButtonType btn = new ButtonType(action, ButtonData.OK_DONE);
         d.getDialogPane().getButtonTypes().addAll(btn, ButtonType.CANCEL);
