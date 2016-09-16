@@ -1,6 +1,5 @@
 package atlas.controller;
 
-import java.awt.MouseInfo;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,9 +19,7 @@ import java.util.Optional;
 
 import atlas.model.Body;
 import atlas.model.Model;
-import atlas.model.ModelImpl;
 import atlas.utils.Pair;
-import atlas.utils.Units;
 import atlas.view.View;
 import atlas.view.ViewImpl;
 
@@ -45,7 +42,6 @@ public class InputManagerImpl implements InputManager {
 	double scale = 1.4000000000000000E-9;
 	Pair<Double, Double> reference;
 	Pair<Double, Double> initialReference;
-
 	public InputManagerImpl(View view, Model model, GameLoop gLoop, Pair<Double, Double> reference) {
 		this.view = view;
 		this.model = model;
@@ -87,10 +83,11 @@ public class InputManagerImpl implements InputManager {
 			if (!this.bodyToAdd.isPresent()) {
 				throw new IllegalStateException("Body to add is not present!");
 			}
-			this.bodyToAdd.get().setPosX((MouseInfo.getPointerInfo().getLocation().getX() - this.view.getWindow().getX()
-					- this.reference.getX() - 100) / this.scale);
-			this.bodyToAdd.get().setPosY((MouseInfo.getPointerInfo().getLocation().getY() - this.view.getWindow().getY()
-					- this.reference.getY() - 25) / -this.scale);
+			this.bodyToAdd.get().setPosX((this.view.getMousePos().getX() -  this.view.getWindow().getX()
+					- this.reference.getX()) / this.scale);
+			this.bodyToAdd.get().setPosY(( this.view.getMousePos().getY()- this.view.getWindow().getY()
+					- this.reference.getY()) / -this.scale);
+	System.out.println("X renderPanel / 2: "+ this.view.getWindow().getX());
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
 		}
 		this.status = Status.DEFAULT;
