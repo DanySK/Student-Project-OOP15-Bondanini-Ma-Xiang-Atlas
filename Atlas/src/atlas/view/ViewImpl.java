@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import atlas.controller.Controller;
 import atlas.model.Body;
 import atlas.utils.Pair;
@@ -31,6 +30,7 @@ public class ViewImpl implements View {
 	private boolean lockedCamera = false;
 	private Optional<MouseEvent> lastMouseEvent;
 	private List<Body> bodyList;
+	private Optional<Pair<Double, Double>> mousePos = Optional.empty();
 
 	private Controller ctrl;
 	private Stage stage;
@@ -192,9 +192,21 @@ public class ViewImpl implements View {
 	public Pair<Double, Double> getWindow() {
 		return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
 	}
+	
+	
 
 	@Override
 	public void setFullScreen(boolean full) {
 		this.stage.setFullScreen(full);		
+	}
+
+	@Override
+	public void setMousePos(Pair<Double, Double> coordinates) {
+		this.mousePos = Optional.of(coordinates);
+	}
+
+	@Override
+	public Pair<Double, Double> getMousePos() {
+		return this.mousePos.get();
 	}
 }
