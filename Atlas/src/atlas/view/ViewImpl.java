@@ -1,5 +1,6 @@
 package atlas.view;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +15,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
@@ -43,9 +45,8 @@ public class ViewImpl implements View {
 		this.loadingScene = new SceneLoading();
 		this.stage.setScene(loadingScene);
 		this.stage.getIcons().add(SceneLoading.LOGO.getImage());
-
 		primaryStage.setOnCloseRequest(e -> {
-			View.onClose();
+			onClose();
 			e.consume();
 		});
 		primaryStage.show();
@@ -56,6 +57,19 @@ public class ViewImpl implements View {
 			throw new IllegalStateException("View not initialized! ERROR");
 		}
 		return view;
+	}
+	
+  public void onClose() {
+		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES,
+				ButtonType.NO);
+		alert.initOwner(this.stage);
+		alert.setTitle("Exit ATLAS");
+		alert.setHeaderText(null);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			Platform.exit();
+			System.exit(0);
+		}
 	}
 
 	@Override

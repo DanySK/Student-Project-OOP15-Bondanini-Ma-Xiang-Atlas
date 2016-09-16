@@ -54,7 +54,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exit() {
-    	View.onClose();
+    	ViewImpl.getView().onClose();
 //        gLoop.setExit();    
     }
 
