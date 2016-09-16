@@ -1,12 +1,12 @@
 package atlas.view;
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import atlas.controller.Controller;
 import atlas.model.Body;
 import atlas.utils.Pair;
@@ -15,7 +15,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {

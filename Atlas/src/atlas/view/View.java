@@ -9,9 +9,6 @@ import atlas.controller.Controller;
 import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 
 public interface View {

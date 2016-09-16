@@ -1,6 +1,5 @@
 package atlas.model;
 
-import java.io.IOException;
 import java.util.List;
 
 import atlas.model.algorithms.Algorithm;
@@ -25,7 +24,7 @@ public interface Model {
 	public void updateSim(double sec);
 
 	/**
-	 * Adds a body to the solar system.
+	 * Adds a body to the solar system in circural orbit.
 	 * 
 	 * @param b
 	 *            the body to be added

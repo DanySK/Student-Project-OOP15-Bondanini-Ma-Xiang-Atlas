@@ -5,15 +5,11 @@ import java.util.List;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -40,8 +36,8 @@ public class MenuOption extends MenuHidable {
 	private CheckBox collisionOne = new CheckBox("Fragments");
 	private CheckBox collisionTwo = new CheckBox("Absorb");
 
-	private CheckBox nBodyOne = new CheckBox("Brute force - n^2");
-	private CheckBox nBodyTwo = new CheckBox("Bernes Hut - nlogn");
+	private CheckBox nBodyOne = new CheckBox("Brute force - n^2 (most accurate)");
+	private CheckBox nBodyTwo = new CheckBox("Two body - n (no collision)");
 	
 	private CheckBox fullScreen = new CheckBox("Full screen mode");
 
@@ -94,11 +90,15 @@ public class MenuOption extends MenuHidable {
 		});
 		this.nBodyOne.setOnAction(e -> {
 			view.notifyObservers(SimEvent.NBODY_ONE);
+			collisionOne.setDisable(false);
+			collisionTwo.setDisable(false);
 			nBodyOne.setSelected(true);
 			nBodyTwo.setSelected(false);
 		});
 		this.nBodyTwo.setOnAction(e -> {
 			view.notifyObservers(SimEvent.NBODY_TWO);
+			collisionOne.setDisable(true);
+			collisionTwo.setDisable(true);
 			nBodyOne.setSelected(false);
 			nBodyTwo.setSelected(true);
 		});

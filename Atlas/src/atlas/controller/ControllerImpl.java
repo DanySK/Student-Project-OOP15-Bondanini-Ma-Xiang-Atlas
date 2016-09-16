@@ -6,6 +6,7 @@ import atlas.model.EpochJ2000;
 import atlas.model.Model;
 import atlas.model.ModelImpl;
 import atlas.model.algorithms.AlgorithmBruteForce;
+import atlas.model.algorithms.AlgorithmTwoBody;
 import atlas.model.algorithms.CollisionStrategyAbsorb;
 import atlas.model.algorithms.CollisionStrategyFragments;
 import atlas.view.SimEvent;
@@ -203,10 +204,7 @@ public class ControllerImpl implements Controller {
         	this.model.setAlgorithm(new AlgorithmBruteForce());
         	break;
         case NBODY_TWO:
-//        	this.model.setAlgorithm(new AlgorithmBernesHut());
-        	for(int i = 0; i < 10; i++ ) {
-        		System.out.println("Algorithm (Bernes Hut) not ready yet!!!!");
-        	}
+        	this.model.setAlgorithm(new AlgorithmTwoBody());
         	break;
         default:
             break;
