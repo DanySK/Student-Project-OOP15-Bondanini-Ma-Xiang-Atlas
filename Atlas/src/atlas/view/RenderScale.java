@@ -12,8 +12,9 @@ public enum RenderScale {
 	 * Order: Blackhole - Star - Planet - Dwarf planet - Satellite - Comet -
 	 * Asteroid - Fragment - Object
 	 */
-	SMALL(80, 60, 30, 25, 15, 5, 5, 5, 15), MEDIUM(100, 80, 55, 30, 25, 10, 10, 10, 25), LARGE(150, 110, 80, 60, 50, 25,
-			25, 25, 50);
+	SMALL(50, 30, 15, 10, 10, 5, 5, 5, 10), 
+	MEDIUM(80, 50, 30, 20, 20, 10, 10, 10, 15), 
+	LARGE(150, 110, 80, 60, 50, 25, 25, 25, 50);
 
 	/* Size for each body type */
 	private List<Pair<BodyType, Double>> sizes = new ArrayList<>();

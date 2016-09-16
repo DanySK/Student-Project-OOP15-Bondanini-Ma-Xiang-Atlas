@@ -12,6 +12,8 @@ import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.utils.Units;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -113,10 +115,19 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public Pair<Integer, Units> getSpeedInfo() {
+	public Optional<Pair<Integer, Units>> getSpeedInfo() {
 		CruiseControl c = mainScene.cruise;
-		Pair<Integer, Units> p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
-		return p;
+		Pair<Integer, Units> p = null;
+		try {
+			p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Format error, only numbers allowed.", ButtonType.OK);
+			alert.setTitle("Invalid input");
+			alert.setHeaderText(null);
+			alert.showAndWait();
+			c.textSpeed.setText("");
+		}
+		return Optional.ofNullable(p);
 	}
 
 	@Override

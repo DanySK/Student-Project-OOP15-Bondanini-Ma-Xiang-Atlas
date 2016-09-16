@@ -31,8 +31,7 @@ public class CruiseControl extends BorderPane {
 	protected Button buttonEdit = new Button("EDIT");
 	protected Button buttonAdd = new Button("ADD");
 	protected Button buttonCenter = new Button("CENTER");
-	protected Button buttonLockMars = new Button("LockMars"); //To delete
-	protected Button buttonESC = new Button("ESC");
+	protected Button buttonESC = new Button("DESELECT");
 	private boolean play;
 
 	protected Label labelTime = new Label("Sample: 01/01/2000");
@@ -41,7 +40,6 @@ public class CruiseControl extends BorderPane {
 	protected ChoiceBox<Units> choiceSpeedUnit = new ChoiceBox<>();
 
 	protected ViewMenuOption viewMenu = new ViewMenuOption();
-	protected Button buttonSearch = new Button("Search");
 	private HBox left = new HBox();
 	private HBox center = new HBox();
 	private HBox right = new HBox();
@@ -63,9 +61,7 @@ public class CruiseControl extends BorderPane {
 		
 		right.setAlignment(Pos.CENTER);
 		right.getChildren().add(viewMenu);
-		right.getChildren().add(buttonSearch);
-		right.getChildren().add(buttonCenter);
-		right.getChildren().add(buttonLockMars);
+		right.getChildren().add(buttonCenter);;
 		right.getChildren().add(buttonESC);
 		
 		this.setLeft(left);
@@ -107,11 +103,6 @@ public class CruiseControl extends BorderPane {
 	    
 	    this.buttonSpeed.setOnAction(e -> {
 	        view.notifyObservers(SimEvent.SPEED_CHANGED);
-	    });
-	    
-	    this.buttonLockMars.setOnAction(e -> {
-	        view.setSelectedBody(view.getBodies().get(2));
-	        view.notifyObservers(SimEvent.LOCK);
 	    });
 	    
 	    this.buttonESC.setOnAction(e -> {

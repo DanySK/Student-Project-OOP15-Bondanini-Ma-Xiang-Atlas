@@ -36,7 +36,7 @@ public interface View {
     
     public Optional<MouseEvent> getLastMouseEvent();
     
-    public Pair<Integer, Units> getSpeedInfo();
+    public Optional<Pair<Integer, Units>> getSpeedInfo();
     
     public Optional<Body> getBodyUpdateInfo();
     

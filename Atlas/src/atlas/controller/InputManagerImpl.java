@@ -309,8 +309,7 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void changeSpeed() {
-		Pair<Integer, Units> speed = this.view.getSpeedInfo();
-		this.gLoop.setValue(speed.getY().getValue(), speed.getX());
+		this.view.getSpeedInfo().ifPresent(i -> this.gLoop.setValue(i.getY().getValue(), i.getX()));
 	}
 
 	@Override
@@ -321,7 +320,8 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void initialReference() {
-		this.reference = this.initialReference;
+		this.model.getBodiesToRender().stream().max((a, b) -> (int) (a.getMass() - b.getMass()))
+				.ifPresent(i -> this.reference = new Pair<>(i.getPosX() * scale, i.getPosY() * scale));
 		this.view.updateReferce(this.reference, this.scale);
 	}
 
