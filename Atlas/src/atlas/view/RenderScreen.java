@@ -13,6 +13,7 @@ import atlas.model.Body;
 import atlas.model.BodyType;
 import atlas.utils.Pair;
 import javafx.beans.binding.DoubleBinding;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -23,6 +24,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * This pane serves as the render screen, which displays all the bodies for each
@@ -44,6 +47,7 @@ public class RenderScreen extends StackPane {
 	private Pane lMid2 = new Pane();
 	private Pane lTop = new Pane(); // the top layer -> labels
 	private Label fpsCounter = new Label();
+	private Label bodyCounter = new Label();
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
 	private Map<Long, Boolean> secondChanceMap = new HashMap<>();// second
@@ -68,8 +72,13 @@ public class RenderScreen extends StackPane {
 
 		/* FPS counter */
 		this.lTop.getChildren().add(fpsCounter);
+		this.lTop.getChildren().add(bodyCounter);
 		fpsCounter.setTextFill(Color.MAGENTA);
 		fpsCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
+		bodyCounter.setTextFill(Color.MAGENTA);
+		bodyCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
+//		bodyCounter.translateXProperty().bind(lTop.widthProperty().subtract(200));;
+		bodyCounter.setTranslateY(25);
 
 		/* Resizable pane */
 		this.maxHeight(Double.MAX_VALUE);
@@ -96,6 +105,7 @@ public class RenderScreen extends StackPane {
 		this.adjustScreen(scale, translate);
 		this.clearScreen();
 		this.fpsCounter.setText("FPS: " + fps);
+		this.bodyCounter.setText("# bodies: " + bodies.size());
 
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
 		

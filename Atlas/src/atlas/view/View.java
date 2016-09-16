@@ -64,15 +64,6 @@ public interface View {
     
     public void setFullScreen(boolean full);
     
-    static void onClose() {
-		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES,
-				ButtonType.NO);
-		alert.setTitle("Exit ATLAS");
-		alert.setHeaderText(null);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.YES) {
-			Platform.exit();
-			System.exit(0);
-		}
-	}
+    public void onClose();
+    
 }
