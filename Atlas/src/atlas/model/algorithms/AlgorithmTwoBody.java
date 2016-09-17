@@ -29,7 +29,11 @@ public class AlgorithmTwoBody extends Algorithm {
 				b.resetForce();
 
 				/* Add the force from the parent */
-				b.getProperties().getParent().ifPresent(i -> b.addForce(i));
+				b.getProperties().getParent().ifPresent(i -> {
+					if(ordered.contains(i)) {
+						b.addForce(i);
+					}
+				});
 				
 				/* Add the force from a few selected bodies */
 				targets.forEach(j -> {
