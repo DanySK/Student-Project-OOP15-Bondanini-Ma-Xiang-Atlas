@@ -1,4 +1,4 @@
-package atlas.model.algorithms;
+package atlas.model.rules;
 
 import java.util.ArrayList;
 

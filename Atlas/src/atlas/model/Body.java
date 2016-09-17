@@ -224,33 +224,85 @@ public interface Body {
 		private Body parent = null;
 		private Double temperature = null;
 
+		/**
+		 * Converts celsius to kelvin.
+		 * 
+		 * @param c
+		 *            temperature in celsius
+		 * @return temperature in kelvin
+		 */
 		public static double celsiusToKelvin(double c) {
 			return c + 273.15;
 		}
 
+		/**
+		 * Converts kelvin to celsius.
+		 * 
+		 * @param c
+		 *            temperature in kelvin
+		 * @return temperature in celsius
+		 */
 		public static double KelvinToCelsius(double c) {
 			return c - 273.15;
 		}
 
-		public Properties() {
+		/**
+		 * The complete constructor.
+		 * 
+		 * @param radius
+		 *            radius of the body in meters
+		 * @param rotationPeriod
+		 *            the time it takes for the body make to rotate 360 deg on
+		 *            its axis.
+		 * @param rotationAngle
+		 *            the current angle of the rotation
+		 * @param orbitalPeriod
+		 *            the time it takes to orbitl around its parent
+		 * @param parent
+		 *            the parente (body) of this body
+		 * @param temperature
+		 *            temperature of the body in kelvin
+		 */
+		public Properties(double radius, long rotationPeriod, double rotationAngle, Long orbitalPeriod, Body parent,
+				Double temperature) {
+			this(radius, rotationPeriod, orbitalPeriod, parent, temperature);
+			this.rotationAngle = rotationAngle;
 		}
-
-		public Properties(double radius, long rotationPeriod) {
-			this.radius = radius;
-			this.rotationPeriod = rotationPeriod;
-		}
-
+		
+		/**
+		 * Additional constructor.
+		 * 
+		 * @param radius
+		 *            radius of the body in meters
+		 * @param rotationPeriod
+		 *            the time it takes for the body make to rotate 360 deg on
+		 *            its axis.
+		 * @param orbitalPeriod
+		 *            the time it takes to orbitl around its parent
+		 * @param parent
+		 *            the parente (body) of this body
+		 * @param temperature
+		 *            temperature of the body in kelvin
+		 */
 		public Properties(double radius, long rotationPeriod, Long orbitalPeriod, Body parent, Double temperature) {
 			this(radius, rotationPeriod);
 			this.orbitalPeriod = orbitalPeriod;
 			this.parent = parent;
 			this.temperature = temperature;
 		}
-
-		public Properties(double radius, long rotationPeriod, double rotationAngle, Long orbitalPeriod, Body parent,
-				Double temperature) {
-			this(radius, rotationPeriod, orbitalPeriod, parent, temperature);
-			this.rotationAngle = rotationAngle;
+		
+		/**
+		 * Minimal constructor.
+		 * 
+		 * @param radius
+		 *            radius of the body in meters
+		 * @param rotationPeriod
+		 *            the time it takes for the body make to rotate 360 deg on
+		 *            its axis.
+		 */
+		public Properties(double radius, long rotationPeriod) {
+			this.radius = radius;
+			this.rotationPeriod = rotationPeriod;
 		}
 
 		public double getRadius() {

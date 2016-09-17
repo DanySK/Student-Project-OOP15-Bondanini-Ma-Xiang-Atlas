@@ -3,7 +3,7 @@ package atlas.model;
 import atlas.utils.Units;
 
 /**
- * All Possible body types and physical values.
+ * It contains all Possible body types and physical values.
  *
  */
 public enum BodyType {

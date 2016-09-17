@@ -1,4 +1,4 @@
-package atlas.model.algorithms;
+package atlas.model.rules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,11 @@ import atlas.model.Body;
 import atlas.model.BodyImpl;
 import atlas.model.BodyType;
 
+/**
+ * A specific collision strategy in which the smaller body explodes in many
+ * fragments that can orbit around the bigger body or collide with it as well.
+ *
+ */
 public class CollisionStrategyFragments extends CollisionStrategy {
 
 	private static final long serialVersionUID = -1811886471163319254L;

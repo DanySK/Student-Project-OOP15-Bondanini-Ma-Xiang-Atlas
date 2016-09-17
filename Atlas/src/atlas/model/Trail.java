@@ -1,109 +1,88 @@
 package atlas.model;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
 
 import atlas.utils.Pair;
 
+/**
+ * This class represents the trail that a body leaves behind when moving. It
+ * functions as a fixed size queue, so that when it reaches maximum capacity it
+ * removes the oldest element to make room for the new one.
+ *
+ */
 public class Trail {
-    
+
 	private final static int TRAILSIZE = 500;
-	/*Determines the storing frequency*/
+	/* Determines the storing frequency */
 	private final static int STORE_PER_UPDATE = 50;
-	
+
 	private Deque<Pair<Double, Double>> points;
 	private int length;
 	private int timesCalled = 0;
-	@Deprecated
-	private boolean enable = true;
-	
+
 	/**
-	 * Default constructor, it construct a trail made of n points.
+	 * Default constructor witch default size.
 	 */
-	public Trail(){
-	    this(TRAILSIZE);
+	public Trail() {
+		this(TRAILSIZE);
 	}
-	
-	public Trail(int length){
+
+	/**
+	 * Construct a trail made of n points.
+	 */
+	public Trail(int length) {
 		this.points = new ArrayDeque<>();
 		this.length = length;
 	}
-	
-	public synchronized void addPoint(double x, double y){
-	    if(this.shouldAdd() && this.enable){
-	        this.points.addFirst(new Pair<Double, Double>(x,y));
-	        if(this.points.size() - 1 == length){
-	            this.points.removeLast();
-	        }
-	    }
-	    this.timesCalled++;
+
+	/**
+	 * Adds a point to the trail.
+	 * 
+	 * @param x
+	 *            the x coordinate
+	 * @param y
+	 *            the y coordinate
+	 */
+	public void addPoint(double x, double y) {
+		if (this.shouldAdd()) {
+			this.points.addFirst(new Pair<Double, Double>(x, y));
+			if (this.points.size() - 1 == length) {
+				this.points.removeLast();
+			}
+		}
 	}
-	
-	private boolean shouldAdd(){
-	    if(this.timesCalled >= this.length){
-	        this.timesCalled = 0;
-	    }
-	    return (timesCalled % Trail.STORE_PER_UPDATE) == 0; 
+
+	/* Adding policy according to STORE parameter */
+	private boolean shouldAdd() {
+		if (this.timesCalled >= this.length) {
+			this.timesCalled = 0;
+		}
+		return (timesCalled++ % Trail.STORE_PER_UPDATE) == 0;
 	}
-	
-	public synchronized Collection<Pair<Double, Double>> getPoints(){
+
+	/**
+	 * Get trail in a series of points in space.
+	 * 
+	 * @return a collection of the trail points
+	 */
+	public Collection<Pair<Double, Double>> getPoints() {
 		return new ArrayDeque<>(this.points); // defensive copy
 	}
-	
-	public long getLength(){
+
+	/**
+	 * 
+	 * @return the length of the trail
+	 */
+	public long getLength() {
 		return this.length;
 	}
-	
+
+	/**
+	 * Resets the trail by deleting all points.
+	 */
 	public void reset() {
 		this.points = new ArrayDeque<>();
 	}
-	@Deprecated
-	public boolean isEnabled() {
-		return this.enable;
-	}
-	@Deprecated
-	public void setEnable(boolean b) {
-		this.reset();
-		this.enable = b;
-	}
-	
-	public String toString(){
-		return points.toString();
-	}
-	
-	//Testing performance
-	public static void main(String s[]){
-		int points = TRAILSIZE;
-		Trail t = new Trail(points);
-		
-		for(int i = 0; i < points; i++){
-			t.addPoint((double)i, (double)i*2);
-		}
-		
-		for(int i = 11; i < 16; i++){
-			t.addPoint((double)i, (double)i*2);
-		}
-		
-		double unit = 0.1;
-		
-		long time = System.nanoTime();
-//        List<Pair<Integer, Integer>> l = t.getPoints().stream()
-//                .map(p -> new Pair<>((int) (double) (p.getX() * unit), (int) (double) (p.getY() * unit)))
-//                .collect(Collectors.toList());
-        time = System.nanoTime() - time; //~70ms
-        System.out.println("time 1 (ms) = " + (double)time/(1000*1000) );
-		
-		time = System.nanoTime();
-//		//oppure
-		List<Pair<Integer,Integer>> l2 = new ArrayList<>(Trail.TRAILSIZE);
-		for(Pair<Double,Double> p : t.getPoints()){
-		    l2.add(new Pair<>((int)(double)(p.getX()*unit),(int)(double)(p.getY()*unit)));
-		}
-		time = System.nanoTime() - time; //~3ms
-		
-		System.out.println("time 2 (ms) = " + (double)time/(1000*1000) );
-		
-		
-	}
-	
-	
 }

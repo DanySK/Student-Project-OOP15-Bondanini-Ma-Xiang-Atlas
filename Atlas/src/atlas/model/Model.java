@@ -2,9 +2,13 @@ package atlas.model;
 
 import java.util.List;
 
-import atlas.model.algorithms.Algorithm;
-import atlas.model.algorithms.CollisionStrategy;
+import atlas.model.rules.Algorithm;
+import atlas.model.rules.CollisionStrategy;
 
+/**
+ * Interface for a generic model implementation.
+ *
+ */
 public interface Model {
 
 	/**

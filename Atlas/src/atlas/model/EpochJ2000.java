@@ -30,6 +30,10 @@ import static atlas.model.BodyType.VENUS_MASS;
 
 import java.util.Calendar;
 
+/**
+ * Represents the astronomical epoch of time : 01/01/2000, with the relative coordinates.
+ *
+ */
 public enum EpochJ2000 {
     
 
@@ -153,14 +157,6 @@ public enum EpochJ2000 {
             .properties(new Body.Properties(1195*1000, PLUTO_DAY, null, SUN.getBody(), 40.00 ))
             .build()),
     ;
-    
-  //moon
-//  px = -1.777871530146587E-01 * AU;
-//  py = 9.643743958957228E-01 * AU;
-//
-//  vx = (-1.690468993933486E-02 * AU) / t;
-//  vy = (-3.477070764654480E-03 * AU) / t;
-//  this.bodies.add(new BodyImpl("moon", px, py, vx, vy, 734.9e20));
     
     public static final long TIME_MILLS = new Calendar.Builder().setDate(2000, Calendar.JANUARY, 01)
                                                               .setTimeOfDay(00, 00, 00, 00)
