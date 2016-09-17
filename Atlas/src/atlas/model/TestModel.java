@@ -1,25 +1,13 @@
 package atlas.model;
 
-import java.util.List;
-
-import atlas.utils.*;
-
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Clock;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 
 public class TestModel {
     
     static long UPTIMES = 360000 /* 24 * 366*60*60*/; //hours
     static int mod = 1;
-    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     
-    public static void main(String[] args) {
-        Date simDate = new Date(0);   
+    public static void main(String[] args) {   
         long t =0;
         long time = System.nanoTime();
         for(int i = 0; i < UPTIMES; i++){

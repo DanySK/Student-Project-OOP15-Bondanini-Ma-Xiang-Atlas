@@ -8,6 +8,10 @@ import java.util.Random;
 
 import atlas.utils.Pair;
 
+/**
+ * Implementation of Body interface.
+ *
+ */
 public class BodyImpl implements Body, java.io.Serializable {
 
 	private static final long serialVersionUID = 3305253121341825047L;
@@ -136,8 +140,7 @@ public class BodyImpl implements Body, java.io.Serializable {
 		this.properties.updateRotation(dt);
 		this.checkTrail();
 		this.trail.addPoint(this.posx, this.posy);
-		// updates orbital period with the 3rd keplar law... don't update every
-		// time
+		// updates orbital period with the 3rd keplar law
 		if (this.properties.getParent().isPresent()) {
 			Body parent = this.properties.getParent().get();
 			this.properties.setOrbitalPeriod((long) ((2 * Math.PI) / Math.sqrt((BodyType.G * parent.getMass()))
@@ -193,19 +196,12 @@ public class BodyImpl implements Body, java.io.Serializable {
 		return Math.sqrt(velx * velx + vely * vely);
 	}
 
-	// Algoritmo da sistemare... angolo non va bene ?? I think it's good,
-	// waiting for tests
 	@Override
 	public void setTotalVelocity(double vt) {
 		if (vt < 0) {
 			throw new IllegalStateException();
 		}
 		double velocity = this.getTotalVelocity();
-		// using angle
-		// double angle = Math.acos(this.velx / velocity);
-		// this.velx = vt * Math.cos(angle);
-		// this.vely = vt * Math.sin(angle);
-		// using logic
 		double change = vt / velocity;
 		this.velx = change * this.velx;
 		this.vely = change * this.vely;
@@ -281,7 +277,7 @@ public class BodyImpl implements Body, java.io.Serializable {
 		private double posx, posy;
 		private double velx, vely;
 		private double mass;
-		private Properties properties = new Properties();
+		private Properties properties;
 
 		public Builder type(BodyType type) {
 			this.type = type;
@@ -342,19 +338,5 @@ public class BodyImpl implements Body, java.io.Serializable {
 			return b;
 		}
 	}
-
-	// public static void main(String s[]) {
-	// BodyImpl b = new
-	// BodyImpl.Builder().mass(1.0).posX(1).posY(1).type(BodyType.STAR).build();
-	//
-	// System.out.println("mass = " + b.getMass() + " adding properties....");
-	// // BodyImpl a = new BodyImpl();
-	// b.getProperties().setParent(b);
-	// b.getProperties().setRadius(100);
-	// b.getProperties().setTemperature(1000.00);
-	// System.out.println(
-	// "temp = " + b.getProperties().getTemperature() + " parent body = " +
-	// b.getProperties().getParent());
-	//
-	// }
+	
 }

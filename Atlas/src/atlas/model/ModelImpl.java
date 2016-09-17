@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import atlas.model.algorithms.Algorithm;
-import atlas.model.algorithms.AlgorithmBruteForce;
-import atlas.model.algorithms.CollisionStrategy;
-import atlas.model.algorithms.CollisionStrategyFragments;
+import atlas.model.rules.Algorithm;
+import atlas.model.rules.AlgorithmBruteForce;
+import atlas.model.rules.CollisionStrategy;
+import atlas.model.rules.CollisionStrategyFragments;
 import atlas.utils.Pair;
 
 /**
- * Brute force N-body implementation
+ * Model implementation.
  *
  */
 public class ModelImpl implements Model, java.io.Serializable {
@@ -20,15 +20,6 @@ public class ModelImpl implements Model, java.io.Serializable {
 	private Algorithm alg;
 	private ArrayList<Body> bodies = new ArrayList<>();
 	private SimClock clock = new SimClock();
-
-	// public static void main(String s[]) {
-	// Model m = new ModelImpl();
-	//
-	// for(int i = 0 ; i < 200000; i ++) {
-	// m.updateSim(1000);
-	// System.out.println(m);
-	// }
-	// }
 
 	@Override
 	public String toString() {
