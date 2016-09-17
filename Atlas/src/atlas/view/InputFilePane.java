@@ -45,7 +45,9 @@ public class InputFilePane extends TabPane {
 				
 				//upates the selected item
 				list.getSelectionModel().selectedItemProperty().addListener(l -> {
-					selectedPath = Optional.ofNullable(j.getAbsolutePath());
+					if(list.getSelectionModel().getSelectedItem().equals(j.getName())) {
+						selectedPath = Optional.ofNullable(j.getAbsolutePath());
+					}
 				});
 			});
 
@@ -60,7 +62,7 @@ public class InputFilePane extends TabPane {
 	 * 
 	 * @return an optional the selected item
 	 */
-	public Optional<String> getSelectedPath() {
+	public Optional<String> getSelectedPath() {		
 		return selectedPath;
 	}
 }
