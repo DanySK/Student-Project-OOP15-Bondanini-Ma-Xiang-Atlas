@@ -1,5 +1,8 @@
 package atlas.view;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
@@ -45,17 +48,16 @@ public class SceneMain extends Scene {
 
 		this.setCommands();
 		/* CSS */
-		// File file = new File(RES_DIR+FILE_SEP + "css" + FILE_SEP +
-		// "testcss.css");
-		// URL url = null;
-		// try {
-		// url = file.toURI().toURL();
-		// } catch (MalformedURLException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// this.getStylesheets().clear();
-		// this.getStylesheets().add(url.toExternalForm());
+		File file = new File(RES_DIR + FILE_SEP + "css" + FILE_SEP + "testcss.css");
+		URL url = null;
+		try {
+			url = file.toURI().toURL();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.getStylesheets().clear();
+		this.getStylesheets().add(url.toExternalForm());
 	}
 
 	private void setCommands() {

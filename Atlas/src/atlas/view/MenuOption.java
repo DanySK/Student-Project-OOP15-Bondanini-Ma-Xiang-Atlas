@@ -121,6 +121,11 @@ public class MenuOption extends MenuHidable {
 			i.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 			GridPane.setHalignment(i, HPos.CENTER);
 		});
+		
+		Arrays.asList(this.newSim, this.save, this.load, this.credits, this.exit).forEach(i -> {
+			i.setId("provaBtn");
+		});
+		
 		for (int r = 0, i = 0; i < nodes.size(); r++, i++) {
 			GridPane.setConstraints(nodes.get(i), 0, r);
 			if (r != 0 && ++i < nodes.size()) {
