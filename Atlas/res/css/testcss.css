@@ -1,18 +1,29 @@
-	.button{
-		-fx-display: inline-block;
-		-fx-background-color: #008CBA;
-		-fx-font: 16px "Roboto Thin";
-		-fx-text-fill: white;
-		-fx-cursor: pointer;
+/* 	.button{ */
+/* 		-fx-display: inline-block; */
+/* 		-fx-background-color: #008CBA; */
+/* 		-fx-font: 16px "Roboto Thin"; */
+/* 		-fx-text-fill: white; */
+/* 		-fx-cursor: pointer; */
 
-	}
+/* 	} */
 
-	.button:hover {
-    	-fx-background-color: white;
-    	-fx-text-fill: black;
-    	-fx-border-color: #008CBA;
-	}
+/* 	.button:hover { */
+/*     	-fx-background-color: white; */
+/*     	-fx-text-fill: black; */
+/*     	-fx-border-color: #008CBA; */
+/* 	} */
 
-	.button:active {
- 		 -fx-background-color: black;
+/* 	.button:active { */
+/*  		 -fx-background-color: black; */
+/* 	} */
+	
+	#provaBtn {
+	-fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+        
+		-fx-font: bold italic 20pt "Arial";
+  		-fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
 	}
