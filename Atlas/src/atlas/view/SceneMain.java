@@ -47,7 +47,7 @@ public class SceneMain extends Scene {
 
 		this.setCommands();
 		/* CSS */
-		File file = new File(RES_DIR + FILE_SEP + "css" + FILE_SEP + "testcss.css");
+		File file = new File(RES_DIR + FILE_SEP + "css" + FILE_SEP + "uiStyle.css");
 		URL url = null;
 		try {
 			url = file.toURI().toURL();

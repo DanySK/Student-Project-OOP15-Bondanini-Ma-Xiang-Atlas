@@ -5,6 +5,8 @@ import atlas.controller.ControllerImpl;
 import atlas.view.View;
 import atlas.view.ViewImpl;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -27,10 +29,11 @@ public class ApplicationLauncher extends Application{
     @Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("ATLAS");
-		primaryStage.setX(0);
-		primaryStage.setY(0);
 		primaryStage.setWidth(WIDTH);
 		primaryStage.setHeight(HEIGHT);
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) /2 );
+		primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) /2  );
 
 		Controller c = ControllerImpl.getIstanceOf();
         
