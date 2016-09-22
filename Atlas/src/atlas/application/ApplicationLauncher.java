@@ -14,8 +14,8 @@ import javafx.stage.Stage;
  */
 public class ApplicationLauncher extends Application{
 	
-	private static int HEIGHT = 700;
-	private static int WIDTH = 1200;
+	private static int HEIGHT = 800;
+	private static int WIDTH = 1280;
 
     public static void main(String[] args) {
         //this method must create the controller and the view
