@@ -57,6 +57,7 @@ public class RenderScreen extends StackPane {
 	 * Constructor
 	 */
 	public RenderScreen() {
+		this.setId("game-screen");
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
 
 		/* Resizable canvas */

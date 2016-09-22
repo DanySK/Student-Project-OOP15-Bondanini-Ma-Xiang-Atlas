@@ -43,6 +43,8 @@ public class CruiseControl extends BorderPane {
 	private View view;
 
 	public CruiseControl() {
+		this.setId("cruise");
+		
 		this.view = ViewImpl.getView();
 		left.getChildren().add(0, buttonStop);
 		left.getChildren().add(1, labelTime);

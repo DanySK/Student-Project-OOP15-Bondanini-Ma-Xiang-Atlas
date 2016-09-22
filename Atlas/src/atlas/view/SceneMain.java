@@ -42,7 +42,6 @@ public class SceneMain extends Scene {
 		this.root.setBottom(cruise);
 		this.root.setLeft(optionMenu);
 		this.root.setRight(infoMenu);
-		this.root.setStyle("-fx-border-color: aqua;");
 
 		this.setRoot(root);
 

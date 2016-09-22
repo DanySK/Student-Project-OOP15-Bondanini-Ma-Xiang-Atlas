@@ -8,12 +8,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class MenuOption extends MenuHidable {
 
@@ -45,6 +46,7 @@ public class MenuOption extends MenuHidable {
 
 	public MenuOption() { // try tilepane
 		super();
+		
 		super.setRight(super.btn);
 		this.container.setContent(root);
 		root.getChildren().add(grid);
@@ -52,13 +54,10 @@ public class MenuOption extends MenuHidable {
 		root.setPadding(in);
 		root.setSpacing(VGAP);
 
-		root.getChildren().addAll(new Text("ADDITIONAL SETTINGS"), fullScreen);	
-		root.getChildren().addAll(new Text("Collision system: "), collisionOne,
+		root.getChildren().addAll(new Separator(), new Label("ADDITIONAL SETTINGS"), fullScreen);	
+		root.getChildren().addAll(new Separator(), new Label("Collision system: "), collisionOne,
 				collisionTwo);
-		root.getChildren().addAll(new Text("N-Body algorithm: "), nBodyOne, nBodyTwo);
-
-		// this.setStyle("-fx-background-color: black;");
-		// root.setGridLinesVisible(true);
+		root.getChildren().addAll(new Separator(), new Label("N-Body algorithm: "), nBodyOne, nBodyTwo);
 
 		this.logo = new ImageView(SceneLoading.LOGO.getImage());
 		logo.setPreserveRatio(true);

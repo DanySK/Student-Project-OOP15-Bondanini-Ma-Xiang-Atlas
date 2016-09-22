@@ -14,6 +14,9 @@ public abstract class MenuHidable extends BorderPane {
 	protected Button btn;	
 	
 	public MenuHidable() {
+		/*Set all children's font in the css file*/
+		this.setId("menu-hidable");
+		
 		btn = new Button("|||");
 		btn.setMaxHeight(Double.MAX_VALUE);
 		btn.setOnAction(e -> {
