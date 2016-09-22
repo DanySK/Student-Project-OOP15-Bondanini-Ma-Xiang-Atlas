@@ -1,7 +1,10 @@
+/* source = http://toedter.com/2011/10/26/java-fx-2-0-css-styling */
+
 .root {
-	-fx-base: rgb(50, 50, 50);
-	-fx-background: rgb(50, 50, 50);
-	-fx-control-inner-background: rgb(50, 50, 50);
+	-fx-base: rgb(40, 40, 40);
+	-fx-background: rgb(40, 40, 40);
+	-fx-control-inner-background: rgb(40, 40, 40);
+	-fx-font-smoothing-type: lcd;
 }
 
 .tab {
@@ -9,7 +12,7 @@
 }
 
 .menu-bar {
-	-fx-background-color: rgb(50, 50, 50);
+	-fx-background-color: rgb(40, 40, 40);
 }
 
 .text-field {
@@ -20,6 +23,18 @@
 	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border,
 		-fx-inner-border, -fx-body-color;
 	-fx-color: -fx-hover-base;
+}
+
+.button:focused, .table-view:focused, .choice-box:focused, .menu-bar:focused, .text-field:focused {
+	-fx-focus-color: transparent;
+	-fx-background-color: derive(-fx-base, +22%);
+	-fx-border-color: derive(-fx-base, +35%);
+}
+
+
+.menu-item:focused {
+	-fx-background-color: derive(-fx-base, +22%);
+	-fx-border-color: derive(-fx-base, +35%);
 }
 
 .table-view {
@@ -39,8 +54,12 @@
 
 #menu-hidable {
 	-fx-font: 12pt "Roboto";
+	-fx-focus-color: transparent;
+	-fx-background-color: black;
 }
 
 #cruise {
-	-fx-font: 14pt "Roboto";	
+	-fx-font: 14pt "Roboto";
+	-fx-border-color: black;
+	-fx-padding: 5 2 6 2;
 }
