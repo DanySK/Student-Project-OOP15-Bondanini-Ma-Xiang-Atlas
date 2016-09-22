@@ -7,8 +7,6 @@ import java.util.Optional;
 import atlas.model.Model;
 
 public interface InputManager {
-	
-	public void lockVenuse(); //provvisorio... da eliminare
 
     /**
      * This method is invocated when left mouse button is clicked

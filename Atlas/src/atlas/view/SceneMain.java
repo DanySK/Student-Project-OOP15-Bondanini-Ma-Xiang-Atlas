@@ -68,8 +68,10 @@ public class SceneMain extends Scene {
 	private void setScrollCommands() {
 		this.renderPanel.setOnScroll(e -> {
 			if (e.getDeltaY() > 0) {
+				this.view.setMousePos(new Pair<Double, Double>(e.getSceneX(), e.getSceneY()));
 				this.view.notifyObservers(SimEvent.MOUSE_WHEEL_UP);
 			} else {
+				this.view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
 				this.view.notifyObservers(SimEvent.MOUSE_WHEEL_DOWN);
 			}
 		});
@@ -114,7 +116,6 @@ public class SceneMain extends Scene {
 			// salvare poszioni in viewImpl, ed eliminarle dopo aver aggiunto il
 			// planet
 			view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
-			System.out.println("X: " + e.getX() + "Y: " + e.getY());
 			view.notifyObservers(SimEvent.MOUSE_CLICKED);
 		});
 
