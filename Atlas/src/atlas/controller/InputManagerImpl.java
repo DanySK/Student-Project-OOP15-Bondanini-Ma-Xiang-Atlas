@@ -318,7 +318,7 @@ public class InputManagerImpl implements InputManager {
 	@Override
 	public void initialReference() {
 		this.model.getBodiesToRender().stream().max((a, b) -> (int) (a.getMass() - b.getMass()))
-				.ifPresent(i -> this.reference = new Pair<>(i.getPosX() * scale, i.getPosY() * scale));
+				.ifPresent(i -> this.reference = new Pair<>(i.getPosX() * -scale, i.getPosY() * scale));
 		this.view.updateReferce(this.reference, this.scale);
 	}
 
