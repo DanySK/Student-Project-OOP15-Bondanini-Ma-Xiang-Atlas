@@ -2,6 +2,7 @@ package atlas.view;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -131,14 +132,17 @@ public class ViewImpl implements View {
 	public Optional<Pair<Integer, Units>> getSpeedInfo() {
 		CruiseControl c = mainScene.cruise;
 		Pair<Integer, Units> p = null;
+		Pair<String, Units> tmp = this.mainScene.cruise.getSpeed();
 		try {
-			p = new Pair<>(Integer.parseInt(c.textSpeed.getText()), c.choiceSpeedUnit.getValue());
-		} catch (NumberFormatException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR, "Format error, only numbers allowed.", ButtonType.OK);
+			if(!Arrays.asList(Units.values()).contains(tmp.getY())) {
+				throw new IllegalArgumentException();
+			}
+			p = new Pair<>(Integer.parseInt(tmp.getX()), tmp.getY());
+		} catch (IllegalArgumentException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Input error, please check.", ButtonType.OK);
 			alert.setTitle("Invalid input");
 			alert.setHeaderText(null);
 			alert.showAndWait();
-			c.textSpeed.setText("");
 		}
 		return Optional.ofNullable(p);
 	}

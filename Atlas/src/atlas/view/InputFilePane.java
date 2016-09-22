@@ -15,7 +15,7 @@ import javafx.scene.control.TabPane;
  * Generic file tab pane, files are organized in different sections, separated
  * by tabs.
  * 
- * @author maxx
+ * @author MaXX
  *
  */
 public class InputFilePane extends TabPane {

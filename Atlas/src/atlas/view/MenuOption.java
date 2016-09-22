@@ -23,6 +23,8 @@ public class MenuOption extends MenuHidable {
 	private static final int HGAP = 15;
 	private static final double BUTTON_HEIGHT = 100;
 	private static final double BUTTON_WIDTH = 100;
+	private static final double LOGO_HEIGHT = 220;
+	private static final double LOGO_WIDTH = 320;
 
 	private ImageView logo = SceneLoading.LOGO;
 	private ScrollPane container = new ScrollPane();
@@ -44,7 +46,7 @@ public class MenuOption extends MenuHidable {
 
 	// private Alert creditsDialog = new Alert(AlertType.INFORMATION);
 
-	public MenuOption() { // try tilepane
+	public MenuOption() {
 		super();
 		
 		super.setRight(super.btn);
@@ -61,8 +63,8 @@ public class MenuOption extends MenuHidable {
 
 		this.logo = new ImageView(SceneLoading.LOGO.getImage());
 		logo.setPreserveRatio(true);
-		logo.setFitHeight(TOP_HEIGHT);
-		logo.setFitWidth(TOP_WIDTH);
+		logo.setFitHeight(LOGO_HEIGHT);
+		logo.setFitWidth(LOGO_WIDTH);
 
 		this.setupGrid();
 
@@ -105,7 +107,7 @@ public class MenuOption extends MenuHidable {
 		collisionOne.setSelected(true);
 		nBodyOne.setSelected(true);
 	}
-
+	int count = 0;
 	public void showContent() {
 		this.setCenter(container);
 	}
@@ -131,7 +133,9 @@ public class MenuOption extends MenuHidable {
 				GridPane.setConstraints(nodes.get(i), 1, r);
 			}
 		}
-		GridPane.setColumnSpan(this.logo, 2);
+		
+		GridPane.setColumnSpan(logo, 2);
+		GridPane.setHalignment(logo, HPos.CENTER);
 
 		// Creates 2 columns with equal width
 		ColumnConstraints col = new ColumnConstraints();

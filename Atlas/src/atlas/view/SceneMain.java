@@ -131,7 +131,7 @@ public class SceneMain extends Scene {
 		RenderScale scaleType = this.cruise.viewMenu.getSelectedScale();
 		Set<BodyType> disabledTrail = this.cruise.viewMenu.getDisableTrailTypes();
 
-		this.cruise.labelTime.setText(time);
+		this.cruise.setTime(time);
 		if (this.infoMenu.isShown()) {
 			this.infoMenu.update(ViewImpl.getView().getSelectedBody());
 		}
