@@ -1,5 +1,6 @@
 package atlas.controller;
 
+import java.awt.Point;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,20 +36,19 @@ public class InputManagerImpl implements InputManager {
 	private Model model;
 	private GameLoop gLoop;
 	private DragPositions threadDrag;
-	private LockPosition threadLock;
 	private Status status = Status.DEFAULT;
 	private Optional<Body> bodyToAdd = Optional.empty();
 
 	double scale = 1.4000000000000000E-9;
 	Pair<Double, Double> reference;
 	Pair<Double, Double> initialReference;
+
 	public InputManagerImpl(View view, Model model, GameLoop gLoop, Pair<Double, Double> reference) {
 		this.view = view;
 		this.model = model;
 		this.gLoop = gLoop;
 		this.initialReference = reference;
 		this.reference = reference;
-		this.threadLock = new LockPosition(this.view, this.scale);
 		this.threadDrag = new DragPositions(this.scale, this.reference);
 	}
 
@@ -83,11 +83,12 @@ public class InputManagerImpl implements InputManager {
 			if (!this.bodyToAdd.isPresent()) {
 				throw new IllegalStateException("Body to add is not present!");
 			}
-			this.bodyToAdd.get().setPosX((this.view.getMousePos().getX() -  this.view.getWindow().getX()
-					- this.reference.getX()) / this.scale);
-			this.bodyToAdd.get().setPosY(( this.view.getMousePos().getY()- this.view.getWindow().getY()
-					- this.reference.getY()) / -this.scale);
-	System.out.println("X renderPanel / 2: "+ this.view.getWindow().getX());
+			this.bodyToAdd.get()
+					.setPosX((this.view.getMousePos().getX() - this.view.getWindow().getX() - this.reference.getX())
+							/ this.scale);
+			this.bodyToAdd.get()
+					.setPosY((this.view.getMousePos().getY() - this.view.getWindow().getY() - this.reference.getY())
+							/ -this.scale);
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
 		}
 		this.status = Status.DEFAULT;
@@ -114,9 +115,6 @@ public class InputManagerImpl implements InputManager {
 	public void ESC() {
 		if (this.status.equals(Status.ADDING)) {
 			this.view.deleteNextBody();
-		} else if (this.status.equals(Status.LOCK)) {
-			this.threadLock.stopLock();
-			System.out.println("STOOPP");
 		}
 		this.status = Status.DEFAULT;
 	}
@@ -125,32 +123,25 @@ public class InputManagerImpl implements InputManager {
 	public void zoomUp() { // Da cambiare in un metodo solo per non ripetere il
 							// codice
 		this.scale *= 1.10;
-		if (this.threadLock.isAlive()) {
-			this.threadLock.setScale(this.scale);
-		} else if (this.threadDrag.isAlive()) {
+		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
-			this.view.updateReferce(this.reference, this.scale);
-		} else {
-			this.view.updateReferce(this.reference, this.scale);
 		}
+		this.view.updateReferce(this.reference, this.scale);
+
 	}
 
 	@Override
 	public void zoomDown() {
 		this.scale *= 0.90;
-		if (this.threadLock.isAlive()) {
-			this.threadLock.setScale(this.scale);
-		} else if (this.threadDrag.isAlive()) {
+		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
-			this.view.updateReferce(this.reference, this.scale);
-		} else {
-			this.view.updateReferce(this.reference, this.scale);
 		}
+		this.view.updateReferce(this.reference, this.scale);
+
 	}
 
 	@Override
 	public void wSlide() {
-		this.checkLocked();
 		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
 		this.view.updateReferce(this.reference, this.scale);
 		this.setDefault();
@@ -158,7 +149,6 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void sSlide() {
-		this.checkLocked();
 		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
 		this.view.updateReferce(this.reference, this.scale);
 		this.setDefault();
@@ -166,7 +156,6 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void aSlide() {
-		this.checkLocked();
 		this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
 		this.view.updateReferce(this.reference, this.scale);
 		this.setDefault();
@@ -174,7 +163,6 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void dSlide() {
-		this.checkLocked();
 		this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
 		this.view.updateReferce(this.reference, this.scale);
 		this.setDefault();
@@ -209,7 +197,7 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void saveBody() throws IOException, IllegalArgumentException {
-		if(!ViewImpl.getView().getSelectedBody().isPresent()) {
+		if (!ViewImpl.getView().getSelectedBody().isPresent()) {
 			throw new IllegalArgumentException();
 		}
 		Optional<File> f = getSaveFile(
@@ -263,7 +251,7 @@ public class InputManagerImpl implements InputManager {
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Content of the file is not suitable.");
 		}
-		
+
 		return Optional.ofNullable(this.model);
 	}
 
@@ -320,20 +308,6 @@ public class InputManagerImpl implements InputManager {
 		this.model.getBodiesToRender().stream().max((a, b) -> (int) (a.getMass() - b.getMass()))
 				.ifPresent(i -> this.reference = new Pair<>(i.getPosX() * -scale, i.getPosY() * scale));
 		this.view.updateReferce(this.reference, this.scale);
-	}
-
-	@Override
-	public void lockVenuse() {
-		if (!this.status.equals(Status.LOCK)) {
-			this.threadLock = new LockPosition(this.view, this.scale);
-			this.threadLock.start();
-		}
-	}
-
-	private void checkLocked() {
-		if (this.status.equals(Status.LOCK)) {
-			this.threadLock.stopLock();
-		}
 	}
 
 	private void setDefault() {

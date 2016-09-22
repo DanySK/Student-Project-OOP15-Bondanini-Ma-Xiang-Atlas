@@ -94,8 +94,6 @@ public class ControllerImpl implements Controller {
             break;
 
         case LOCK:
-//            this.inputManager.lockVenuse();
-//            this.inputManager.changeStatus(Status.LOCK);
         	ViewImpl.getView().setCameraLocked(true);
             break;
             
