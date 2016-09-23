@@ -56,5 +56,6 @@
 #cruise {
 	-fx-font: 12pt "Roboto";
 	-fx-border-color: black;
+	-fx-background-color: -fx-base;
 	-fx-padding: 5 2 4 2;
 }
