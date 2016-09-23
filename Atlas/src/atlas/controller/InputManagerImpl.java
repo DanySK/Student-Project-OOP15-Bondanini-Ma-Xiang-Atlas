@@ -1,6 +1,5 @@
 package atlas.controller;
 
-import java.awt.Point;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -279,15 +278,17 @@ public class InputManagerImpl implements InputManager {
 
 		File[] list = root.listFiles();
 		// populates the map with files
-		for (File f : list) {
-			if (f.isDirectory()) {
-				for (File fs : f.listFiles()) {
-					if (fs.isFile()) {
-						files.merge(f, Arrays.asList(fs), (o, n) -> {
-							List<File> l = new ArrayList<>(o);
-							l.addAll(n);
-							return l;
-						});
+		if (list != null) {
+			for (File f : list) {
+				if (f.isDirectory() && f.listFiles() != null) {
+					for (File fs : f.listFiles()) {
+						if (fs.isFile()) {
+							files.merge(f, Arrays.asList(fs), (o, n) -> {
+								List<File> l = new ArrayList<>(o);
+								l.addAll(n);
+								return l;
+							});
+						}
 					}
 				}
 			}

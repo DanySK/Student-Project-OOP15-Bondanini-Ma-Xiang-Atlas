@@ -38,7 +38,7 @@ public class AlgorithmBruteForce extends Algorithm {
 			if (b.isAttracting()) {
 				b.resetForce();
 				for (Body c : copy) {
-					if (b != null && !b.equals(c)) {
+					if (!b.equals(c)) {
 						if (bodies.contains(b) && bodies.contains(c)) {
 							super.collisionStrategy.manageCollision(bodies, b, c);
 						}
