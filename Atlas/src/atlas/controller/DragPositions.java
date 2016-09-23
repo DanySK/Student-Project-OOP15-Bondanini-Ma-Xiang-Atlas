@@ -20,13 +20,14 @@ public class DragPositions extends Thread {
 
     public void run() {
         while (bool) {
+        	System.out.println("DragLoop");
             double actualScale = this.scale;
             long last = System.currentTimeMillis();
             while (System.currentTimeMillis() - last < step) {
-                ViewImpl.getView().getSelectedBody().get().setPosX((MouseInfo.getPointerInfo().getLocation().getX()
-                        - ViewImpl.getView().getWindow().getX() - this.reference.getX() - 100) / actualScale);
-                ViewImpl.getView().getSelectedBody().get().setPosY((MouseInfo.getPointerInfo().getLocation().getY()
-                        - ViewImpl.getView().getWindow().getY() - this.reference.getY() - 25) / -actualScale);
+                ViewImpl.getView().getSelectedBody().get().setPosX((ViewImpl.getView().getMousePos().getX()
+                        - ViewImpl.getView().getWindow().getX() - this.reference.getX()) / actualScale);
+                ViewImpl.getView().getSelectedBody().get().setPosY((ViewImpl.getView().getMousePos().getY()
+                        - ViewImpl.getView().getWindow().getY() - this.reference.getY()) / -actualScale);
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
@@ -36,6 +37,7 @@ public class DragPositions extends Thread {
 
         }
     }
+    
 
     public void setScale(Double scale) {
         this.scale = scale;

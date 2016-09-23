@@ -57,6 +57,9 @@ public class RenderScreen extends StackPane {
 	 * Constructor
 	 */
 	public RenderScreen() {
+		this.setOnMouseDragged(e -> {
+			System.out.println("OWDPAHJWUFH");
+		});
 		this.setId("game-screen");
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
 
@@ -138,6 +141,9 @@ public class RenderScreen extends StackPane {
 			}
 			this.setLableOnMultiClick(entry.getX().getY(), b); // for loading
 																// issue
+			this.setLableOnHold(entry.getX().getY(), b);
+			
+//			this.setLableOnRelease(entry.getX().getY(), b);
 
 			/*
 			 * Place the image centered to the body point. Labels are placed
@@ -258,5 +264,21 @@ public class RenderScreen extends StackPane {
 				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
 			}
 		});
+	}
+	
+	private void setLableOnHold(Label lab, Body body) {
+		lab.setonMouse(e -> {
+			System.out.println("SUCAAAAAAAAAAA");
+		});
+		
+	}
+	
+	private void setLableOnRelease(Label lab, Body body) {
+		System.out.println("Release1");
+		lab.setOnMouseReleased(e -> {		
+			ViewImpl.getView().setSelectedBody(body);
+			ViewImpl.getView().notifyObservers(SimEvent.MOUSE_RELEASED);
+		});
+		
 	}
 }
