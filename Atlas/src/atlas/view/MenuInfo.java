@@ -287,12 +287,12 @@ public class MenuInfo extends MenuHidable {
 	 */
 	private void setButtonAction() {
 		this.saveBtn.setOnAction(e -> {
-			ViewImpl.getView().notifyObservers(SimEvent.SAVE_BODY);
+			ViewImpl.getView().notifyObserver(SimEvent.SAVE_BODY);
 		});
 		;
 
 		this.updateBtn.setOnAction(e -> {
-			ViewImpl.getView().notifyObservers(SimEvent.UPDATE_BODY);
+			ViewImpl.getView().notifyObserver(SimEvent.UPDATE_BODY);
 			this.resetAllTextField();
 		});
 	}

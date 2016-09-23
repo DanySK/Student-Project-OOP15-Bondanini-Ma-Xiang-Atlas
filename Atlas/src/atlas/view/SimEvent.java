@@ -1,5 +1,9 @@
 package atlas.view;
 
+/**
+ * This enum represents all the events that from the view.
+ *
+ */
 public enum SimEvent {
 	START,
 	STOP,

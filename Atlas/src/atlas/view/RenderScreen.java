@@ -29,7 +29,7 @@ import javafx.scene.text.FontWeight;
  * frame. It consists of multiple layers (from lower to higher): - background
  * image - effects, such as trails - bodies images - bodies labels
  * 
- * @author Cap
+ * @author MaXX
  *
  */
 public class RenderScreen extends StackPane {
@@ -40,15 +40,15 @@ public class RenderScreen extends StackPane {
 	private final static int MIN_IMAGE_SIZE = 1;
 
 	private Canvas lBottom = new Canvas(); // the bottom layer
-	private Canvas lMid1 = new Canvas(); // first intermediate layer
-	private Pane lMid2 = new Pane();
+	private Pane lMid = new Pane();
 	private Pane lTop = new Pane(); // the top layer -> labels
 	private Label fpsCounter = new Label();
 	private Label bodyCounter = new Label();
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
-	private Map<Long, Boolean> secondChanceMap = new HashMap<>();// second
-																	// chance
+	
+	/* second chance = if a entry is not used it will be removed from the bMap */
+	private Map<Long, Boolean> secondChanceMap = new HashMap<>();
 
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
@@ -68,8 +68,8 @@ public class RenderScreen extends StackPane {
 		DoubleBinding y = this.heightProperty().subtract(0);
 		this.lBottom.widthProperty().bind(x);
 		this.lBottom.heightProperty().bind(y);
-		this.lMid1.widthProperty().bind(x);
-		this.lMid1.heightProperty().bind(y);
+		this.lBottom.widthProperty().bind(x);
+		this.lBottom.heightProperty().bind(y);
 
 		/* FPS counter */
 		this.lTop.getChildren().add(fpsCounter);
@@ -78,7 +78,6 @@ public class RenderScreen extends StackPane {
 		fpsCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
 		bodyCounter.setTextFill(Color.MAGENTA);
 		bodyCounter.setFont(Font.font("Roboto Thin", FontWeight.BOLD, 20));
-//		bodyCounter.translateXProperty().bind(lTop.widthProperty().subtract(200));;
 		bodyCounter.setTranslateY(25);
 
 		/* Resizable pane */
@@ -87,19 +86,42 @@ public class RenderScreen extends StackPane {
 		this.setMinSize(0, 0);
 
 		/* Adding children/layers */
-		this.getChildren().addAll(this.lBottom, this.lMid1);
-		this.getChildren().addAll(this.lMid2, this.lTop);
+		this.getChildren().addAll(this.lBottom);
+		this.getChildren().addAll(this.lMid, this.lTop);
 
 		/* Default translate */
 		Double defTran = new Double(0);
 		this.currentTranlate = new Pair<>(defTran, defTran);
 	}
 
+	/**
+	 * Sets the background image.
+	 * 
+	 * @param imageUrl
+	 *            the Url of the image
+	 */
 	public void setBackgroundImage(String imageUrl) {
 		this.setStyle("-fx-background-image: url('" + imageUrl + "'); " + "-fx-background-position: center center; "
 				+ "-fx-background-repeat: stretch;" + "-fx-background-size: inherit;");
 	}
 
+	/**
+	 * Draws the bodies to the screen with the relative image, name and trail.
+	 * 
+	 * @param bodies
+	 *            the bodies to be rendered
+	 * @param scaleType
+	 *            the rendering mode (size of the bodie's image)
+	 * @param scale
+	 *            the relation between the real size of the solar system and its
+	 *            size on the screen.
+	 * @param translate
+	 *            offset from the center of the screen (in pixel)
+	 * @param fps
+	 *            frames per second
+	 * @param disabledTrail
+	 *            list of body types to hide the trail
+	 */
 	public void render(List<Body> bodies, RenderScale scaleType, double scale, Pair<Double, Double> translate, int fps,
 			Set<BodyType> disabledTrail) {
 		/* Preliminary actions */
@@ -109,7 +131,7 @@ public class RenderScreen extends StackPane {
 		this.bodyCounter.setText("# bodies: " + bodies.size());
 
 		this.secondChanceMap.replaceAll((k, v) -> Boolean.FALSE);
-		
+
 		/* Drawing the new frame */
 		bodies.forEach(b -> {
 			ImageView img = this.getScaledBodyImage(b, scaleType, scale);
@@ -121,17 +143,23 @@ public class RenderScreen extends StackPane {
 				bMap.put(b.getId(), new Pair<>(new Pair<>(img, lab), this.pickColor()));
 				secondChanceMap.put(b.getId(), true);
 
-				lMid2.getChildren().add(img);
+				lMid.getChildren().add(img);
 				lTop.getChildren().add(lab);
+
+				// Sets the actions
+				this.setLabelOnMultiClick(lab, b);
+				this.setLableOnHold(lab, b);
+
+				// this.setLabelOnRelease(entry.getX().getY(), b);
 			}
 
 			Pair<Pair<ImageView, Label>, Color> entry = bMap.get(b.getId());
 			this.secondChanceMap.put(b.getId(), true);
 
-			/*Draw the body's trail only if it's enabled*/
-			if(!disabledTrail.contains(b.getType())) {
+			/* Draw the body's trail only if it's enabled */
+			if (!disabledTrail.contains(b.getType())) {
 				this.drawTrail(b, scale, entry.getY());
-			}				
+			}
 
 			/* updates the label name if it has been changed */
 			entry.getX().getY().setText(b.getName());
@@ -139,11 +167,6 @@ public class RenderScreen extends StackPane {
 			if (b.getType() == BodyType.SATELLITE) {
 				entry.getX().getY().setVisible(entry.getX().getX().getFitHeight() > MIN_IMAGE_SIZE);
 			}
-			this.setLableOnMultiClick(entry.getX().getY(), b); // for loading
-																// issue
-			this.setLableOnHold(entry.getX().getY(), b);
-			
-//			this.setLableOnRelease(entry.getX().getY(), b);
 
 			/*
 			 * Place the image centered to the body point. Labels are placed
@@ -154,12 +177,12 @@ public class RenderScreen extends StackPane {
 			entry.getX().getY().relocate(this.calcPosX(b.getPosX() + b.getProperties().getRadius()),
 					this.calcPosY(b.getPosY()));
 		});
-		
+
 		// remove all non used bodies
 		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
 			System.out.println("Removing " + i.getKey());
 			// remove image
-			this.lMid2.getChildren().remove(bMap.get(i.getKey()).getX().getX());
+			this.lMid.getChildren().remove(bMap.get(i.getKey()).getX().getX());
 			// remove label
 			this.lTop.getChildren().remove(bMap.get(i.getKey()).getX().getY());
 			bMap.remove(i.getKey());
@@ -168,19 +191,48 @@ public class RenderScreen extends StackPane {
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
+	/**
+	 * Calculates the X position on screen given the real X coordinate.
+	 * 
+	 * @param realX
+	 *            the x coordinate in real units.
+	 * @return the x coordinate on the screen.
+	 */
 	private double calcPosX(double realX) {
 		return this.getWidth() / 2 + this.currentTranlate.getX() + realX * this.currentScale;
 	}
 
+	/**
+	 * Calculates the Y position on screen given the real Y coordinate.
+	 * 
+	 * @param realY
+	 *            the y coordinate in real units.
+	 * @return the y coordinate on the screen.
+	 */
 	private double calcPosY(double realY) {
 		return this.getHeight() / 2 + this.currentTranlate.getY() - realY * this.currentScale;
 	}
 
+	/**
+	 * Picks a random rgb color.
+	 * 
+	 * @return a random rgb color with TRAIL_OPACITY
+	 */
 	private Color pickColor() {
 		Random r = new Random();
 		return new Color(r.nextFloat(), r.nextFloat(), r.nextFloat(), TRAIL_OPACITY);
 	}
 
+	/**
+	 * Draws the trail of the given body.
+	 * 
+	 * @param b
+	 *            the body
+	 * @param scale
+	 *            scale of the simulation
+	 * @param color
+	 *            color of the drail
+	 */
 	private void drawTrail(Body b, double scale, Color color) {
 		int minPointsTodraw = 2;
 		if (b.getTrail().size() < minPointsTodraw) {
@@ -202,12 +254,23 @@ public class RenderScreen extends StackPane {
 			points[i++] = this.calcPosY(p.getY());
 		}
 		/* Stokes the trail on the canvas layer */
-		GraphicsContext gc = this.lMid1.getGraphicsContext2D();
+		GraphicsContext gc = this.lBottom.getGraphicsContext2D();
 		gc.setStroke(color);
 		gc.setLineWidth(TRAIL_WIDTH);
 		gc.strokePolyline(pointsX, pointsY, arraySize);
 	}
 
+	/**
+	 * It computes the image that should be drawn on the screen.
+	 * 
+	 * @param b
+	 *            the body
+	 * @param scaleType
+	 *            rendering scale mode
+	 * @param scale
+	 *            scale of the simulation
+	 * @return the image of the body, properly sized.
+	 */
 	private ImageView getScaledBodyImage(Body b, RenderScale scaleType, double scale) {
 		/* Getting or loading the image */
 		ImageView img = null;
@@ -220,19 +283,19 @@ public class RenderScreen extends StackPane {
 		} catch (IllegalArgumentException ie) {
 			throw new IllegalStateException("body image path can't be found : " + b.getImagePath());
 		}
-		
+
 		/* Scaling to appropriate scale */
 		double diamScaled = MIN_IMAGE_SIZE;
-		switch(scaleType) {
+		switch (scaleType) {
 		case REAL:
 			diamScaled = b.getProperties().getRadius() * 2 * scale;
 			break;
-			
+
 		default:
 			diamScaled = scaleType.getSize(b.getType());
-			break;			
+			break;
 		}
-		
+
 		img.setFitHeight(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
 		img.setFitWidth(diamScaled >= MIN_IMAGE_SIZE ? diamScaled : MIN_IMAGE_SIZE);
 		img.setPreserveRatio(true);
@@ -241,6 +304,14 @@ public class RenderScreen extends StackPane {
 		return img;
 	}
 
+	/**
+	 * Updates scale and translate according to changes.
+	 * 
+	 * @param scale
+	 *            scale of the simulation
+	 * @param translate
+	 *            offset from the center of the screen
+	 */
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
 		if (ViewImpl.getView().isCameraLocked() && ViewImpl.getView().getSelectedBody().isPresent()) {
 			this.currentTranlate = new Pair<>(ViewImpl.getView().getSelectedBody().get().getPosX() * -scale,
@@ -252,33 +323,52 @@ public class RenderScreen extends StackPane {
 		}
 	}
 
+	/**
+	 * Clears the rendering screen, deleting the trails.
+	 */
 	private void clearScreen() {
 		this.lBottom.getGraphicsContext2D().clearRect(0, 0, lBottom.getWidth(), lBottom.getHeight());
-		this.lMid1.getGraphicsContext2D().clearRect(0, 0, lMid1.getWidth(), lMid1.getHeight());
 	}
 
-	private void setLableOnMultiClick(Label lab, Body body) {
+	/**
+	 * Sets the action for a body's label.
+	 * 
+	 * @param lab
+	 *            the body's label
+	 * @param body
+	 */
+	private void setLabelOnMultiClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
 			ViewImpl.getView().setSelectedBody(body);
 			if (e.getClickCount() > 1) {
-				ViewImpl.getView().notifyObservers(SimEvent.LOCK);
+				ViewImpl.getView().notifyObserver(SimEvent.LOCK);
 			}
 		});
 	}
-	
+
+	/**
+	 * ?????? 
+	 * @param lab
+	 * @param body
+	 */
 	private void setLableOnHold(Label lab, Body body) {
-		lab.setonMouse(e -> {
-			System.out.println("SUCAAAAAAAAAAA");
-		});
-		
+		// lab.setonMouse(e -> {
+		// System.out.println("SUCAAAAAAAAAAA");
+		// });
+
 	}
-	
+
+	/**
+	 * ?????
+	 * @param lab
+	 * @param body
+	 */
 	private void setLableOnRelease(Label lab, Body body) {
 		System.out.println("Release1");
-		lab.setOnMouseReleased(e -> {		
+		lab.setOnMouseReleased(e -> {
 			ViewImpl.getView().setSelectedBody(body);
-			ViewImpl.getView().notifyObservers(SimEvent.MOUSE_RELEASED);
+			ViewImpl.getView().notifyObserver(SimEvent.MOUSE_RELEASED);
 		});
-		
+
 	}
 }
