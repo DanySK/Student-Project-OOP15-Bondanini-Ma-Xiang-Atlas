@@ -31,7 +31,7 @@ public class ViewImpl implements View {
 	private Optional<Body> selectedBody = Optional.empty();
 	private boolean lockedCamera = false;
 	private Optional<MouseEvent> lastMouseEvent;
-	private List<Body> bodyList;
+//	private List<Body> bodyList; cosa serve>??
 	private Optional<Pair<Double, Double>> mousePos = Optional.empty();
 
 	private Controller ctrl;
@@ -74,7 +74,6 @@ public class ViewImpl implements View {
 
 	@Override
 	public void render(List<Body> b, String time, int fps) {
-		this.bodyList = b;
 		if (mainScene != null) {
 			Platform.runLater(() -> {
 
@@ -196,7 +195,7 @@ public class ViewImpl implements View {
 
 	@Override
 	public List<Body> getBodies() {
-		return this.bodyList;
+		return null;
 	}
 
 	@Override
