@@ -301,7 +301,8 @@ public class MenuInfo extends MenuHidable {
 	 * Given a text return an optional of the double value. If there's a format
 	 * error, it returns an optional.empty
 	 * 
-	 * @param text source text
+	 * @param text
+	 *            source text
 	 * @return double from the text
 	 */
 	private Optional<Double> getNumber(String text) {
