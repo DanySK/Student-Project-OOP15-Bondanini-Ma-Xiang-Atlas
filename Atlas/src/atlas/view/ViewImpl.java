@@ -15,27 +15,38 @@ import atlas.utils.Units;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Implementation of the view interface, it's the application's GUI.
+ *
+ */
 public class ViewImpl implements View {
 
 	private static View view;
-	// Visualization fields
-	private double scale = 1.4000000000000000E-9;
-	private Pair<Double, Double> translate = new Pair<>(new Double(0), new Double(0));
+
+	// relation between the real size of the solar system and its size on the
+	// screen
+	private double scale;
+	// offset from the center of the screen (in pixel)
+	private Pair<Double, Double> translate = new Pair<>(0.0, 0.0);
+
 	private SceneMain mainScene;
 	private SceneLoading loadingScene;
 
-	// inputs fields
 	private Optional<Body> selectedBody = Optional.empty();
 	private boolean lockedCamera = false;
-	private Optional<MouseEvent> lastMouseEvent;
-//	private List<Body> bodyList; cosa serve>??
 	private Optional<Pair<Double, Double>> mousePos = Optional.empty();
 
 	private Controller ctrl;
 	private Stage stage;
+
+	public static View getView() {
+		if (view == null) {
+			throw new IllegalStateException("View not initialized! ERROR");
+		}
+		return view;
+	}
 
 	public ViewImpl(Controller c, Stage primaryStage) {
 		view = this;
@@ -50,26 +61,6 @@ public class ViewImpl implements View {
 			e.consume();
 		});
 		primaryStage.show();
-	}
-
-	public static View getView() {
-		if (view == null) {
-			throw new IllegalStateException("View not initialized! ERROR");
-		}
-		return view;
-	}
-	
-  public void onClose() {
-		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES,
-				ButtonType.NO);
-		alert.initOwner(this.stage);
-		alert.setTitle("Exit ATLAS");
-		alert.setHeaderText(null);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.YES) {
-			Platform.exit();
-			System.exit(0);
-		}
 	}
 
 	@Override
@@ -88,16 +79,8 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void notifyObservers(SimEvent event) {
+	public void notifyObserver(SimEvent event) {
 		this.ctrl.update(event);
-	}
-
-	@Override
-	public Controller getController() {
-		if (this.ctrl == null) {
-			throw new IllegalStateException();
-		}
-		return this.ctrl;
 	}
 
 	@Override
@@ -123,17 +106,11 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public Optional<MouseEvent> getLastMouseEvent() {
-		return this.lastMouseEvent;
-	}
-
-	@Override
 	public Optional<Pair<Integer, Units>> getSpeedInfo() {
-		CruiseControl c = mainScene.cruise;
 		Pair<Integer, Units> p = null;
 		Pair<String, Units> tmp = this.mainScene.cruise.getSpeed();
 		try {
-			if(!Arrays.asList(Units.values()).contains(tmp.getY())) {
+			if (!Arrays.asList(Units.values()).contains(tmp.getY())) {
 				throw new IllegalArgumentException();
 			}
 			p = new Pair<>(Integer.parseInt(tmp.getX()), tmp.getY());
@@ -147,13 +124,14 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public Optional<Body> getBodyUpdateInfo() {
+	public Optional<Body> getUpdatedBody() {
 		return this.mainScene.infoMenu.extractInfo();
 	}
 
 	@Override
 	public Optional<String> getSaveName() {
-		return InputDialog.getSaveName(this.stage, "Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
+		return InputDialog.getSaveName(this.stage,
+				"Save" + new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss").format(new Date()));
 	}
 
 	@Override
@@ -162,19 +140,23 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void resetViewLayout() {
-		// TODO Auto-generated method stub
-
+	public void setMousePos(Pair<Double, Double> coordinates) {
+		this.mousePos = Optional.of(coordinates);
 	}
 
 	@Override
-	public synchronized void updateReferce(Pair<Double, Double> translate, double scale) {
+	public Pair<Double, Double> getLastMousePos() {
+		return this.mousePos.get();
+	}
+
+	@Override
+	public synchronized void updateReferences(Pair<Double, Double> translate, double scale) {
 		this.scale = scale;
 		this.translate = translate;
 	}
 
 	@Override
-	public Pair<Double, Double> getReference() {
+	public Pair<Double, Double> getTranslate() {
 		return this.translate;
 	}
 
@@ -194,35 +176,24 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public List<Body> getBodies() {
-		return null;
-	}
-
-	@Override
-	public void deleteNextBody() {
-		this.selectedBody = Optional.empty();
-
-	}
-
-	@Override
-	public Pair<Double, Double> getWindow() {
+	public Pair<Double, Double> getRenderScreenOrig() {
 		return new Pair<>(this.mainScene.renderPanel.getWidth() / 2, this.mainScene.renderPanel.getHeight() / 2);
 	}
-	
-	
 
 	@Override
 	public void setFullScreen(boolean full) {
-		this.stage.setFullScreen(full);		
+		this.stage.setFullScreen(full);
 	}
 
-	@Override
-	public void setMousePos(Pair<Double, Double> coordinates) {
-		this.mousePos = Optional.of(coordinates);
-	}
-
-	@Override
-	public Pair<Double, Double> getMousePos() {
-		return this.mousePos.get();
+	public void onClose() {
+		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
+		alert.initOwner(this.stage);
+		alert.setTitle("Exit ATLAS");
+		alert.setHeaderText(null);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			Platform.exit();
+			System.exit(0);
+		}
 	}
 }

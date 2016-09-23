@@ -38,7 +38,6 @@ public class ApplicationLauncher extends Application{
 		Controller c = ControllerImpl.getIstanceOf();
         
         View v = new ViewImpl(c, primaryStage);
-        System.out.println("view = " + v);
         c.setView(v);
         c.startSim();
 	}

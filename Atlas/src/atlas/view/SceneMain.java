@@ -15,6 +15,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * The main scene of the application, it cointains: a CruiseControl, MenuOption,
+ * MenuInfo and RenderScreen.
+ * 
+ * @author MaXX
+ *
+ */
 public class SceneMain extends Scene {
 
 	private static final String FILE_SEP = System.getProperty("file.separator");
@@ -29,6 +36,9 @@ public class SceneMain extends Scene {
 
 	private View view;
 
+	/**
+	 * Construct the main scene and its children nodes.
+	 */
 	public SceneMain() {
 		super(new Pane());
 		this.view = ViewImpl.getView();
@@ -46,59 +56,68 @@ public class SceneMain extends Scene {
 		this.setRoot(root);
 
 		this.setCommands();
-		/* CSS */
+		
+		/* load the CSS style sheet*/
 		File file = new File(RES_DIR + FILE_SEP + "css" + FILE_SEP + "uiStyle.css");
 		URL url = null;
 		try {
 			url = file.toURI().toURL();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.getStylesheets().clear();
 		this.getStylesheets().add(url.toExternalForm());
 	}
 
+	/**
+	 * Convinient method to call all action setup methods.
+	 */
 	private void setCommands() {
 		this.setKeyboardCommands();
 		this.setScrollCommands();
 		this.setMouseCommands();
 	}
 
+	/**
+	 * Sets the action on mouse scroll.
+	 */
 	private void setScrollCommands() {
 		this.renderPanel.setOnScroll(e -> {
 			if (e.getDeltaY() > 0) {
 				this.view.setMousePos(new Pair<Double, Double>(e.getSceneX(), e.getSceneY()));
-				this.view.notifyObservers(SimEvent.MOUSE_WHEEL_UP);
+				this.view.notifyObserver(SimEvent.MOUSE_WHEEL_UP);
 			} else {
 				this.view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
-				this.view.notifyObservers(SimEvent.MOUSE_WHEEL_DOWN);
+				this.view.notifyObserver(SimEvent.MOUSE_WHEEL_DOWN);
 			}
 		});
 	}
 
+	/**
+	 * Sets the keyboard actions.
+	 */
 	private void setKeyboardCommands() {
 		root.setOnKeyPressed(k -> {
 			switch (k.getCode()) {
 			case W:
-				view.notifyObservers(SimEvent.W);
+				view.notifyObserver(SimEvent.W);
 				break;
 			case A:
-				view.notifyObservers(SimEvent.A);
+				view.notifyObserver(SimEvent.A);
 				break;
 			case S:
-				view.notifyObservers(SimEvent.S);
+				view.notifyObserver(SimEvent.S);
 				break;
 			case D:
-				view.notifyObservers(SimEvent.D);
+				view.notifyObserver(SimEvent.D);
 				break;
 
 			case ESCAPE:
-				view.notifyObservers(SimEvent.ESC);
+				view.notifyObserver(SimEvent.ESC);
 				break;
 
 			case SPACE:
-				view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
+				view.notifyObserver(SimEvent.SPACEBAR_PRESSED);
 				break;
 			default:
 				break;
@@ -106,28 +125,38 @@ public class SceneMain extends Scene {
 		});
 	}
 
+	/**
+	 * Sets the mouse actions.
+	 */
 	private void setMouseCommands() {
 		this.renderPanel.setOnMouseClicked(e -> {
-			// MouseEvent lastEv = view.getLastMouseEvent().orElseGet(null);
-			// ????
-			// lastEv = e;MouseEvent lastEv =
-			// view.getLastMouseEvent().orElseGet(null);
-			// lastEv = e;
-			// salvare poszioni in viewImpl, ed eliminarle dopo aver aggiunto il
-			// planet
 			view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
-			view.notifyObservers(SimEvent.MOUSE_CLICKED);
+			view.notifyObserver(SimEvent.MOUSE_CLICKED);
 		});
 
-		this.setOnMouseClicked(e -> {
+		this.renderPanel.setOnMouseClicked(e -> {
 			if (e.getButton() == MouseButton.SECONDARY) {
 				ViewImpl.getView().setSelectedBody(null);
-				ViewImpl.getView().notifyObservers(SimEvent.ESC);
+				ViewImpl.getView().notifyObserver(SimEvent.ESC);
 			}
 		});
 
 	}
 
+	/**
+	 * Draw the bodies by delegating the task to the render screen.
+	 * 
+	 * @param bodies
+	 *            the bodies to be drawn
+	 * @param scale
+	 *            scale of the simulation
+	 * @param translate
+	 *            offset from the center of the screen
+	 * @param time
+	 *            time of the simulation
+	 * @param fps
+	 *            frames per second
+	 */
 	protected void draw(List<Body> bodies, double scale, Pair<Double, Double> translate, String time, int fps) {
 		RenderScale scaleType = this.cruise.viewMenu.getSelectedScale();
 		Set<BodyType> disabledTrail = this.cruise.viewMenu.getDisableTrailTypes();

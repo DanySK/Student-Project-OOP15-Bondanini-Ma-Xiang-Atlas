@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -72,5 +74,14 @@ public class InputDialog {
 		});
 		Optional<String> result = d.showAndWait();
 		return result.isPresent() ? Optional.ofNullable(new File(result.get())) : Optional.empty();
+	}
+	
+	public static void credits(Stage owner) {
+		Alert alt = new Alert(AlertType.INFORMATION);
+		
+		alt.initOwner(owner);
+		alt.setTitle("Credits");
+		
+		alt.showAndWait();
 	}
 }

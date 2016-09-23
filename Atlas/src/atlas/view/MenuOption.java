@@ -16,6 +16,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * This hidable menu contains the main options available to the user such as
+ * load/save and additional settigs for the simulation.
+ * 
+ * @author MaXX
+ *
+ */
 public class MenuOption extends MenuHidable {
 
 	private static final int BORDER = 10;
@@ -41,14 +48,16 @@ public class MenuOption extends MenuHidable {
 
 	private CheckBox nBodyOne = new CheckBox("Brute force - n^2 (most accurate)");
 	private CheckBox nBodyTwo = new CheckBox("Two body - n (no collision)");
-	
+
 	private CheckBox fullScreen = new CheckBox("Full screen mode");
 
-	// private Alert creditsDialog = new Alert(AlertType.INFORMATION);
-
+	/**
+	 * Construct and set a new MenuOption. The root pane is a ScrollPane, which
+	 * contains a VBox which in turn contains a GridPane.
+	 */
 	public MenuOption() {
 		super();
-		
+
 		super.setRight(super.btn);
 		this.container.setContent(root);
 		root.getChildren().add(grid);
@@ -56,9 +65,8 @@ public class MenuOption extends MenuHidable {
 		root.setPadding(in);
 		root.setSpacing(VGAP);
 
-		root.getChildren().addAll(new Separator(), new Label("ADDITIONAL SETTINGS"), fullScreen);	
-		root.getChildren().addAll(new Separator(), new Label("Collision system: "), collisionOne,
-				collisionTwo);
+		root.getChildren().addAll(new Separator(), new Label("ADDITIONAL SETTINGS"), fullScreen);
+		root.getChildren().addAll(new Separator(), new Label("Collision system: "), collisionOne, collisionTwo);
 		root.getChildren().addAll(new Separator(), new Label("N-Body algorithm: "), nBodyOne, nBodyTwo);
 
 		this.logo = new ImageView(SceneLoading.LOGO.getImage());
@@ -66,52 +74,21 @@ public class MenuOption extends MenuHidable {
 		logo.setFitHeight(LOGO_HEIGHT);
 		logo.setFitWidth(LOGO_WIDTH);
 
-		this.setupGrid();
-
-		// actions
-		View view = ViewImpl.getView();
-		this.newSim.setOnAction(e -> view.notifyObservers(SimEvent.NEW_SIM));
-		this.save.setOnAction(e -> view.notifyObservers(SimEvent.SAVE_SIM));
-		this.load.setOnAction(e -> view.notifyObservers(SimEvent.LOAD));
-		this.exit.setOnAction(e -> view.notifyObservers(SimEvent.EXIT));
-		
-		this.fullScreen.setOnAction(e -> {
-			view.setFullScreen(fullScreen.isSelected());
-		});
-
-		this.collisionOne.setOnAction(e -> {
-			view.notifyObservers(SimEvent.COLLISION_ONE);
-			collisionOne.setSelected(true);
-			collisionTwo.setSelected(false);
-		});
-		this.collisionTwo.setOnAction(e -> {
-			view.notifyObservers(SimEvent.COLLISION_TWO);
-			collisionOne.setSelected(false);
-			collisionTwo.setSelected(true);
-		});
-		this.nBodyOne.setOnAction(e -> {
-			view.notifyObservers(SimEvent.NBODY_ONE);
-			collisionOne.setDisable(false);
-			collisionTwo.setDisable(false);
-			nBodyOne.setSelected(true);
-			nBodyTwo.setSelected(false);
-		});
-		this.nBodyTwo.setOnAction(e -> {
-			view.notifyObservers(SimEvent.NBODY_TWO);
-			collisionOne.setDisable(true);
-			collisionTwo.setDisable(true);
-			nBodyOne.setSelected(false);
-			nBodyTwo.setSelected(true);
-		});
-
 		collisionOne.setSelected(true);
 		nBodyOne.setSelected(true);
+		
+		this.setupGrid();
+		this.setActions();
 	}
-	int count = 0;
+
+	@Override
 	public void showContent() {
 		this.setCenter(container);
 	}
 
+	/**
+	 * Sets the grid pane
+	 */
 	private void setupGrid() {
 		grid.setVgap(VGAP);
 		grid.setHgap(HGAP);
@@ -122,18 +99,18 @@ public class MenuOption extends MenuHidable {
 			i.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 			GridPane.setHalignment(i, HPos.CENTER);
 		});
-		
+
 		Arrays.asList(this.newSim, this.save, this.load, this.credits, this.exit).forEach(i -> {
 			i.setId("provaBtn");
 		});
-		
+
 		for (int r = 0, i = 0; i < nodes.size(); r++, i++) {
 			GridPane.setConstraints(nodes.get(i), 0, r);
 			if (r != 0 && ++i < nodes.size()) {
 				GridPane.setConstraints(nodes.get(i), 1, r);
 			}
 		}
-		
+
 		GridPane.setColumnSpan(logo, 2);
 		GridPane.setHalignment(logo, HPos.CENTER);
 
@@ -143,6 +120,47 @@ public class MenuOption extends MenuHidable {
 		grid.getColumnConstraints().addAll(col);
 
 		grid.getChildren().addAll(this.logo, this.newSim, this.save, this.load, this.credits, this.exit);
+	}
+	
+	/**
+	 * Sets the actions.
+	 */
+	private void setActions() {
+		View view = ViewImpl.getView();
+		this.newSim.setOnAction(e -> view.notifyObserver(SimEvent.NEW_SIM));
+		this.save.setOnAction(e -> view.notifyObserver(SimEvent.SAVE_SIM));
+		this.load.setOnAction(e -> view.notifyObserver(SimEvent.LOAD));
+		this.exit.setOnAction(e -> view.notifyObserver(SimEvent.EXIT));
+		// this.credits.setOnAction(e -> InputDialog.credits());
+
+		this.fullScreen.setOnAction(e -> {
+			view.setFullScreen(fullScreen.isSelected());
+		});
+
+		this.collisionOne.setOnAction(e -> {
+			view.notifyObserver(SimEvent.COLLISION_ONE);
+			collisionOne.setSelected(true);
+			collisionTwo.setSelected(false);
+		});
+		this.collisionTwo.setOnAction(e -> {
+			view.notifyObserver(SimEvent.COLLISION_TWO);
+			collisionOne.setSelected(false);
+			collisionTwo.setSelected(true);
+		});
+		this.nBodyOne.setOnAction(e -> {
+			view.notifyObserver(SimEvent.NBODY_ONE);
+			collisionOne.setDisable(false);
+			collisionTwo.setDisable(false);
+			nBodyOne.setSelected(true);
+			nBodyTwo.setSelected(false);
+		});
+		this.nBodyTwo.setOnAction(e -> {
+			view.notifyObserver(SimEvent.NBODY_TWO);
+			collisionOne.setDisable(true);
+			collisionTwo.setDisable(true);
+			nBodyOne.setSelected(false);
+			nBodyTwo.setSelected(true);
+		});
 	}
 
 }

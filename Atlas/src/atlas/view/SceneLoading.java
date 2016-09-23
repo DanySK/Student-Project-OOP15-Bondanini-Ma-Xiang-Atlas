@@ -11,16 +11,28 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class SceneLoading extends Scene{
-	
+/**
+ * The initial scene when the program is launched but the renderer is not ready
+ * yet.
+ * 
+ * @author MaXX
+ *
+ */
+public class SceneLoading extends Scene {
+
+	/**
+	 * ATLAS logo.
+	 */
 	protected final static ImageView LOGO = new ImageView(new Image("/images/" + "logo.png"));
-	protected final static String BACKGROUND = "/images/" + "star.png";
 	final static int FONT_SIZE = 16;
-	
+
 	private BorderPane root = new BorderPane();
-//	private ProgressBar progress = new ProgressBar(0.6);
+	// private ProgressBar progress = new ProgressBar(0.6);
 	private VBox bottom = new VBox();
-	
+
+	/**
+	 * Construct a loading scene.
+	 */
 	public SceneLoading() {
 		super(new Pane());
 		root.setStyle("-fx-background-color: black;");
@@ -30,11 +42,11 @@ public class SceneLoading extends Scene{
 		loadingText.setFont(Font.font(FONT_SIZE));
 		root.setBottom(bottom);
 		BorderPane.setAlignment(bottom, Pos.CENTER);
-		
+
 		bottom.setAlignment(Pos.CENTER);
 		bottom.getChildren().addAll(loadingText);
 
 		this.setRoot(root);
 	}
-	
+
 }

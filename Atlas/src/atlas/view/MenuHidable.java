@@ -15,7 +15,7 @@ public abstract class MenuHidable extends BorderPane {
 	protected Button btn;
 
 	/**
-	 * 
+	 * Constructor for a generic hidable menu.
 	 */
 	public MenuHidable() {
 		/* Set all children's style in the css file */

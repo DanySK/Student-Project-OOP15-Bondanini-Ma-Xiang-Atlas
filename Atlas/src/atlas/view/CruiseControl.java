@@ -115,7 +115,7 @@ public class CruiseControl extends BorderPane {
 			public void handle(ActionEvent e) {
 				switchPlayStop();
 				if (e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
-					CruiseControl.this.view.notifyObservers(SimEvent.SPACEBAR_PRESSED);
+					CruiseControl.this.view.notifyObserver(SimEvent.SPACEBAR_PRESSED);
 				} else {
 					new IllegalAccessException("Button unknow(not play nor stop)");
 				}
@@ -125,18 +125,18 @@ public class CruiseControl extends BorderPane {
 		this.buttonPlay.setOnAction(stopPlayHandler);
 		this.buttonStop.setOnAction(stopPlayHandler);
 
-		this.buttonAdd.setOnAction(e -> ViewImpl.getView().notifyObservers(SimEvent.ADD));
+		this.buttonAdd.setOnAction(e -> ViewImpl.getView().notifyObserver(SimEvent.ADD));
 
-		this.buttonCenter.setOnAction(e -> ViewImpl.getView().notifyObservers(SimEvent.CENTER));
+		this.buttonCenter.setOnAction(e -> ViewImpl.getView().notifyObserver(SimEvent.CENTER));
 
 		this.buttonSpeed.setOnAction(e -> {
-			view.notifyObservers(SimEvent.SPEED_CHANGED);
+			view.notifyObserver(SimEvent.SPEED_CHANGED);
 			this.textSpeed.setText("");
 		});
 
 		this.buttonESC.setOnAction(e -> {
 			ViewImpl.getView().setSelectedBody(null);
-			this.view.notifyObservers(SimEvent.ESC);
+			this.view.notifyObserver(SimEvent.ESC);
 		});
 	}
 }

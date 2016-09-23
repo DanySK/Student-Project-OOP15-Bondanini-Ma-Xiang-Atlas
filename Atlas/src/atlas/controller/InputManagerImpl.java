@@ -84,10 +84,10 @@ public class InputManagerImpl implements InputManager {
 				throw new IllegalStateException("Body to add is not present!");
 			}
 			this.bodyToAdd.get()
-					.setPosX((this.view.getMousePos().getX() - this.view.getWindow().getX() - this.reference.getX())
+					.setPosX((this.view.getLastMousePos().getX() - this.view.getRenderScreenOrig().getX() - this.reference.getX())
 							/ this.scale);
 			this.bodyToAdd.get()
-					.setPosY((this.view.getMousePos().getY() - this.view.getWindow().getY() - this.reference.getY())
+					.setPosY((this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY() - this.reference.getY())
 							/ -this.scale);
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
 		}
@@ -119,7 +119,7 @@ public class InputManagerImpl implements InputManager {
 	@Override
 	public void ESC() {
 		if (this.status.equals(Status.ADDING)) {
-			this.view.deleteNextBody();
+			this.view.setSelectedBody(null);
 		}
 		this.status = Status.DEFAULT;
 	}
@@ -131,9 +131,9 @@ public class InputManagerImpl implements InputManager {
 		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
 		}
-		this.reference = new Pair<>((this.view.getMousePos().getX() - this.view.getWindow().getX()) * -1,
-				(this.view.getMousePos().getY() - this.view.getWindow().getY()) * -1);
-		this.view.updateReferce(this.reference, this.scale);
+		this.reference = new Pair<>((this.view.getLastMousePos().getX() - this.view.getRenderScreenOrig().getX()) * -1,
+				(this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY()) * -1);
+		this.view.updateReferences(this.reference, this.scale);
 
 	}
 
@@ -143,35 +143,35 @@ public class InputManagerImpl implements InputManager {
 		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
 		}
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 
 	}
 
 	@Override
 	public void wSlide() {
 		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
 	}
 
 	@Override
 	public void sSlide() {
 		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
 	}
 
 	@Override
 	public void aSlide() {
 		this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
 	}
 
 	@Override
 	public void dSlide() {
 		this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
 
 	}
@@ -314,7 +314,7 @@ public class InputManagerImpl implements InputManager {
 	public void initialReference() {
 		this.model.getBodiesToRender().stream().max((a, b) -> (int) (a.getMass() - b.getMass()))
 				.ifPresent(i -> this.reference = new Pair<>(i.getPosX() * -scale, i.getPosY() * scale));
-		this.view.updateReferce(this.reference, this.scale);
+		this.view.updateReferences(this.reference, this.scale);
 	}
 
 	private void setDefault() {

@@ -61,7 +61,7 @@ public class ControllerImpl implements Controller {
     public void setView(View v) {
         this.view = v;
         this.gLoop.setView(v);
-        this.inputManager = new InputManagerImpl(this.view, this.model, this.gLoop, this.view.getReference());
+        this.inputManager = new InputManagerImpl(this.view, this.model, this.gLoop, this.view.getTranslate());
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ControllerImpl implements Controller {
             
         case UPDATE_BODY:
         	synchronized(model.getBodiesToRender()) {
-        		ViewImpl.getView().getSelectedBody().ifPresent(i -> i.updateInfo(ViewImpl.getView().getBodyUpdateInfo().get()));
+        		ViewImpl.getView().getSelectedBody().ifPresent(i -> i.updateInfo(ViewImpl.getView().getUpdatedBody().get()));
         	}
         	break;
 
