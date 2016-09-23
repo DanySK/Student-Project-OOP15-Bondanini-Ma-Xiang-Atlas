@@ -55,8 +55,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exit() {
-    	ViewImpl.getView().onClose();
-//        gLoop.setExit();    
+    	ViewImpl.getView().onClose();   
     }
 
     public void setView(View v) {
@@ -167,7 +166,6 @@ public class ControllerImpl implements Controller {
             break;
 
         case ESC:
-//            this.inputManager.ESC();
         	ViewImpl.getView().setCameraLocked(false);
             break;
 
