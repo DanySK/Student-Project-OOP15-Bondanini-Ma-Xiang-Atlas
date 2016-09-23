@@ -150,11 +150,14 @@ public class ControllerImpl implements Controller {
             break;
 
         case MOUSE_PRESSED:
-            this.inputManager.mousePressed();
+        	System.out.println("2");
+        	this.inputManager.changeStatus(Status.EDIT);
+            this.inputManager.mousePressed();           
             break;
 
         case MOUSE_RELEASED:
             this.inputManager.mouseReleased();
+            this.inputManager.changeStatus(Status.DEFAULT);
             break;
 
         case MOUSE_WHEEL_UP:

@@ -104,11 +104,16 @@ public class InputManagerImpl implements InputManager {
 
 	@Override
 	public void mousePressed() {
+		if(this.status.equals(Status.EDIT)) {
+			this.threadDrag = new DragPositions(scale, this.reference);
+			this.threadDrag.start();
+		}
 
 	}
 
 	@Override
 	public void mouseReleased() {
+		this.threadDrag.stopEdit();
 	}
 
 	@Override
