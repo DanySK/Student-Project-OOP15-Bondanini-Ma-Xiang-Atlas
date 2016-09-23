@@ -20,7 +20,7 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
     private final static int FPS = 50;
     private final static int SKIP_TICKS = 1000 / FPS;
     private final static int MAX_FRAMESKIP = 10;
-    private volatile int loop;
+    private int loop;
     private long next_game_tick;
     private StatusSim status;
     private Model model;

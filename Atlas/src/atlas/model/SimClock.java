@@ -19,8 +19,8 @@ public class SimClock implements java.io.Serializable {
 
 	private Counter time;
 	private Long epochOffset = null;
-	private static SimpleDateFormat DATE_FOR = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	private static DecimalFormat DEC_FOR = new DecimalFormat(".##");
+	private final SimpleDateFormat DATE_FOR = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	private final DecimalFormat DEC_FOR = new DecimalFormat(".##");
 
 	/**
 	 * Default clock don't have a date, just a time counter.
