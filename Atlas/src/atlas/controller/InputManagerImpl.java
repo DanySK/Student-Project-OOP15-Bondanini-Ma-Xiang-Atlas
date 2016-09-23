@@ -126,6 +126,8 @@ public class InputManagerImpl implements InputManager {
 		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
 		}
+		this.reference = new Pair<>((this.view.getMousePos().getX() - this.view.getWindow().getX()) * -1,
+				(this.view.getMousePos().getY() - this.view.getWindow().getY()) * -1);
 		this.view.updateReferce(this.reference, this.scale);
 
 	}
