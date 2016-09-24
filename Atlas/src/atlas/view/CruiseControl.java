@@ -40,8 +40,8 @@ public class CruiseControl extends BorderPane {
 	private HBox left = new HBox();
 	private HBox center = new HBox();
 	private HBox right = new HBox();
-
-	private View view;
+	
+	private View view = ViewImpl.getView();
 
 	/**
 	 * Constructor of the class.
@@ -49,7 +49,6 @@ public class CruiseControl extends BorderPane {
 	public CruiseControl() {
 		this.setId("cruise");
 
-		this.view = ViewImpl.getView();
 		left.getChildren().add(0, buttonStop);
 		left.getChildren().add(1, labelTime);
 		left.setAlignment(Pos.CENTER);
@@ -115,7 +114,7 @@ public class CruiseControl extends BorderPane {
 			public void handle(ActionEvent e) {
 				switchPlayStop();
 				if (e.getSource().equals(buttonPlay) || e.getSource().equals(buttonStop)) {
-					CruiseControl.this.view.notifyObserver(SimEvent.SPACEBAR_PRESSED);
+					view.notifyObserver(SimEvent.SPACEBAR_PRESSED);
 				} else {
 					new IllegalAccessException("Button unknow(not play nor stop)");
 				}
@@ -125,9 +124,9 @@ public class CruiseControl extends BorderPane {
 		this.buttonPlay.setOnAction(stopPlayHandler);
 		this.buttonStop.setOnAction(stopPlayHandler);
 
-		this.buttonAdd.setOnAction(e -> ViewImpl.getView().notifyObserver(SimEvent.ADD));
+		this.buttonAdd.setOnAction(e -> view.notifyObserver(SimEvent.ADD));
 
-		this.buttonCenter.setOnAction(e -> ViewImpl.getView().notifyObserver(SimEvent.CENTER));
+		this.buttonCenter.setOnAction(e -> view.notifyObserver(SimEvent.CENTER));
 
 		this.buttonSpeed.setOnAction(e -> {
 			view.notifyObserver(SimEvent.SPEED_CHANGED);
@@ -136,7 +135,7 @@ public class CruiseControl extends BorderPane {
 
 		this.buttonESC.setOnAction(e -> {
 			ViewImpl.getView().setSelectedBody(null);
-			this.view.notifyObserver(SimEvent.ESC);
+			view.notifyObserver(SimEvent.ESC);
 		});
 	}
 }

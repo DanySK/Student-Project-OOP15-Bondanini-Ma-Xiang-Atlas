@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * This hidable menu contains the main options available to the user such as
- * load/save and additional settigs for the simulation.
+ * load/save and additional settings for the simulation.
  * 
  * @author MaXX
  *
@@ -50,6 +50,8 @@ public class MenuOption extends MenuHidable {
 	private CheckBox nBodyTwo = new CheckBox("Two body - n (no collision)");
 
 	private CheckBox fullScreen = new CheckBox("Full screen mode");
+	
+	private View view = ViewImpl.getView();
 
 	/**
 	 * Construct and set a new MenuOption. The root pane is a ScrollPane, which
@@ -126,7 +128,6 @@ public class MenuOption extends MenuHidable {
 	 * Sets the actions.
 	 */
 	private void setActions() {
-		View view = ViewImpl.getView();
 		this.newSim.setOnAction(e -> view.notifyObserver(SimEvent.NEW_SIM));
 		this.save.setOnAction(e -> view.notifyObserver(SimEvent.SAVE_SIM));
 		this.load.setOnAction(e -> view.notifyObserver(SimEvent.LOAD));

@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 /**
- * The main scene of the application, it cointains: a CruiseControl, MenuOption,
+ * The main scene of the application, it contains: a CruiseControl, MenuOption,
  * MenuInfo and RenderScreen.
  * 
  * @author MaXX
@@ -27,12 +27,11 @@ public class SceneMain extends Scene {
 	private static final String FILE_SEP = System.getProperty("file.separator");
 	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
 
-	protected BorderPane root = new BorderPane();
-	protected CruiseControl cruise;
-	protected RenderScreen renderPanel;
-	protected MenuOption optionMenu;
-	protected MenuInfo infoMenu;
-	protected Image background;
+	private BorderPane root = new BorderPane();
+	CruiseControl cruise;
+	MenuInfo infoMenu;
+	RenderScreen renderPanel;
+	MenuOption optionMenu;
 
 	private View view;
 
@@ -70,7 +69,7 @@ public class SceneMain extends Scene {
 	}
 
 	/**
-	 * Convinient method to call all action setup methods.
+	 * Convenient method to call all action setup methods.
 	 */
 	private void setCommands() {
 		this.setKeyboardCommands();

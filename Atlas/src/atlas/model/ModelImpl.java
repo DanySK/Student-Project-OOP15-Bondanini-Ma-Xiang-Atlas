@@ -18,7 +18,7 @@ public class ModelImpl implements Model, java.io.Serializable {
 
 	private static final long serialVersionUID = 1670664173059452174L;
 	private Algorithm alg;
-	private ArrayList<Body> bodies = new ArrayList<>();
+	private List<Body> bodies = new ArrayList<>();
 	private SimClock clock = new SimClock();
 
 	@Override
@@ -83,7 +83,7 @@ public class ModelImpl implements Model, java.io.Serializable {
 		this.alg.setCollisionStrategy(collision);
 	}
 
-	/*
+	/**
 	 * Calculates the circural velocity in a circular orbit, formula: v = sqrt(
 	 * (G*M) / R )
 	 */
