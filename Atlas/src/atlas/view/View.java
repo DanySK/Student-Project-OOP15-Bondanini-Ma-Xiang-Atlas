@@ -11,7 +11,7 @@ import atlas.utils.Units;
 
 /**
  * This interface defines the main methods that a view must have in order to
- * comunicate with other classes.
+ * communicate with other classes.
  * 
  * @author MaXX
  *
@@ -120,7 +120,7 @@ public interface View {
 	 *            name of the action button
 	 * @param files
 	 *            the files organized as multiple folders, each with its files
-	 * @return the choosen file
+	 * @return the chosen file
 	 */
 	public Optional<File> getLoadFile(String title, String action, Map<File, List<File>> files);
 

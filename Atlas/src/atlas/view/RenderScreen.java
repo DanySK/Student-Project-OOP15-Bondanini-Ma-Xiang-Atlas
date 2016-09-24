@@ -233,7 +233,7 @@ public class RenderScreen extends StackPane {
 	 * @param scale
 	 *            scale of the simulation
 	 * @param color
-	 *            color of the drail
+	 *            color of the trail
 	 */
 	private void drawTrail(Body b, double scale, Color color) {
 		int minPointsTodraw = 2;
