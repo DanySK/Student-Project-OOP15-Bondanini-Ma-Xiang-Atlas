@@ -257,9 +257,9 @@ public interface Body {
          * @param rotationAngle
          *            the current angle of the rotation
          * @param orbitalPeriod
-         *            the time it takes to orbitl around its parent
+         *            the time it takes to orbit around its parent
          * @param parent
-         *            the parente (body) of this body
+         *            the parent (body) of this body
          * @param temperature
          *            temperature of the body in kelvin
          */
@@ -278,9 +278,9 @@ public interface Body {
          *            the time it takes for the body make to rotate 360 deg on
          *            its axis.
          * @param orbitalPeriod
-         *            the time it takes to orbitl around its parent
+         *            the time it takes to orbit around its parent
          * @param parent
-         *            the parente (body) of this body
+         *            the parent (body) of this body
          * @param temperature
          *            temperature of the body in kelvin
          */

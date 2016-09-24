@@ -331,7 +331,7 @@ public class BodyImpl implements Body, java.io.Serializable {
         }
 
         /**
-         * Contruct the body. If type or mass is not initialized, it throws an
+         * Construct the body. If type or mass is not initialized, it throws an
          * IllegalStateException.
          * 
          * @return the constructed body

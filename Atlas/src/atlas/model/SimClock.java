@@ -87,7 +87,7 @@ public class SimClock implements java.io.Serializable {
 	}
 
 	/**
-	 * Returns the date in the corrent String format.
+	 * Returns the date in the current String format.
 	 */
 	public String toString() {
 		if (this.getEpoch().isPresent()) {
