@@ -61,9 +61,11 @@ public class MenuInfo extends MenuHidable {
 	private Pair<Label, TextField> orbParent;
 
 	private Body currentBody;
+	
+	private View view = ViewImpl.getView();
 
 	/**
-	 * Only empty contructor available.
+	 * Only empty constructor available.
 	 */
 	public MenuInfo() {
 		super();
@@ -127,7 +129,7 @@ public class MenuInfo extends MenuHidable {
 	 * @return the updated body
 	 */
 	public Optional<Body> extractInfo() {
-		if (ViewImpl.getView().getSelectedBody().isPresent()) {
+		if (view.getSelectedBody().isPresent()) {
 			if (name.getY().getText().length() >= 1) {
 				this.currentBody.setName(name.getY().getText());
 			}
@@ -287,12 +289,12 @@ public class MenuInfo extends MenuHidable {
 	 */
 	private void setButtonAction() {
 		this.saveBtn.setOnAction(e -> {
-			ViewImpl.getView().notifyObserver(SimEvent.SAVE_BODY);
+			view.notifyObserver(SimEvent.SAVE_BODY);
 		});
 		;
 
 		this.updateBtn.setOnAction(e -> {
-			ViewImpl.getView().notifyObserver(SimEvent.UPDATE_BODY);
+			view.notifyObserver(SimEvent.UPDATE_BODY);
 			this.resetAllTextField();
 		});
 	}

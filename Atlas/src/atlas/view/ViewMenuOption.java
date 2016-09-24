@@ -30,7 +30,7 @@ public class ViewMenuOption extends MenuBar {
 	private Set<BodyType> selectedTypes = new HashSet<>();
 
 	/**
-	 * Contruct the menu bar.
+	 * Construct the menu bar.
 	 */
 	public ViewMenuOption() {
 

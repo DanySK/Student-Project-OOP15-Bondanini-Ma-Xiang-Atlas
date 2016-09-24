@@ -1,6 +1,7 @@
 package atlas.model.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import atlas.model.Body;
 
@@ -25,7 +26,7 @@ public abstract class Algorithm implements java.io.Serializable {
 	 *            time step of the update
 	 * @return the updated bodies
 	 */
-	public abstract ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec);
+	public abstract List<Body> exceuteUpdate(List<Body> bodies, double sec);
 
 	/**
 	 * 

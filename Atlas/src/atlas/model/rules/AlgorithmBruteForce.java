@@ -1,6 +1,7 @@
 package atlas.model.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import atlas.model.Body;
 
@@ -31,7 +32,7 @@ public class AlgorithmBruteForce extends Algorithm {
 	}
 
 	@Override
-	public ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec) {
+	public List<Body> exceuteUpdate(List<Body> bodies, double sec) {
 		// 2 loops --> N^2 complexity
 		ArrayList<Body> copy = new ArrayList<>(bodies);
 		for (Body b : copy) {

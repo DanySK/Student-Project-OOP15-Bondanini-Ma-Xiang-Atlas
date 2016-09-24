@@ -52,6 +52,8 @@ public class RenderScreen extends StackPane {
 
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
+	
+	private View view = ViewImpl.getView();
 
 	/**
 	 * Constructor
@@ -313,9 +315,9 @@ public class RenderScreen extends StackPane {
 	 *            offset from the center of the screen
 	 */
 	private void adjustScreen(double scale, Pair<Double, Double> translate) {
-		if (ViewImpl.getView().isCameraLocked() && ViewImpl.getView().getSelectedBody().isPresent()) {
-			this.currentTranlate = new Pair<>(ViewImpl.getView().getSelectedBody().get().getPosX() * -scale,
-					ViewImpl.getView().getSelectedBody().get().getPosY() * scale);
+		if (view.isCameraLocked() && view.getSelectedBody().isPresent()) {
+			this.currentTranlate = new Pair<>(view.getSelectedBody().get().getPosX() * -scale,
+					view.getSelectedBody().get().getPosY() * scale);
 			this.currentScale = scale;
 		} else if (this.currentScale != scale || !translate.equals(currentTranlate)) {
 			this.currentScale = scale;
@@ -339,9 +341,9 @@ public class RenderScreen extends StackPane {
 	 */
 	private void setLabelOnMultiClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
-			ViewImpl.getView().setSelectedBody(body);
+			view.setSelectedBody(body);
 			if (e.getClickCount() > 1) {
-				ViewImpl.getView().notifyObserver(SimEvent.LOCK);
+				view.notifyObserver(SimEvent.LOCK);
 			}
 		});
 	}
@@ -366,8 +368,8 @@ public class RenderScreen extends StackPane {
 	private void setLableOnRelease(Label lab, Body body) {
 		System.out.println("Release1");
 		lab.setOnMouseReleased(e -> {
-			ViewImpl.getView().setSelectedBody(body);
-			ViewImpl.getView().notifyObserver(SimEvent.MOUSE_RELEASED);
+			view.setSelectedBody(body);
+			view.notifyObserver(SimEvent.MOUSE_RELEASED);
 		});
 
 	}

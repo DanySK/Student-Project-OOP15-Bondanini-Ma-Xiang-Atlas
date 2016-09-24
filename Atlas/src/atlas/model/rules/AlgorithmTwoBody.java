@@ -1,6 +1,5 @@
 package atlas.model.rules;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public class AlgorithmTwoBody extends Algorithm {
 	private static final int BODIES_TO_CONSIDER = 5;
 
 	@Override
-	public ArrayList<Body> exceuteUpdate(ArrayList<Body> bodies, double sec) {
+	public List<Body> exceuteUpdate(List<Body> bodies, double sec) {
 		// select largest body of the first one
 		List<Body> ordered = bodies.stream().sorted((i, j) -> (int) (j.getMass() - i.getMass()))
 				.collect(Collectors.toList());
