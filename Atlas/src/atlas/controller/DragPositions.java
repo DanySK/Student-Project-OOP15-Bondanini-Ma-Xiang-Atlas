@@ -26,7 +26,6 @@ public class DragPositions extends Thread {
 
     public void run() {
         while (bool) {
-        	System.out.println("DragLoop");
             double actualScale = this.scale;
             long last = System.currentTimeMillis();
             while (System.currentTimeMillis() - last < step) {
