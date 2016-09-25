@@ -181,7 +181,6 @@ public class RenderScreen extends StackPane {
 
 		// remove all non used bodies
 		this.secondChanceMap.entrySet().stream().filter(i -> !i.getValue()).forEach(i -> {
-			System.out.println("Removing " + i.getKey());
 			// remove image
 			this.lMid.getChildren().remove(bMap.get(i.getKey()).getX().getX());
 			// remove label

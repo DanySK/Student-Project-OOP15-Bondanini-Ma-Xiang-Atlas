@@ -45,7 +45,6 @@ public class ViewMenuOption extends MenuBar {
 			}
 			item.setOnAction(a -> {
 				this.selectedScale = s;
-				System.out.println(s);
 			});
 		}
 
@@ -61,7 +60,6 @@ public class ViewMenuOption extends MenuBar {
 			this.trailItems.forEach(i -> {
 				i.setSelected(false);
 			});
-			System.out.println(selectedTypes);
 		});
 
 		/* Setting specific body types items */
@@ -80,7 +78,6 @@ public class ViewMenuOption extends MenuBar {
 					selectedTypes.add(bt);
 				}
 				trailAll.setSelected(false);
-				System.out.println(selectedTypes);
 			});
 		}
 

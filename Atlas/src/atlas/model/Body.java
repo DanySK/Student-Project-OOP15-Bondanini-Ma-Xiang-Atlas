@@ -11,11 +11,7 @@ import atlas.utils.Pair;
  */
 public interface Body {
 
-    public static final String IMAGE_FOLDER =
-            // System.getProperty("user.dir") +
-            // System.getProperty("file.separator")
-            // + "res" +
-            System.getProperty("file.separator") + "planet_images" + System.getProperty("file.separator");
+    public static final String IMAGE_FOLDER = "bodies_images" + System.getProperty("file.separator");
 
     /**
      * 

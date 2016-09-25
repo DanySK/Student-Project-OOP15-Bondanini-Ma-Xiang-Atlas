@@ -90,7 +90,6 @@ public class ViewImpl implements View {
 
 	@Override
 	public void setSelectedBody(Body body) { // ToChangeName
-		System.out.println("Step 2 nextbody toadd");
 		this.selectedBody = Optional.ofNullable(body);
 
 	}

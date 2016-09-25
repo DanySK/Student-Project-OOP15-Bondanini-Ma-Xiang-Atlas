@@ -1,14 +1,12 @@
 package atlas.view;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
 import atlas.model.Body;
 import atlas.model.BodyType;
 import atlas.utils.Pair;
+import atlas.utils.ResourceLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
@@ -22,9 +20,6 @@ import javafx.scene.layout.Pane;
  *
  */
 public class SceneMain extends Scene {
-
-	private static final String FILE_SEP = System.getProperty("file.separator");
-	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
 
 	private BorderPane root = new BorderPane();
 	CruiseControl cruise;
@@ -56,15 +51,8 @@ public class SceneMain extends Scene {
 		this.setCommands();
 		
 		/* load the CSS style sheet*/
-		File file = new File(RES_DIR + FILE_SEP + "css" + FILE_SEP + "uiStyle.css");
-		URL url = null;
-		try {
-			url = file.toURI().toURL();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
 		this.getStylesheets().clear();
-		this.getStylesheets().add(url.toExternalForm());
+		this.getStylesheets().add(ResourceLoader.loadAsURL("UIStyle.css").toExternalForm());
 	}
 
 	/**
