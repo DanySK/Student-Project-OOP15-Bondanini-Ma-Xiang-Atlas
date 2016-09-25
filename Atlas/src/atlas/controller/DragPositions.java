@@ -3,7 +3,6 @@ package atlas.controller;
 import java.awt.MouseInfo;
 import java.util.NoSuchElementException;
 
-import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.view.ViewImpl;
 

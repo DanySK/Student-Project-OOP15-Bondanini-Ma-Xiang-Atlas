@@ -341,10 +341,8 @@ public class RenderScreen extends StackPane {
 		lab.setOnMouseClicked(e -> {
 			ViewImpl.getView().setSelectedBody(body);
 			if (e.getClickCount() > 1) {
-				System.out.println("Premuto più volte.");
 				ViewImpl.getView().notifyObserver(SimEvent.LOCK);
 			} else {
-				System.out.println("Premuto solo una");
 			}
 		});
 	}

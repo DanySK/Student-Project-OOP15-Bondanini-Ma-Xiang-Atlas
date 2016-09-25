@@ -1,6 +1,5 @@
 package atlas.controller;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Optional;
 
