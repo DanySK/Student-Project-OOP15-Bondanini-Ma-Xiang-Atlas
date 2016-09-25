@@ -183,7 +183,13 @@ public class ViewImpl implements View {
 	public void setFullScreen(boolean full) {
 		this.stage.setFullScreen(full);
 	}
+	
+	@Override
+	public void showCredits() {
+		InputDialog.credits(stage);		
+	}
 
+	@Override
 	public void onClose() {
 		Alert alert = new Alert(Alert.AlertType.WARNING, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
 		alert.initOwner(this.stage);

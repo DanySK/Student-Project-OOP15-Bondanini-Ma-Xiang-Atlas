@@ -17,40 +17,19 @@ import atlas.utils.Pair;
 public class ModelImpl implements Model, java.io.Serializable {
 
 	private static final long serialVersionUID = 1670664173059452174L;
-	private Algorithm alg;
+	private Algorithm alg = new AlgorithmBruteForce(new CollisionStrategyFragments());
 	private List<Body> bodies = new ArrayList<>();
 	private SimClock clock = new SimClock();
 
-	@Override
-	public String toString() {
-		return "ModelImpl [ clock=" + clock + "bodies=" + bodies + "]";
-	}
+	/**
+	 * Construct an empty Model.
+	 */
+	public ModelImpl() {}
 
-	public ModelImpl() {
-
-		this.alg = new AlgorithmBruteForce(new CollisionStrategyFragments(50));
-
-//		 double radius =
-//		 EpochJ2000.SUN.getBody().getProperties().getRadius()*2;
-//
-//		 Body x = EpochJ2000.URANUS.getBody();
-//		 Body y = EpochJ2000.VENUS.getBody();
-//		
-//		 this.bodies.addAll(Arrays.asList(x,y));
-//		
-//		 x.setPosX(5e3);
-//		 x.setPosY(5e3);
-//		 x.getProperties().setRadius(radius*3);
-//		 x.setVelocity(new Pair<Double,Double>(new Double(0), new Double(0)));
-//		 x.getProperties().setRotationPeriod(60000000L);;
-//		
-//		 y.setPosY(5e3);
-//		 y.setPosX(y.getPosX()/3);
-//		 y.getProperties().setRadius(radius);
-//		 y.setVelocity(new Pair<Double,Double>(new Double(5000), new
-//		 Double(0)));
-	}
-
+	/**
+	 * Construct a model of EpochJ2000
+	 * @param epoch
+	 */
 	public ModelImpl(EpochJ2000[] epoch) {
 		this();
 		this.clock.setEpoch(EpochJ2000.TIME_MILLS);

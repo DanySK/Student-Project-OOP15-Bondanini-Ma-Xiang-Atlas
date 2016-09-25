@@ -163,6 +163,11 @@ public interface View {
 	 *            enable/disable full screen
 	 */
 	public void setFullScreen(boolean full);
+	
+	/**
+	 * Opens a pop-up window showing the credits.
+	 */
+	public void showCredits();
 
 	/**
 	 * Opens an alert dialog to confirm exit.

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -75,13 +73,33 @@ public class InputDialog {
 		Optional<String> result = d.showAndWait();
 		return result.isPresent() ? Optional.ofNullable(new File(result.get())) : Optional.empty();
 	}
-	
+
+	/**
+	 * Opens a pop-up window showing the credits.
+	 * 
+	 * @param owner
+	 *            the stage that calls this method
+	 */
 	public static void credits(Stage owner) {
-		Alert alt = new Alert(AlertType.INFORMATION);
+		Dialog<String> d = new Dialog<>();
+		d.initOwner(owner);
+		d.setTitle("Credits");
+		d.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
+
+		String developed = "Developed by\n" + "Xiang Xiang Ma | Model & GUI layout\n"
+				+ "Andrea Bondanini | Controller & GUI interation\n\n";
+
+		String lib = "Libraries & code\n" + "JavaFX\n"
+				+ "N-body algoritm | http://physics.princeton.edu/~fpretori/Nbody/intro.htm\n\n";
+
+		String data = "Data \n" + "JPL Horizons | NASA\n\n";
+
+		String text = developed + lib + data;
 		
-		alt.initOwner(owner);
-		alt.setTitle("Credits");
-		
-		alt.showAndWait();
+		d.getDialogPane().setMinWidth(500);
+
+		d.getDialogPane().setContentText(text);
+
+		d.showAndWait();
 	}
 }

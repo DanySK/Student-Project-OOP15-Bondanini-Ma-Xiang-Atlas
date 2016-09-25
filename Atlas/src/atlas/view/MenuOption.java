@@ -132,7 +132,7 @@ public class MenuOption extends MenuHidable {
 		this.save.setOnAction(e -> view.notifyObserver(SimEvent.SAVE_SIM));
 		this.load.setOnAction(e -> view.notifyObserver(SimEvent.LOAD));
 		this.exit.setOnAction(e -> view.notifyObserver(SimEvent.EXIT));
-		// this.credits.setOnAction(e -> InputDialog.credits());
+		 this.credits.setOnAction(e -> view.showCredits());
 
 		this.fullScreen.setOnAction(e -> {
 			view.setFullScreen(fullScreen.isSelected());
