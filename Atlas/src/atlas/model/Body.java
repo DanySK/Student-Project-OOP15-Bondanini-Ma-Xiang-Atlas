@@ -11,7 +11,7 @@ import atlas.utils.Pair;
  */
 public interface Body {
 
-    public static final String IMAGE_FOLDER = "bodies_images" + System.getProperty("file.separator");
+    public static final String IMAGE_FOLDER = "/bodies_images/";
 
     /**
      * 

@@ -1,6 +1,5 @@
 package atlas.model.rules;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import atlas.model.Body;
