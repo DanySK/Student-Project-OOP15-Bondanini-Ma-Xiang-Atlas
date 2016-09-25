@@ -25,10 +25,10 @@ import atlas.view.ViewImpl;
 public class InputManagerImpl implements InputManager {
 
 	private static final String FILE_SEP = System.getProperty("file.separator");
-	private static final String RES_DIR = System.getProperty("user.dir") + FILE_SEP + "res";
-	private static final String SAVE_DIR = RES_DIR + FILE_SEP + "saves";
-	private static final String SAVE_LOCATION = SAVE_DIR + FILE_SEP + "presets";
-	private static final String ADD_DIR = RES_DIR + FILE_SEP + "bodies";
+	private static final String DIR = System.getProperty("user.dir") + FILE_SEP;
+	private static final String SAVE_DIR = DIR + FILE_SEP + "atlas_saves";
+	private static final String SAVE_LOCATION = SAVE_DIR + FILE_SEP + "simulations";
+	private static final String ADD_DIR = SAVE_DIR + FILE_SEP + "bodies";
 
 	private View view;
 	private Model model;
@@ -45,6 +45,19 @@ public class InputManagerImpl implements InputManager {
 		this.gLoop = gLoop;
 		this.reference = reference;
 		this.threadDrag = new DragPositions(this.scale, this.reference);
+		
+		this.view.updateReferences(reference, scale);
+
+		this.createFolder(SAVE_DIR);
+		this.createFolder(SAVE_LOCATION);
+		this.createFolder(ADD_DIR);
+	}
+
+	private void createFolder(String path) {
+		File f = new File(path);
+		if (!f.isDirectory()) {
+			f.mkdir();
+		}
 	}
 
 	@Override
