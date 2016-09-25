@@ -313,7 +313,6 @@ public class MenuInfo extends MenuHidable {
 		} else {
 			Double number = null;
 			try {
-				System.out.println(text);
 				text = text.replaceAll("[^0-9,e,E,.]", "");
 				number = new Double(Double.parseDouble(text));
 			} catch (NumberFormatException e) {

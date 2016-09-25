@@ -45,7 +45,7 @@ public class InputManagerImpl implements InputManager {
 		this.gLoop = gLoop;
 		this.reference = reference;
 		this.threadDrag = new DragPositions(this.scale, this.reference);
-		
+
 		this.view.updateReferences(reference, scale);
 
 		this.createFolder(SAVE_DIR);
@@ -91,22 +91,20 @@ public class InputManagerImpl implements InputManager {
 			if (!this.bodyToAdd.isPresent()) {
 				throw new IllegalStateException("Body to add is not present!");
 			}
-			this.bodyToAdd.get()
-					.setPosX((this.view.getLastMousePos().getX() - this.view.getRenderScreenOrig().getX() - this.reference.getX())
-							/ this.scale);
-			this.bodyToAdd.get()
-					.setPosY((this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY() - this.reference.getY())
-							/ -this.scale);
+			this.bodyToAdd.get().setPosX((this.view.getLastMousePos().getX() - this.view.getRenderScreenOrig().getX()
+					- this.reference.getX()) / this.scale);
+			this.bodyToAdd.get().setPosY((this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY()
+					- this.reference.getY()) / -this.scale);
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
 			this.status = Status.DEFAULT;
-			
+
 		} else if (this.status.equals(Status.EDIT)) {
 			this.threadDrag = new DragPositions(this.scale, this.reference);
 			this.threadDrag.start();
 			this.status = Status.DRAGGING;
 		}
 	}
-	
+
 	@Override
 	public void stopEdit() {
 		if (this.status.equals(Status.DRAGGING)) {
@@ -125,7 +123,7 @@ public class InputManagerImpl implements InputManager {
 	}
 
 	@Override
-	public void zoomUp() { 
+	public void zoomUp() {
 		this.scale *= 1.10;
 		this.zoom();
 	}
@@ -135,7 +133,7 @@ public class InputManagerImpl implements InputManager {
 		this.scale *= 0.90;
 		this.zoom();
 	}
-	
+
 	private void zoom() {
 		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
@@ -174,12 +172,12 @@ public class InputManagerImpl implements InputManager {
 			this.slide();
 		}
 	}
-	
+
 	private void slide() {
 		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
 	}
-	
+
 	private boolean checkNotDragging() {
 		return this.status.equals(Status.DRAGGING);
 	}
@@ -215,8 +213,12 @@ public class InputManagerImpl implements InputManager {
 		if (!ViewImpl.getView().getSelectedBody().isPresent()) {
 			throw new IllegalArgumentException();
 		}
-		Optional<File> f = getSaveFile(
-				ADD_DIR + FILE_SEP + ViewImpl.getView().getSelectedBody().get().getType().toString().toLowerCase());
+
+		String path = ADD_DIR + FILE_SEP
+				+ ViewImpl.getView().getSelectedBody().get().getType().toString().toLowerCase();
+		this.createFolder(path);
+		
+		Optional<File> f = getSaveFile(path);
 		// do nothing if user cancels the operation
 		if (!f.isPresent()) {
 			return;
