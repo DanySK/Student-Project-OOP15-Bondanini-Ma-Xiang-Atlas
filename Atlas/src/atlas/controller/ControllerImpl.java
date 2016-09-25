@@ -189,7 +189,6 @@ public class ControllerImpl implements Controller {
         	break;        	
         case COLLISION_TWO:
         	this.model.setCollsion(new CollisionStrategyAbsorb());
-        	System.out.println("Collision Absorb");
         	break;
         case NBODY_ONE:
         	this.model.setAlgorithm(new AlgorithmBruteForce());
