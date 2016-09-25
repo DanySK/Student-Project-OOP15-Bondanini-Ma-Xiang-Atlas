@@ -1,6 +1,7 @@
 package atlas.controller;
 
 import java.awt.MouseInfo;
+import java.util.NoSuchElementException;
 
 import atlas.model.Body;
 import atlas.utils.Pair;
@@ -29,10 +30,14 @@ public class DragPositions extends Thread {
             double actualScale = this.scale;
             long last = System.currentTimeMillis();
             while (System.currentTimeMillis() - last < step) {
-                ViewImpl.getView().getSelectedBody().get().setPosX((MouseInfo.getPointerInfo().getLocation().getX()
+            	try{
+                ViewImpl.getView().getSelectedBody().get().setPosX((MouseInfo.getPointerInfo().getLocation().getX() - 20
                         - ViewImpl.getView().getRenderScreenOrig().getX() - this.reference.getX()) / actualScale);
-                ViewImpl.getView().getSelectedBody().get().setPosY((MouseInfo.getPointerInfo().getLocation().getY()
+                ViewImpl.getView().getSelectedBody().get().setPosY((MouseInfo.getPointerInfo().getLocation().getY() - 5
                         - ViewImpl.getView().getRenderScreenOrig().getY() - this.reference.getY()) / -actualScale);
+            	} catch (NoSuchElementException e) {
+            		
+            	}
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
