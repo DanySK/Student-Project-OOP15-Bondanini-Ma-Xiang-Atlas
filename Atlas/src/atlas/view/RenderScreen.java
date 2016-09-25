@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import atlas.model.Body;
 import atlas.model.BodyType;
 import atlas.utils.Pair;
+import atlas.utils.ResourceLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,7 +35,7 @@ import javafx.scene.text.FontWeight;
  */
 public class RenderScreen extends StackPane {
 
-	private final static String DEFAULT_BACKGROUND = "/images/" + "b2.jpg";
+	private final static String DEFAULT_BACKGROUND = "/images/" + "background.jpg";
 	private final static float TRAIL_OPACITY = 0.4f;
 	private final static int TRAIL_WIDTH = 5;
 	private final static int MIN_IMAGE_SIZE = 1;
@@ -278,11 +279,11 @@ public class RenderScreen extends StackPane {
 			if (bMap.containsKey(b.getId())) {
 				img = bMap.get(b.getId()).getX().getX();
 			} else {
-				img = new ImageView(new Image(b.getImagePath()));
+				img = new ImageView(new Image(ResourceLoader.loadAsStream(b.getImagePath())));
 			}
 		} catch (IllegalArgumentException ie) {
 			throw new IllegalStateException("body image path can't be found : " + b.getImagePath());
-		}
+		} 
 
 		/* Scaling to appropriate scale */
 		double diamScaled = MIN_IMAGE_SIZE;
@@ -339,10 +340,9 @@ public class RenderScreen extends StackPane {
 	 */
 	private void setLableOnClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
-			ViewImpl.getView().setSelectedBody(body);
+			view.setSelectedBody(body);
 			if (e.getClickCount() > 1) {
-				ViewImpl.getView().notifyObserver(SimEvent.LOCK);
-			} else {
+				view.notifyObserver(SimEvent.LOCK);
 			}
 		});
 	}
