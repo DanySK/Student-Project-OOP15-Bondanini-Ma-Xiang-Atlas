@@ -46,22 +46,21 @@ public class RenderScreen extends StackPane {
 	private Label bodyCounter = new Label();
 
 	private Map<Long, Pair<Pair<ImageView, Label>, Color>> bMap = new HashMap<>();
-	
-	/* second chance = if a entry is not used it will be removed from the bMap */
+
+	/*
+	 * second chance = if a entry is not used it will be removed from the bMap
+	 */
 	private Map<Long, Boolean> secondChanceMap = new HashMap<>();
 
 	private double currentScale;
 	private Pair<Double, Double> currentTranlate;
-	
+
 	private View view = ViewImpl.getView();
 
 	/**
 	 * Constructor
 	 */
 	public RenderScreen() {
-		this.setOnMouseDragged(e -> {
-			System.out.println("OWDPAHJWUFH");
-		});
 		this.setId("game-screen");
 		this.setBackgroundImage(DEFAULT_BACKGROUND);
 
@@ -149,8 +148,7 @@ public class RenderScreen extends StackPane {
 				lTop.getChildren().add(lab);
 
 				// Sets the actions
-				this.setLabelOnMultiClick(lab, b);
-				this.setLableOnHold(lab, b);
+				this.setLableOnClick(lab, b);
 
 				// this.setLabelOnRelease(entry.getX().getY(), b);
 			}
@@ -339,38 +337,15 @@ public class RenderScreen extends StackPane {
 	 *            the body's label
 	 * @param body
 	 */
-	private void setLabelOnMultiClick(Label lab, Body body) {
+	private void setLableOnClick(Label lab, Body body) {
 		lab.setOnMouseClicked(e -> {
-			view.setSelectedBody(body);
+			ViewImpl.getView().setSelectedBody(body);
 			if (e.getClickCount() > 1) {
-				view.notifyObserver(SimEvent.LOCK);
+				System.out.println("Premuto più volte.");
+				ViewImpl.getView().notifyObserver(SimEvent.LOCK);
+			} else {
+				System.out.println("Premuto solo una");
 			}
 		});
-	}
-
-	/**
-	 * ?????? 
-	 * @param lab
-	 * @param body
-	 */
-	private void setLableOnHold(Label lab, Body body) {
-		// lab.setonMouse(e -> {
-		// System.out.println("SUCAAAAAAAAAAA");
-		// });
-
-	}
-
-	/**
-	 * ?????
-	 * @param lab
-	 * @param body
-	 */
-	private void setLableOnRelease(Label lab, Body body) {
-		System.out.println("Release1");
-		lab.setOnMouseReleased(e -> {
-			view.setSelectedBody(body);
-			view.notifyObserver(SimEvent.MOUSE_RELEASED);
-		});
-
 	}
 }

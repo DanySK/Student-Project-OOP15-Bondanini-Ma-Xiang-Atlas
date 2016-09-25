@@ -10,7 +10,6 @@ import atlas.model.Body;
 import atlas.model.BodyType;
 import atlas.utils.Pair;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -30,7 +29,7 @@ public class SceneMain extends Scene {
 	private BorderPane root = new BorderPane();
 	CruiseControl cruise;
 	MenuInfo infoMenu;
-	RenderScreen renderPanel;
+    RenderScreen renderPanel;
 	MenuOption optionMenu;
 
 	private View view;
@@ -129,15 +128,14 @@ public class SceneMain extends Scene {
 	 */
 	private void setMouseCommands() {
 		this.renderPanel.setOnMouseClicked(e -> {
-			view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
-			view.notifyObserver(SimEvent.MOUSE_CLICKED);
-		});
-
-		this.renderPanel.setOnMouseClicked(e -> {
-			if (e.getButton() == MouseButton.SECONDARY) {
+			if(e.getButton() == MouseButton.SECONDARY) {
 				ViewImpl.getView().setSelectedBody(null);
 				ViewImpl.getView().notifyObserver(SimEvent.ESC);
 			}
+			view.setMousePos(new Pair<Double, Double>(e.getX(), e.getY()));
+			view.notifyObserver(SimEvent.STOP_EDIT);
+			view.notifyObserver(SimEvent.MOUSE_CLICKED);
+			
 		});
 
 	}

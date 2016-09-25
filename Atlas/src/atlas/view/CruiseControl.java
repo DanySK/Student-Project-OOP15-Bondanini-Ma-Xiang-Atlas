@@ -63,7 +63,6 @@ public class CruiseControl extends BorderPane {
 		right.setAlignment(Pos.CENTER);
 		right.getChildren().add(viewMenu);
 		right.getChildren().add(buttonCenter);
-		;
 		right.getChildren().add(buttonESC);
 
 		this.setLeft(left);
@@ -125,6 +124,8 @@ public class CruiseControl extends BorderPane {
 		this.buttonStop.setOnAction(stopPlayHandler);
 
 		this.buttonAdd.setOnAction(e -> view.notifyObserver(SimEvent.ADD));
+		
+		this.buttonEdit.setOnAction(e -> view.notifyObserver(SimEvent.EDIT));
 
 		this.buttonCenter.setOnAction(e -> view.notifyObserver(SimEvent.CENTER));
 

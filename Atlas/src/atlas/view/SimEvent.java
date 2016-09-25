@@ -10,6 +10,7 @@ public enum SimEvent {
 	EXIT,
 	ADD,
 	EDIT,
+	STOP_EDIT,
 	CENTER,
 	LOCK,
 	SPEED_CHANGED,

@@ -6,6 +6,12 @@ import atlas.model.Body;
 import atlas.utils.Pair;
 import atlas.view.ViewImpl;
 
+/**
+ * This thread sets the position of body to move. 
+ * 
+ * @author andrea
+ */
+
 public class DragPositions extends Thread {
 
     private double scale;
@@ -24,9 +30,9 @@ public class DragPositions extends Thread {
             double actualScale = this.scale;
             long last = System.currentTimeMillis();
             while (System.currentTimeMillis() - last < step) {
-                ViewImpl.getView().getSelectedBody().get().setPosX((ViewImpl.getView().getLastMousePos().getX()
+                ViewImpl.getView().getSelectedBody().get().setPosX((MouseInfo.getPointerInfo().getLocation().getX()
                         - ViewImpl.getView().getRenderScreenOrig().getX() - this.reference.getX()) / actualScale);
-                ViewImpl.getView().getSelectedBody().get().setPosY((ViewImpl.getView().getLastMousePos().getY()
+                ViewImpl.getView().getSelectedBody().get().setPosY((MouseInfo.getPointerInfo().getLocation().getY()
                         - ViewImpl.getView().getRenderScreenOrig().getY() - this.reference.getY()) / -actualScale);
                 try {
                     Thread.sleep(1);

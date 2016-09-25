@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import atlas.model.Body;
 import atlas.model.Model;
 import atlas.utils.Pair;
@@ -37,16 +36,13 @@ public class InputManagerImpl implements InputManager {
 	private DragPositions threadDrag;
 	private Status status = Status.DEFAULT;
 	private Optional<Body> bodyToAdd = Optional.empty();
-
-	double scale = 1.4000000000000000E-9;
-	Pair<Double, Double> reference;
-	Pair<Double, Double> initialReference;
+	private double scale = 1.4000000000000000E-9;
+	private Pair<Double, Double> reference;
 
 	public InputManagerImpl(View view, Model model, GameLoop gLoop, Pair<Double, Double> reference) {
 		this.view = view;
 		this.model = model;
 		this.gLoop = gLoop;
-		this.initialReference = reference;
 		this.reference = reference;
 		this.threadDrag = new DragPositions(this.scale, this.reference);
 	}
@@ -89,30 +85,22 @@ public class InputManagerImpl implements InputManager {
 					.setPosY((this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY() - this.reference.getY())
 							/ -this.scale);
 			this.gLoop.setNextBodyToAdd(this.bodyToAdd.get());
-		}
-		this.status = Status.DEFAULT;
-	}
-
-	@Override
-	public void mouseMultiClick() {
-		if (!this.status.equals(Status.EDIT)) {
+			this.status = Status.DEFAULT;
+			
+		} else if (this.status.equals(Status.EDIT)) {
+			this.threadDrag = new DragPositions(this.scale, this.reference);
 			this.threadDrag.start();
+			this.status = Status.DRAGGING;
 		}
-
 	}
-
+	
 	@Override
-	public void mousePressed() {
-		if(this.status.equals(Status.EDIT)) {
-			this.threadDrag = new DragPositions(scale, this.reference);
-			this.threadDrag.start();
+	public void stopEdit() {
+		if (this.status.equals(Status.DRAGGING)) {
+			this.threadDrag.stopEdit();
+			this.status = Status.DEFAULT;
+			this.view.setSelectedBody(null);
 		}
-
-	}
-
-	@Override
-	public void mouseReleased() {
-		this.threadDrag.stopEdit();
 	}
 
 	@Override
@@ -124,55 +112,63 @@ public class InputManagerImpl implements InputManager {
 	}
 
 	@Override
-	public void zoomUp() { // Da cambiare in un metodo solo per non ripetere il
-							// codice
+	public void zoomUp() { 
 		this.scale *= 1.10;
-		if (this.threadDrag.isAlive()) {
-			this.threadDrag.setScale(this.scale);
-		}
-		this.reference = new Pair<>((this.view.getLastMousePos().getX() - this.view.getRenderScreenOrig().getX()) * -1,
-				(this.view.getLastMousePos().getY() - this.view.getRenderScreenOrig().getY()) * -1);
-		this.view.updateReferences(this.reference, this.scale);
-
+		this.zoom();
 	}
 
 	@Override
 	public void zoomDown() {
 		this.scale *= 0.90;
+		this.zoom();
+	}
+	
+	private void zoom() {
 		if (this.threadDrag.isAlive()) {
 			this.threadDrag.setScale(this.scale);
 		}
 		this.view.updateReferences(this.reference, this.scale);
-
 	}
 
 	@Override
 	public void wSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
-		this.view.updateReferences(this.reference, this.scale);
-		this.setDefault();
+		if (!this.checkNotDragging()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() + 25);
+			this.slide();
+		}
 	}
 
 	@Override
 	public void sSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
-		this.view.updateReferences(this.reference, this.scale);
-		this.setDefault();
+		if (!this.checkNotDragging()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX(), this.reference.getY() - 25);
+			this.slide();
+		}
 	}
 
 	@Override
 	public void aSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
-		this.view.updateReferences(this.reference, this.scale);
-		this.setDefault();
+		if (!this.checkNotDragging()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX() + 25, this.reference.getY());
+			this.slide();
+		}
 	}
 
 	@Override
 	public void dSlide() {
-		this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
+		if (!this.checkNotDragging()) {
+			this.reference = new Pair<Double, Double>(this.reference.getX() - 25, this.reference.getY());
+			this.slide();
+		}
+	}
+	
+	private void slide() {
 		this.view.updateReferences(this.reference, this.scale);
 		this.setDefault();
-
+	}
+	
+	private boolean checkNotDragging() {
+		return this.status.equals(Status.DRAGGING);
 	}
 
 	@Override
