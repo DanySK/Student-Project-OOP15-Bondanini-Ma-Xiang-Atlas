@@ -84,9 +84,12 @@ public class ControllerImpl implements Controller {
             break;
 
         case EDIT:  
-            this.inputManager.mouseMultiClick();
             this.inputManager.changeStatus(Status.EDIT);
             break;
+            
+        case STOP_EDIT:
+        	this.inputManager.stopEdit();
+        	break;
 
         case CENTER:
             this.inputManager.initialReference();
@@ -147,17 +150,6 @@ public class ControllerImpl implements Controller {
 
         case MOUSE_CLICKED:
             this.inputManager.mouseClicked();
-            break;
-
-        case MOUSE_PRESSED:
-        	System.out.println("2");
-        	this.inputManager.changeStatus(Status.EDIT);
-            this.inputManager.mousePressed();           
-            break;
-
-        case MOUSE_RELEASED:
-            this.inputManager.mouseReleased();
-            this.inputManager.changeStatus(Status.DEFAULT);
             break;
 
         case MOUSE_WHEEL_UP:

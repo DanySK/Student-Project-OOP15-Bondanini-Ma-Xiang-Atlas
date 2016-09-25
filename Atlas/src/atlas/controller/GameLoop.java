@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import atlas.model.*;
-import atlas.view.*;
+import atlas.model.Body;
+import atlas.model.Model;
+import atlas.view.View;
 
 /**
  * The GameLoop is the main Thread of Simulation, that synchronizes Model and
@@ -14,19 +15,20 @@ import atlas.view.*;
  * @author andrea
  */
 
-public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 anni
-    private volatile int  speed;
-    private volatile long precision;
-    private final static int FPS = 50;
-    private final static int SKIP_TICKS = 1000 / FPS;
-    private final static int MAX_FRAMESKIP = 10;
-    private int loop;
-    private long next_game_tick;
-    private StatusSim status;
-    private Model model;
-    private View view;
-    private Optional<Body> nextBodyToAdd = Optional.empty();
-    private List<Body> copy;
+public class GameLoop extends Thread {
+	private volatile int speed;
+	private volatile long precision;
+	private final static int FPS = 50;
+	private final static int SKIP_TICKS = 1000 / FPS;
+	private final static int MAX_FRAMESKIP = 10;
+	private final static int STANDARD_PRECISION = 86400;
+	private volatile int loop;
+	private long next_game_tick;
+	private StatusSim status;
+	private Model model;
+	private View view;
+	private Optional<Body> nextBodyToAdd = Optional.empty();
+	private List<Body> copy;
     
 
     /**
@@ -39,14 +41,14 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         this.model = model;
         this.status = StatusSim.RUNNING;
         this.speed = 10;
-        this.precision = 86400;
+        this.precision = STANDARD_PRECISION;
 
     }
 
     /**
-     * SKIP_TICK detta i tempi del ciclo. Se ci metto più di skip ticks a fare
-     * un update eseguo più update, saltando alcuni frame (abbasso il frame
-     * Rate), se sono più veloce attendo per non velocizzare la simulazione.
+     * SKIP_TICK sets the cycle of gameloop. If the cycle is slow to render all
+	 * bodies, it skip some frames (decrease frame rate) and it does more
+	 * consecutive updates, or else it sleep to lock fps bound.
      */
 
     public void run() {
@@ -65,9 +67,9 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
                     this.next_game_tick += SKIP_TICKS;
                     this.loop++;
                 }
-                // sleep for 1 ms if too fast (dormo fino a il tempo dall'ultimo
-                // frame renderizzato sia uguale a skip ticks, per non
-                // velocizzare la simulazione)
+                /* sleep for 1 ms if too fast (dormo fino a il tempo dall'ultimo
+                 frame renderizzato sia uguale a skip ticks, per non
+                 velocizzare la simulazione)*/
                 while (System.currentTimeMillis() - lastFrame < SKIP_TICKS) {
                     try {
                         Thread.sleep(1);
@@ -90,10 +92,8 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
 				}
                 
                 this.view.render(this.model.getBodiesToRender(), model.getTime(), (int)FPS);
-//                System.out.println("timeSLF = " + timeSLF + " --> FPS = " + FPS);
             }
             
-            // render when is stopped shish
             this.view.render(this.model.getBodiesToRender(), model.getTime(), GameLoop.FPS);
             try {
                 Thread.sleep(1);
@@ -140,8 +140,6 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
 
     /**
      * This method returns the current Status
-     * 
-     * @return
      */
     public synchronized StatusSim getStatus() {
         return this.status;
@@ -151,6 +149,9 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         this.view = v;
     }
      
+    /**
+     * This sets the precision and speed
+     */
     public void setValue(final long precision, final int speed) {
         this.precision = precision;
         this.speed = speed;
@@ -168,6 +169,9 @@ public class GameLoop extends Thread {// Velocità minima 1s:1s, massima 100 ann
         this.model = model;
     }
     
+    /**
+     * This sets next body to add
+     */
     public void setNextBodyToAdd(Body body) {
         this.nextBodyToAdd = Optional.of(body);
     }
