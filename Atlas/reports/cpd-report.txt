@@ -1,0 +1,25 @@
+Found a 9 line (85 tokens) duplication in the following files: 
+Starting at line 73 of /home/danysk/Dropbox/Didattica/2015-16/Programmazione ad Oggetti/Progetti/oop15-bondanini-andrea-ma-xiang-xiang-atlas/Atlas/src/atlas/model/EpochJ2000.java
+Starting at line 60 of /home/danysk/Dropbox/Didattica/2015-16/Programmazione ad Oggetti/Progetti/oop15-bondanini-andrea-ma-xiang-xiang-atlas/Atlas/src/atlas/model/Test.java
+
+    EARTH(new BodyImpl.Builder().name("Earth")
+                                .type(PLANET)
+                                .imagePath(Body.IMAGE_FOLDER + "earth.png")
+                                .mass(EARTH_MASS)
+                                .posX(-1.756637922977121E-01 * AU)
+                                .posY(9.659912850526894E-01 * AU)
+                                .velX((-1.722857156974861E-02 * AU) / EARTH_DAY)
+                                .velY((-3.015071224668472E-03 * AU) / EARTH_DAY)
+                                .properties(new Body.Properties(6371*1000, EARTH_DAY, null, SUN.getBody(), celsiusToKelvin(14.00) ))
+=====================================================================
+Found a 7 line (65 tokens) duplication in the following files: 
+Starting at line 16 of /home/danysk/Dropbox/Didattica/2015-16/Programmazione ad Oggetti/Progetti/oop15-bondanini-andrea-ma-xiang-xiang-atlas/Atlas/src/atlas/model/rules/CollisionStrategyAbsorb.java
+Starting at line 50 of /home/danysk/Dropbox/Didattica/2015-16/Programmazione ad Oggetti/Progetti/oop15-bondanini-andrea-ma-xiang-xiang-atlas/Atlas/src/atlas/model/rules/CollisionStrategyFragments.java
+
+	@Override
+	public List<Body> manageCollision(List<Body> sim, Body a, Body b) {
+
+		// Dectect the collision first
+		if (this.detectCollision(a, b)) {
+			Body target = a.getMass() < b.getMass() ? a : b;
+			Body targeted = target.equals(a) ? b : a;

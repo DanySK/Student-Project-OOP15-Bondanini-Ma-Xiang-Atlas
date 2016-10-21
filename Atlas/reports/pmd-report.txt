@@ -1,0 +1,533 @@
+src/atlas/application/ApplicationLauncher.java:19:	The field name indicates a constant but its modifiers do not
+src/atlas/application/ApplicationLauncher.java:20:	The field name indicates a constant but its modifiers do not
+src/atlas/application/ApplicationLauncher.java:22:	Parameter 'args' is not assigned and could be declared final
+src/atlas/application/ApplicationLauncher.java:24:	Unnecessary use of fully qualified name 'javafx.application.Application.launch' due to existing import 'javafx.application.Application'
+src/atlas/application/ApplicationLauncher.java:28:	A method/constructor shouldnt explicitly throw java.lang.Exception
+src/atlas/application/ApplicationLauncher.java:28:	Parameter 'primaryStage' is not assigned and could be declared final
+src/atlas/application/ApplicationLauncher.java:32:	Local variable 'primScreenBounds' could be declared final
+src/atlas/application/ApplicationLauncher.java:36:	Local variable 'c' could be declared final
+src/atlas/application/ApplicationLauncher.java:38:	Local variable 'v' could be declared final
+src/atlas/controller/Controller.java:17:	Avoid modifiers which are implied by the context
+src/atlas/controller/Controller.java:22:	Avoid modifiers which are implied by the context
+src/atlas/controller/Controller.java:27:	Avoid modifiers which are implied by the context
+src/atlas/controller/Controller.java:34:	Avoid modifiers which are implied by the context
+src/atlas/controller/Controller.java:41:	Avoid modifiers which are implied by the context
+src/atlas/controller/ControllerImpl.java:22:	A class which only has private constructors should be final
+src/atlas/controller/ControllerImpl.java:24:	Private field 'gLoop' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/controller/ControllerImpl.java:25:	Avoid using redundant field initializer for 'ctrl'
+src/atlas/controller/ControllerImpl.java:26:	Perhaps 'view' could be replaced by a local variable.
+src/atlas/controller/ControllerImpl.java:61:	Parameter 'v' is not assigned and could be declared final
+src/atlas/controller/ControllerImpl.java:68:	Parameter 'event' is not assigned and could be declared final
+src/atlas/controller/DragPositions.java:18:	Private field 'reference' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/controller/DragPositions.java:22:	It is a good practice to call super() in a constructor
+src/atlas/controller/DragPositions.java:22:	Parameter 'reference' is not assigned and could be declared final
+src/atlas/controller/DragPositions.java:22:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/controller/DragPositions.java:29:	Local variable 'actualScale' could be declared final
+src/atlas/controller/DragPositions.java:30:	Local variable 'last' could be declared final
+src/atlas/controller/DragPositions.java:37:	Avoid empty catch blocks
+src/atlas/controller/DragPositions.java:51:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/controller/GameLoop.java:25:	Perhaps 'loop' could be replaced by a local variable.
+src/atlas/controller/GameLoop.java:26:	Perhaps 'next_game_tick' could be replaced by a local variable.
+src/atlas/controller/GameLoop.java:31:	Avoid unused private fields such as 'copy'.
+src/atlas/controller/GameLoop.java:31:	Perhaps 'copy' could be replaced by a local variable.
+src/atlas/controller/GameLoop.java:40:	It is a good practice to call super() in a constructor
+src/atlas/controller/GameLoop.java:40:	Parameter 'model' is not assigned and could be declared final
+src/atlas/controller/GameLoop.java:58:	Local variable 'lastFrame' could be declared final
+src/atlas/controller/GameLoop.java:82:	Local variable 'timeSLF' could be declared final
+src/atlas/controller/GameLoop.java:84:	Local variable 'FPS' could be declared final
+src/atlas/controller/GameLoop.java:112:	Parameter 'status' is not assigned and could be declared final
+src/atlas/controller/GameLoop.java:148:	Parameter 'v' is not assigned and could be declared final
+src/atlas/controller/GameLoop.java:168:	Parameter 'model' is not assigned and could be declared final
+src/atlas/controller/GameLoop.java:175:	Parameter 'body' is not assigned and could be declared final
+src/atlas/controller/InputManager.java:13:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:18:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:23:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:28:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:33:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:38:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:44:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:54:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:64:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:74:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:80:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:86:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:92:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:97:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:103:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:109:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManager.java:114:	Avoid modifiers which are implied by the context
+src/atlas/controller/InputManagerImpl.java:33:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/controller/InputManagerImpl.java:35:	Private field 'gLoop' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/controller/InputManagerImpl.java:42:	Parameter 'gLoop' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:42:	Parameter 'model' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:42:	Parameter 'reference' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:42:	Parameter 'view' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:56:	Parameter 'path' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:57:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:65:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:196:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:217:	Local variable 'path' could be declared final
+src/atlas/controller/InputManagerImpl.java:221:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:234:	Parameter 'path' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:235:	Local variable 'saveName' could be declared final
+src/atlas/controller/InputManagerImpl.java:240:	Local variable 'dir' could be declared final
+src/atlas/controller/InputManagerImpl.java:241:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:250:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:263:	Local variable 'unit' could be declared final
+src/atlas/controller/InputManagerImpl.java:264:	Local variable 'speed' could be declared final
+src/atlas/controller/InputManagerImpl.java:283:	Parameter 'path' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:284:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/atlas/controller/InputManagerImpl.java:284:	Local variable 'files' could be declared final
+src/atlas/controller/InputManagerImpl.java:285:	Local variable 'root' could be declared final
+src/atlas/controller/InputManagerImpl.java:290:	Local variable 'list' could be declared final
+src/atlas/controller/InputManagerImpl.java:293:	Local variable 'f' could be declared final
+src/atlas/controller/InputManagerImpl.java:295:	Local variable 'fs' could be declared final
+src/atlas/controller/InputManagerImpl.java:298:	Local variable 'l' could be declared final
+src/atlas/controller/InputManagerImpl.java:310:	Parameter 'f' is not assigned and could be declared final
+src/atlas/controller/InputManagerImpl.java:320:	Parameter 'status' is not assigned and could be declared final
+src/atlas/model/Body.java:14:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:20:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:28:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:35:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:42:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:48:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:56:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:62:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:70:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:78:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:83:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:92:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:101:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:108:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:116:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:123:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:131:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:138:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:145:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:154:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:161:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:169:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:175:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:183:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:190:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:195:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:204:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:210:	Avoid modifiers which are implied by the context
+src/atlas/model/Body.java:216:	Avoid using redundant field initializer for 'rotationAngle'
+src/atlas/model/Body.java:219:	Avoid using redundant field initializer for 'orbitalPeriod'
+src/atlas/model/Body.java:220:	Avoid using redundant field initializer for 'parent'
+src/atlas/model/Body.java:221:	Avoid using redundant field initializer for 'temperature'
+src/atlas/model/BodyImpl.java:22:	Avoid using redundant field initializer for 'imagePath'
+src/atlas/model/BodyImpl.java:23:	Avoid using redundant field initializer for 'name'
+src/atlas/model/BodyImpl.java:46:	Parameter 'id' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'imagePath' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'name' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'posx' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'posy' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'type' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:46:	Parameter 'velx' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:47:	Parameter 'mass' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:47:	Parameter 'properties' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:47:	Parameter 'vely' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:60:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:75:	Parameter 'type' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:103:	Parameter 'name' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:113:	Parameter 'mass' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:118:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:119:	Local variable 'EPS' could be declared final
+src/atlas/model/BodyImpl.java:120:	Local variable 'dx' could be declared final
+src/atlas/model/BodyImpl.java:121:	Local variable 'dy' could be declared final
+src/atlas/model/BodyImpl.java:122:	Local variable 'dist' could be declared final
+src/atlas/model/BodyImpl.java:123:	Local variable 'F' could be declared final
+src/atlas/model/BodyImpl.java:135:	Parameter 'dt' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:146:	Local variable 'parent' could be declared final
+src/atlas/model/BodyImpl.java:153:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:154:	Local variable 'dx' could be declared final
+src/atlas/model/BodyImpl.java:155:	Local variable 'dy' could be declared final
+src/atlas/model/BodyImpl.java:165:	Parameter 'x' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:175:	Parameter 'y' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:190:	Parameter 'vel' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:201:	Parameter 'vt' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:205:	Local variable 'velocity' could be declared final
+src/atlas/model/BodyImpl.java:206:	Local variable 'change' could be declared final
+src/atlas/model/BodyImpl.java:240:	Parameter 'attracting' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:245:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:256:	Local variable 'formatter' could be declared final
+src/atlas/model/BodyImpl.java:257:	Local variable 'AU' could be declared final
+src/atlas/model/BodyImpl.java:274:	Field type has the same name as a method
+src/atlas/model/BodyImpl.java:275:	Field id has the same name as a method
+src/atlas/model/BodyImpl.java:276:	Field imagePath has the same name as a method
+src/atlas/model/BodyImpl.java:277:	Avoid using redundant field initializer for 'name'
+src/atlas/model/BodyImpl.java:277:	Field name has the same name as a method
+src/atlas/model/BodyImpl.java:278:	Field posx has the same name as a method
+src/atlas/model/BodyImpl.java:279:	Field velx has the same name as a method
+src/atlas/model/BodyImpl.java:280:	Field mass has the same name as a method
+src/atlas/model/BodyImpl.java:281:	Field properties has the same name as a method
+src/atlas/model/BodyImpl.java:283:	Parameter 'type' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:288:	Parameter 'id' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:293:	Parameter 'path' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:298:	Parameter 'name' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:303:	Parameter 'x' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:308:	Parameter 'y' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:313:	Parameter 'vx' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:318:	Parameter 'vy' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:323:	Parameter 'mass' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:328:	Parameter 'properties' is not assigned and could be declared final
+src/atlas/model/BodyImpl.java:343:	Local variable 'b' could be declared final
+src/atlas/model/BodyType.java:33:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:38:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:44:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:45:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:46:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:47:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:48:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:49:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:50:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:51:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:52:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:53:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:54:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:59:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:60:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:61:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:62:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:63:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:64:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:65:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:66:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:67:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:68:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/BodyType.java:69:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/atlas/model/Model.java:20:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:28:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:36:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:44:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:52:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:60:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:66:	Avoid modifiers which are implied by the context
+src/atlas/model/Model.java:74:	Avoid modifiers which are implied by the context
+src/atlas/model/ModelImpl.java:27:	Document empty constructor
+src/atlas/model/ModelImpl.java:33:	Consider using varargs for methods or constructors which take an array the last parameter.
+src/atlas/model/ModelImpl.java:33:	Parameter 'epoch' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:36:	Local variable 'b' could be declared final
+src/atlas/model/ModelImpl.java:47:	Parameter 'sec' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:55:	Parameter 'algorithm' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:61:	Parameter 'collision' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:69:	Avoid unused method parameters such as 'b'.
+src/atlas/model/ModelImpl.java:69:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:69:	Parameter 'distance' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:69:	Parameter 'targetMass' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:70:	Local variable 'numerator' could be declared final
+src/atlas/model/ModelImpl.java:75:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/ModelImpl.java:77:	Local variable 'angleTheta' could be declared final
+src/atlas/model/ModelImpl.java:79:	Local variable 'largestBody' could be declared final
+src/atlas/model/ModelImpl.java:80:	Local variable 'targetMass' could be declared final
+src/atlas/model/ModelImpl.java:81:	Local variable 'distance' could be declared final
+src/atlas/model/ModelImpl.java:84:	Local variable 'totVel' could be declared final
+src/atlas/model/ModelImpl.java:87:	Local variable 'anglev' could be declared final
+src/atlas/model/ModelImpl.java:93:	Local variable 'vx' could be declared final
+src/atlas/model/ModelImpl.java:94:	Local variable 'vy' could be declared final
+src/atlas/model/ModelImpl.java:111:	Parameter 'clock' is not assigned and could be declared final
+src/atlas/model/SimClock.java:21:	Avoid using redundant field initializer for 'epochOffset'
+src/atlas/model/SimClock.java:22:	When instantiating a SimpleDateFormat object, specify a Locale
+src/atlas/model/SimClock.java:38:	Parameter 'offset' is not assigned and could be declared final
+src/atlas/model/SimClock.java:49:	Parameter 'dt' is not assigned and could be declared final
+src/atlas/model/SimClock.java:85:	Parameter 'offset' is not assigned and could be declared final
+src/atlas/model/Test.java:22:	JUnit 4 tests that execute tests should use the @Test annotation
+src/atlas/model/Test.java:25:	Local variable 'm' could be declared final
+src/atlas/model/Test.java:30:	Local variable 'one' could be declared final
+src/atlas/model/Test.java:34:	Local variable 'two' could be declared final
+src/atlas/model/Test.java:52:	JUnit 4 tests that execute tests should use the @Test annotation
+src/atlas/model/Test.java:56:	Avoid empty catch blocks
+src/atlas/model/Test.java:60:	Local variable 'b' could be declared final
+src/atlas/model/Test.java:66:	Use assertNull(x) instead of assertTrue(x==null), or assertNotNull(x) vs assertFalse(x==null)
+src/atlas/model/Test.java:72:	Use assertSame(x, y) instead of assertTrue(x==y), or assertNotSame(x,y) vs assertFalse(x==y)
+src/atlas/model/Test.java:78:	JUnit 4 tests that execute tests should use the @Test annotation
+src/atlas/model/Test.java:80:	Local variable 'one' could be declared final
+src/atlas/model/Test.java:84:	Local variable 'two' could be declared final
+src/atlas/model/Test.java:86:	Local variable 'initialPosX' could be declared final
+src/atlas/model/Trail.java:23:	Avoid using redundant field initializer for 'timesCalled'
+src/atlas/model/Trail.java:35:	Parameter 'length' is not assigned and could be declared final
+src/atlas/model/Trail.java:48:	Parameter 'x' is not assigned and could be declared final
+src/atlas/model/Trail.java:48:	Parameter 'y' is not assigned and could be declared final
+src/atlas/model/rules/Algorithm.java:44:	Parameter 'strategy' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:21:	Document empty constructor
+src/atlas/model/rules/AlgorithmBruteForce.java:21:	It is a good practice to call super() in a constructor
+src/atlas/model/rules/AlgorithmBruteForce.java:29:	Parameter 'collisionStrategy' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:35:	Parameter 'bodies' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:35:	Parameter 'sec' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:37:	Local variable 'copy' could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:38:	Local variable 'b' could be declared final
+src/atlas/model/rules/AlgorithmBruteForce.java:41:	Local variable 'c' could be declared final
+src/atlas/model/rules/AlgorithmTwoBody.java:23:	Parameter 'bodies' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmTwoBody.java:23:	Parameter 'sec' is not assigned and could be declared final
+src/atlas/model/rules/AlgorithmTwoBody.java:25:	Local variable 'ordered' could be declared final
+src/atlas/model/rules/AlgorithmTwoBody.java:28:	Local variable 'targets' could be declared final
+src/atlas/model/rules/AlgorithmTwoBody.java:33:	Local variable 'b' could be declared final
+src/atlas/model/rules/CollisionStrategy.java:25:	Parameter 'a' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategy.java:25:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyAbsorb.java:17:	Parameter 'a' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyAbsorb.java:17:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyAbsorb.java:17:	Parameter 'sim' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyAbsorb.java:21:	Local variable 'target' could be declared final
+src/atlas/model/rules/CollisionStrategyAbsorb.java:22:	Local variable 'targeted' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:29:	Private field 'numFragments' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/model/rules/CollisionStrategyFragments.java:35:	It is a good practice to call super() in a constructor
+src/atlas/model/rules/CollisionStrategyFragments.java:46:	It is a good practice to call super() in a constructor
+src/atlas/model/rules/CollisionStrategyFragments.java:46:	Parameter 'fragments' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:51:	Parameter 'a' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:51:	Parameter 'b' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:51:	Parameter 'sim' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:76:	Local variable 'massGain' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:78:	Local variable 'radiusGain' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:88:	Parameter 'body' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:88:	Parameter 'parent' is not assigned and could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:89:	Local variable 'fragments' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:92:	Local variable 'rand' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:96:	Local variable 'reduction' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:103:	Local variable 'length' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:105:	Local variable 'multiplier' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:116:	Local variable 'orbitalPeriod' could be declared final
+src/atlas/model/rules/CollisionStrategyFragments.java:117:	Do not add empty strings
+src/atlas/model/rules/CollisionStrategyFragments.java:117:	Local variable 'fragment' could be declared final
+src/atlas/utils/Counter.java:11:	It is somewhat confusing to have a field name matching the declaring class name
+src/atlas/utils/Counter.java:26:	Parameter 'offset' is not assigned and could be declared final
+src/atlas/utils/Counter.java:37:	Parameter 'delta' is not assigned and could be declared final
+src/atlas/utils/MyMouse.java:13:	Avoid modifiers which are implied by the context
+src/atlas/utils/Pair.java:12:	Parameter 'x' is not assigned and could be declared final
+src/atlas/utils/Pair.java:12:	Parameter 'y' is not assigned and could be declared final
+src/atlas/utils/Pair.java:37:	Parameter 'obj' is not assigned and could be declared final
+src/atlas/utils/Pair.java:38:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:38:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:40:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:40:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:42:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:42:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:44:	Local variable 'other' could be declared final
+src/atlas/utils/Pair.java:46:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:46:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:48:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:48:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:51:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:51:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:53:	Avoid using if statements without curly braces
+src/atlas/utils/Pair.java:53:	Avoid using if statements without curly braces
+src/atlas/utils/ResourceLoader.java:6:	All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+src/atlas/utils/ResourceLoader.java:8:	Parameter 'path' is not assigned and could be declared final
+src/atlas/utils/ResourceLoader.java:16:	Parameter 'path' is not assigned and could be declared final
+src/atlas/utils/Units.java:14:	Parameter 'name' is not assigned and could be declared final
+src/atlas/utils/Units.java:14:	Parameter 'u' is not assigned and could be declared final
+src/atlas/view/CruiseControl.java:25:	Private field 'buttonPlay' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:26:	Private field 'buttonStop' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:27:	Private field 'buttonSpeed' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:28:	Private field 'buttonEdit' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:29:	Private field 'buttonAdd' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:30:	Private field 'buttonCenter' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:31:	Private field 'buttonESC' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:34:	Private field 'labelTime' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:36:	Private field 'textSpeed' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:37:	Private field 'choiceSpeedUnit' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:40:	Private field 'left' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:41:	Private field 'center' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:42:	Private field 'right' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:44:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/CruiseControl.java:49:	It is a good practice to call super() in a constructor
+src/atlas/view/CruiseControl.java:84:	Parameter 'time' is not assigned and could be declared final
+src/atlas/view/CruiseControl.java:111:	Local variable 'stopPlayHandler' could be declared final
+src/atlas/view/CruiseControl.java:113:	Parameter 'e' is not assigned and could be declared final
+src/atlas/view/FileWalker.java:7:	Parameter 'path' is not assigned and could be declared final
+src/atlas/view/FileWalker.java:9:	Local variable 'root' could be declared final
+src/atlas/view/FileWalker.java:13:	Local variable 'list' could be declared final
+src/atlas/view/FileWalker.java:17:	Local variable 'f' could be declared final
+src/atlas/view/FileWalker.java:20:	Local variable 'fs' could be declared final
+src/atlas/view/FileWalker.java:29:	Parameter 'args' is not assigned and could be declared final
+src/atlas/view/FileWalker.java:30:	Local variable 'fw' could be declared final
+src/atlas/view/InputDialog.java:21:	All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+src/atlas/view/InputDialog.java:33:	Parameter 'defaultName' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:33:	Parameter 'owner' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:34:	Local variable 'input' could be declared final
+src/atlas/view/InputDialog.java:41:	Local variable 'result' could be declared final
+src/atlas/view/InputDialog.java:60:	Parameter 'action' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:60:	Parameter 'files' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:60:	Parameter 'owner' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:60:	Parameter 'title' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:61:	Local variable 'd' could be declared final
+src/atlas/view/InputDialog.java:64:	Local variable 'btn' could be declared final
+src/atlas/view/InputDialog.java:67:	Local variable 'pane' could be declared final
+src/atlas/view/InputDialog.java:73:	Local variable 'result' could be declared final
+src/atlas/view/InputDialog.java:83:	Parameter 'owner' is not assigned and could be declared final
+src/atlas/view/InputDialog.java:84:	Local variable 'd' could be declared final
+src/atlas/view/InputDialog.java:89:	Local variable 'developed' could be declared final
+src/atlas/view/InputDialog.java:92:	Local variable 'lib' could be declared final
+src/atlas/view/InputDialog.java:95:	Local variable 'data' could be declared final
+src/atlas/view/InputDialog.java:97:	Local variable 'text' could be declared final
+src/atlas/view/InputFilePane.java:32:	It is a good practice to call super() in a constructor
+src/atlas/view/InputFilePane.java:32:	Parameter 'files' is not assigned and could be declared final
+src/atlas/view/InputFilePane.java:36:	Local variable 'tab' could be declared final
+src/atlas/view/InputFilePane.java:38:	Local variable 'list' could be declared final
+src/atlas/view/MenuHidable.java:20:	It is a good practice to call super() in a constructor
+src/atlas/view/MenuHidable.java:27:	Overridable method 'isShown' called during object construction
+src/atlas/view/MenuHidable.java:28:	Overridable method 'hideContent' called during object construction
+src/atlas/view/MenuInfo.java:44:	Private field 'center' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuInfo.java:45:	Private field 'contentPane' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuInfo.java:49:	Private field 'updateBtn' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuInfo.java:50:	Private field 'saveBtn' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuInfo.java:65:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuInfo.java:78:	Local variable 'in' could be declared final
+src/atlas/view/MenuInfo.java:101:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/MenuInfo.java:177:	Local variable 'nodes' could be declared final
+src/atlas/view/MenuInfo.java:180:	Local variable 'labelColumn' could be declared final
+src/atlas/view/MenuInfo.java:181:	Local variable 'textColumn' could be declared final
+src/atlas/view/MenuInfo.java:182:	Local variable 'offset' could be declared final
+src/atlas/view/MenuInfo.java:183:	Local variable 'maxSize' could be declared final
+src/atlas/view/MenuInfo.java:205:	Parameter 'img' is not assigned and could be declared final
+src/atlas/view/MenuInfo.java:242:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/MenuInfo.java:243:	Local variable 'btn' could be declared final
+src/atlas/view/MenuInfo.java:265:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/MenuInfo.java:294:	An empty statement (semicolon) not part of a loop
+src/atlas/view/MenuInfo.java:320:	Local variable 'alert' could be declared final
+src/atlas/view/MenuOption.java:36:	Private field 'logo' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:37:	Private field 'container' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:38:	Private field 'root' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:39:	Private field 'grid' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:40:	Private field 'newSim' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:41:	Private field 'save' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:42:	Private field 'load' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:43:	Private field 'credits' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:44:	Private field 'exit' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:46:	Private field 'collisionOne' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:47:	Private field 'collisionTwo' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:49:	Private field 'nBodyOne' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:50:	Private field 'nBodyTwo' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:52:	Private field 'fullScreen' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:54:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/MenuOption.java:66:	Local variable 'in' could be declared final
+src/atlas/view/MenuOption.java:99:	Local variable 'nodes' could be declared final
+src/atlas/view/MenuOption.java:111:	Avoid assignments in operands
+src/atlas/view/MenuOption.java:111:	Avoid assignments in operands
+src/atlas/view/MenuOption.java:120:	Local variable 'col' could be declared final
+src/atlas/view/RenderScale.java:29:	Parameter 'values' is not assigned and could be declared final
+src/atlas/view/RenderScale.java:46:	Parameter 'type' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:43:	Private field 'lBottom' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:44:	Private field 'lMid' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:45:	Private field 'lTop' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:46:	Private field 'fpsCounter' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:47:	Private field 'bodyCounter' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:49:	Private field 'bMap' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:59:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/RenderScreen.java:64:	It is a good practice to call super() in a constructor
+src/atlas/view/RenderScreen.java:66:	Overridable method 'setBackgroundImage' called during object construction
+src/atlas/view/RenderScreen.java:69:	Local variable 'x' could be declared final
+src/atlas/view/RenderScreen.java:70:	Local variable 'y' could be declared final
+src/atlas/view/RenderScreen.java:95:	Local variable 'defTran' could be declared final
+src/atlas/view/RenderScreen.java:105:	Parameter 'imageUrl' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:127:	Parameter 'bodies' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:127:	Parameter 'fps' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:127:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:127:	Parameter 'scaleType' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:127:	Parameter 'translate' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:128:	Parameter 'disabledTrail' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:139:	Local variable 'img' could be declared final
+src/atlas/view/RenderScreen.java:143:	Local variable 'lab' could be declared final
+src/atlas/view/RenderScreen.java:157:	Local variable 'entry' could be declared final
+src/atlas/view/RenderScreen.java:201:	Parameter 'realX' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:212:	Parameter 'realY' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:222:	Local variable 'r' could be declared final
+src/atlas/view/RenderScreen.java:236:	Avoid unused method parameters such as 'scale'.
+src/atlas/view/RenderScreen.java:236:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:236:	Parameter 'color' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:236:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:237:	Local variable 'minPointsTodraw' could be declared final
+src/atlas/view/RenderScreen.java:241:	Local variable 'arraySize' could be declared final
+src/atlas/view/RenderScreen.java:245:	Local variable 'it' could be declared final
+src/atlas/view/RenderScreen.java:250:	Local variable 'p' could be declared final
+src/atlas/view/RenderScreen.java:257:	Local variable 'gc' could be declared final
+src/atlas/view/RenderScreen.java:274:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:274:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:274:	Parameter 'scaleType' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:289:	A switch with less than three branches is inefficient, use a if statement instead.
+src/atlas/view/RenderScreen.java:315:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:315:	Parameter 'translate' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:340:	Parameter 'body' is not assigned and could be declared final
+src/atlas/view/RenderScreen.java:340:	Parameter 'lab' is not assigned and could be declared final
+src/atlas/view/SceneLoading.java:27:	Use explicit scoping instead of the default package private level
+src/atlas/view/SceneLoading.java:29:	Private field 'root' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/SceneLoading.java:31:	Private field 'bottom' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/SceneLoading.java:40:	Local variable 'loadingText' could be declared final
+src/atlas/view/SceneMain.java:24:	Private field 'root' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/SceneMain.java:25:	Use explicit scoping instead of the default package private level
+src/atlas/view/SceneMain.java:26:	Use explicit scoping instead of the default package private level
+src/atlas/view/SceneMain.java:27:	Use explicit scoping instead of the default package private level
+src/atlas/view/SceneMain.java:28:	Use explicit scoping instead of the default package private level
+src/atlas/view/SceneMain.java:30:	Private field 'view' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/SceneMain.java:145:	Parameter 'bodies' is not assigned and could be declared final
+src/atlas/view/SceneMain.java:145:	Parameter 'fps' is not assigned and could be declared final
+src/atlas/view/SceneMain.java:145:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/SceneMain.java:145:	Parameter 'time' is not assigned and could be declared final
+src/atlas/view/SceneMain.java:145:	Parameter 'translate' is not assigned and could be declared final
+src/atlas/view/SceneMain.java:146:	Local variable 'scaleType' could be declared final
+src/atlas/view/SceneMain.java:147:	Local variable 'disabledTrail' could be declared final
+src/atlas/view/View.java:31:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:39:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:46:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:55:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:60:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:68:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:75:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:83:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:90:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:98:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:105:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:112:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:125:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:137:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:142:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:147:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:152:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:157:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:165:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:170:	Avoid modifiers which are implied by the context
+src/atlas/view/View.java:175:	Avoid modifiers which are implied by the context
+src/atlas/view/ViewImpl.java:26:	Possible unsafe assignment to a non-final static field in a constructor.
+src/atlas/view/ViewImpl.java:34:	Private field 'mainScene' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewImpl.java:35:	Private field 'loadingScene' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewImpl.java:38:	Avoid using redundant field initializer for 'lockedCamera'
+src/atlas/view/ViewImpl.java:41:	Private field 'ctrl' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewImpl.java:42:	Private field 'stage' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewImpl.java:51:	Parameter 'c' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:51:	Parameter 'primaryStage' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:60:	Overridable method 'onClose' called during object construction
+src/atlas/view/ViewImpl.java:67:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:67:	Parameter 'fps' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:67:	Parameter 'time' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:82:	Parameter 'event' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:92:	Parameter 'body' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:103:	Parameter 'b' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:110:	Local variable 'tmp' could be declared final
+src/atlas/view/ViewImpl.java:117:	Local variable 'alert' could be declared final
+src/atlas/view/ViewImpl.java:133:	When instantiating a SimpleDateFormat object, specify a Locale
+src/atlas/view/ViewImpl.java:137:	Parameter 'action' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:137:	Parameter 'files' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:137:	Parameter 'title' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:142:	Parameter 'coordinates' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:152:	Parameter 'scale' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:152:	Parameter 'translate' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:183:	Parameter 'full' is not assigned and could be declared final
+src/atlas/view/ViewImpl.java:194:	Local variable 'alert' could be declared final
+src/atlas/view/ViewImpl.java:198:	Local variable 'result' could be declared final
+src/atlas/view/ViewMenuOption.java:25:	Private field 'size' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewMenuOption.java:26:	Private field 'trail' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewMenuOption.java:28:	Private field 'selectedScale' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewMenuOption.java:29:	Private field 'trailItems' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewMenuOption.java:30:	Private field 'selectedTypes' could be made final; it is only initialized in the declaration or constructor.
+src/atlas/view/ViewMenuOption.java:35:	It is a good practice to call super() in a constructor
+src/atlas/view/ViewMenuOption.java:38:	Local variable 'group' could be declared final
+src/atlas/view/ViewMenuOption.java:39:	Local variable 's' could be declared final
+src/atlas/view/ViewMenuOption.java:40:	Local variable 'item' could be declared final
+src/atlas/view/ViewMenuOption.java:52:	Local variable 'trailAll' could be declared final
+src/atlas/view/ViewMenuOption.java:56:	Overridable method 'disableAllTrail' called during object construction
+src/atlas/view/ViewMenuOption.java:58:	Overridable method 'disableAllTrail' called during object construction
+src/atlas/view/ViewMenuOption.java:66:	Local variable 'bt' could be declared final
+src/atlas/view/ViewMenuOption.java:67:	Local variable 'item' could be declared final
+src/atlas/view/ViewMenuOption.java:76:	Overridable method 'disableAllTrail' called during object construction
+src/atlas/view/ViewMenuOption.java:108:	Parameter 'disable' is not assigned and could be declared final
